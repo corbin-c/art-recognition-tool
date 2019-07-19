@@ -9,6 +9,6 @@ J'ai fait un rapide diagramme qui correspond à ce qui avait été discuté lors
 
 Au delà de ce diagramme, il faut deux prévoir deux choses : 
 * un système permettant la comparaison des "empreintes" avec une BDD de référence.
-* (pour que l'application puisse fonctionner dans le vrai monde) un système qui permettent d'alimenter la base de données de référence, contenant les "empreintes" de toutes les images de la collection ainsi que les métadonnées associées. Idéalement le catalogue en ligne repose également sur cette base.
+* (pour que l'application puisse fonctionner dans le vrai monde) un système qui permette d'alimenter la base de données de référence, contenant les "empreintes" de toutes les images de la collection ainsi que les métadonnées associées. Idéalement le catalogue en ligne repose également sur cette base.
 
 Il faudra voir pour la licence. Le nom du dépôt est peut-être négociable.
