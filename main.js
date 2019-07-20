@@ -27,11 +27,9 @@ function histogram(imgInput,canvasOutput,hsv=false) {
   let colors = [new cv.Scalar(255, 0, 0),new cv.Scalar(0, 255, 0),new cv.Scalar(0, 0, 255)]
   if (hsv) {
     console.log("hsv");
-    let tmp = new cv.Mat();
-    cv.cvtColor(src, tmp, cv.COLOR_RGB2HSV, 0);
+    cv.cvtColor(src, src, cv.COLOR_RGB2HSV, 0);
     srcVec = new cv.MatVector();
-    srcVec.push_back(tmp);
-    src = tmp;
+    srcVec.push_back(src);
     colors = [new cv.Scalar(0, 255, 255),new cv.Scalar(255, 0, 255),new cv.Scalar(255, 255, 0)]
   }
   let color_hist = [new cv.Mat(),new cv.Mat(),new cv.Mat()];
