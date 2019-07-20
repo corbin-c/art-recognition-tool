@@ -22,8 +22,6 @@ function histogram(imgInput,canvasOutput,hsv=false) {
   let src = cv.imread(imgInput);
   let srcVec = new cv.MatVector();
   srcVec.push_back(src);
-  let accumulate = false;
-  let channels = [0];
   let histSize = [256];
   let ranges = [0, 255];
   let colors = [new cv.Scalar(255, 0, 0),new cv.Scalar(0, 255, 0),new cv.Scalar(0, 0, 255)]
@@ -31,22 +29,23 @@ function histogram(imgInput,canvasOutput,hsv=false) {
     console.log("hsv");
     let tmp = new cv.Mat();
     cv.cvtColor(src, tmp, cv.COLOR_RGB2HSV, 0);
+    srcVec = new cv.MatVector();
     srcVec.push_back(tmp);
+    src = tmp;
     colors = [new cv.Scalar(0, 255, 255),new cv.Scalar(255, 0, 255),new cv.Scalar(255, 255, 0)]
   }
   let color_hist = [new cv.Mat(),new cv.Mat(),new cv.Mat()];
   let mask = new cv.Mat();
-  let scale = 2;
-  color_hist.map((e,i) => cv.calcHist(srcVec, [i], mask, e, histSize, ranges, accumulate));
+  color_hist.map((e,i) => cv.calcHist(srcVec, [i], mask, e, histSize, ranges, false));
   let max = Math.max(...color_hist.map((e) => cv.minMaxLoc(e, mask).maxVal));
-  let dst = new cv.Mat.zeros(src.rows, histSize[0] * scale,
+  let dst = new cv.Mat.zeros(src.rows, histSize[0],
                              cv.CV_8UC3);
   console.timeLog(canvasOutput);
   for (let i = 0; i < histSize[0]; i++) {
     color_hist.map(function(e,j) {
       let binVal = e.data32F[i] * src.rows / max;
-      let point1 = new cv.Point(i * scale, src.rows - 1);
-      let point2 = new cv.Point((i + 1) * scale - 1, src.rows - binVal);
+      let point1 = new cv.Point(i, src.rows - 1);
+      let point2 = new cv.Point((i + 1) - 1, src.rows - binVal);
       cv.rectangle(dst, point1, point2, colors[j], cv.FILLED);
     });
   }
@@ -62,7 +61,7 @@ function onOpenCvReady() {
   inputElement.addEventListener("change", (e) => {
     let imgElement = document.createElement("img");
     imgElement.onload = function() {
-      //histogram(this,"canvasOutput2",true);
+      histogram(this,"canvasOutput2",true);
       histogram(this,"canvasOutput");
         
     };  
