@@ -1,0 +1,114 @@
+digraph G {
+  fontcolor="#54595f";
+  fontname="Daniel Black";
+  labeljust="l";
+  compound=true;
+  splines=false;
+  edge [color="#d76d2e";];
+  node [style="filled";fillcolor="#e3ecef";color="#d76d2e";fontcolor="#54595f";fontname="Daniel Black";];
+  subgraph cluster_0 {
+    color=black;
+    label = "Central Belenos Database";
+    Collections [shape=box; color="#54595f"];
+    Artistes [shape=box; color="#54595f"];
+    Tableaux [shape=box; color="#54595f"];
+  }
+  subgraph cluster_1 {
+    color="#dec186";
+    label = "Module de comparaison";
+    "interroge";
+    "reçoit json";
+    "reçoit json" -> "Calcul de l'élément le plus similaire";
+    }
+
+  subgraph cluster_2 {
+    color="#dec186";
+    label = "Processus d'analyse d'images";
+    subgraph cluster_3 {
+      style=filled;
+      fillcolor=white;
+      color="#dec186";
+      "Détection des angles" -> "Correction de la perspective"
+      label = "Recadrage";
+    }
+    
+    subgraph cluster_4 {
+      style=filled;
+      fillcolor=white;
+      color="#dec186";
+      "Égalisation" -> "Correction du point blanc"
+      label = "Normalisation";
+    }
+
+    subgraph cluster_5 {
+      style=filled;
+      fillcolor=white;
+      color="#dec186";
+      "séquence";
+      "colorimétrie";
+      "Détection de contours";
+      label = "Analyse";
+    }
+    "Image normalisée" [shape=box; color="#54595f"];
+    "Correction de la perspective" -> "Égalisation";
+    "Correction du point blanc" -> "Image normalisée";
+    "Image normalisée" -> "séquence";
+    "Image normalisée" -> "colorimétrie";
+    "Image normalisée" -> "Détection de contours";
+  }
+  subgraph cluster_9 {
+  edge[style=invis];
+  "Ajout d'oeuvres" -> "Création de collections";
+  "Modération" -> "Consultation du catalogue";
+  subgraph cluster_6 {
+    style=filled;
+    fillcolor=white;
+    color="#e3ecef";
+    "Inscription"
+    "Ajout d'oeuvres"
+    label = "Artiste";
+  }
+  subgraph cluster_7 {
+    style=filled;
+    fillcolor=white;
+    color="#e3ecef";
+    "Création de collections"
+    "Modération"
+    label = "Administrateur";
+  }
+  subgraph cluster_8 {
+    style=filled;
+    fillcolor=white;
+    color="#e3ecef";
+    "Consultation du catalogue"
+    "Découverte d'une oeuvre"
+    label = "Visiteur";
+  }
+  label = "Usages";
+  style=filled;
+  fillcolor=white;
+  color="#e3ecef";
+  }
+  "Découverte d'une oeuvre" -> "Camera Input";
+  "Ajout d'oeuvres" -> "File Input";
+  "Ajout d'oeuvres" -> "Camera Input";
+  "API" -> "reçoit json";
+  "API" [shape=box; color="#54595f"];
+  "Camera Input" [shape=box; color="#54595f"];
+  "File Input" [shape=box; color="#54595f"];
+  "Empreinte caractéristique de l'image" [shape=box; color="#54595f"];
+  "interroge"->"API"
+  "Camera Input" -> "Détection des angles" [lhead=cluster_3];
+  "File Input" -> "Détection des angles" [lhead=cluster_3];
+  "séquence" -> "Empreinte caractéristique de l'image";
+  "colorimétrie" -> "Empreinte caractéristique de l'image";
+  "Détection de contours" -> "Empreinte caractéristique de l'image";
+  "Empreinte caractéristique de l'image" -> "Selon le cas : enregistrement\ndes oeuvres d'un artiste ou bien\nutilisation de l'appli en expo ?";
+  "Selon le cas : enregistrement\ndes oeuvres d'un artiste ou bien\nutilisation de l'appli en expo ?" -> "Stockage";
+  "Selon le cas : enregistrement\ndes oeuvres d'un artiste ou bien\nutilisation de l'appli en expo ?" -> "interroge"[lhead=cluster_1];
+  "Stockage" -> "API"
+  "API" -> Collections [color=black; lhead=cluster_0];
+  Collections -> "API" [color=black; ltail=cluster_0];
+  "Tableau de référence\n + métadonnées associées" [shape=box; color="#54595f"];
+  "Calcul de l'élément le plus similaire" -> "Tableau de référence\n + métadonnées associées";
+}

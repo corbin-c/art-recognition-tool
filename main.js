@@ -1,3 +1,9 @@
+/**
+ * JS Wrapper to use common OpenCV Feature to analyze images.
+ * It depends on opencv.js, WASM-compiled OpenCV release.
+ * 
+ * Developed by Clément CORBIN
+ */
 function img_properties(src) {
   console.log("image width: " + src.cols);
   console.log("image height: " + src.rows);
@@ -16,6 +22,14 @@ function pixel_at(src,x,y) {
       console.warn("Uncontinuous data");
       return false;
   }
+}
+function white_balance(imgInput,canvasSrc,canvasOut) {
+  console.time(canvasOut);
+  let src = cv.imread(imgInput);
+  cv.imshow(canvasSrc, src);
+  cv.balanceWhite(src,src,cv.WHITE_BALANCE_SIMPLE);
+  cv.imshow(canvasOut, src);
+  console.timeLog(canvasOut);
 }
 function equalize(imgInput,canvasSrc,canvasOut) {
   console.time(canvasOut);
