@@ -17,6 +17,20 @@ function pixel_at(src,x,y) {
       return false;
   }
 }
+function equalize(imgInput,canvasSrc,canvasOut) {
+  console.time(canvasOut);
+  let src = cv.imread(imgInput);
+  cv.imshow(canvasSrc, src);
+  let dst = [new cv.Mat(),new cv.Mat(),new cv.Mat()];
+  let rgbaPlanes = new cv.MatVector();
+  let dstVect = new cv.MatVector();
+  cv.split(src, rgbaPlanes);
+  dst.map((e,i) => cv.equalizeHist(rgbaPlanes.get(i), e));
+  dst.map(e => dstVect.push_back(e));
+  cv.merge(dstVect, src);
+  cv.imshow(canvasOut, src);
+  console.timeLog(canvasOut);
+}
 function histogram(imgInput,canvasOutput,hsv=false) {
   console.time(canvasOutput);
   let src = cv.imread(imgInput);
@@ -48,6 +62,7 @@ function histogram(imgInput,canvasOutput,hsv=false) {
     });
   }
   cv.imshow(canvasOutput, dst);
+  document.getElementById(canvasOutput).setAttribute("style","width: 50vw;");
   console.timeEnd(canvasOutput);
 }
 function onOpenCvReady() {
@@ -59,8 +74,8 @@ function onOpenCvReady() {
   inputElement.addEventListener("change", (e) => {
     let imgElement = document.createElement("img");
     imgElement.onload = function() {
-      histogram(this,"canvasOutput2",true);
-      histogram(this,"canvasOutput");
+      //histogram(this,"canvasOutput2",true);
+      equalize(this,"canvasOutput","canvasOutput2");
         
     };  
   imgElement.src = URL.createObjectURL(e.target.files[0]);
