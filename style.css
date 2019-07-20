@@ -51,7 +51,6 @@ video
 }
 canvas
 {
-  width: 50vw;
   height: 50vh;
   display: block;
 }
