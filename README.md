@@ -7,6 +7,8 @@ En gros en partant des trois personas que j'envisage (Visiteur, Admin, Artiste, 
 
 ![Appli](process.png "Appli")
 
+Le diagramme ci-dessus est décrit dans le fichier `belenos.dot`, si jamais quelqu'un veut l'améliorer.
+
 ## Avancée des développements :
 Cette section illustre les développements déjà réalisés.
 
