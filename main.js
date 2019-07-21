@@ -4,6 +4,7 @@
  * 
  * Developed by Clément CORBIN
  */
+const PARENT = "section";
 function img_properties(src) {
   console.log("image width: " + src.cols);
   console.log("image height: " + src.rows);
@@ -23,18 +24,43 @@ function pixel_at(src,x,y) {
       return false;
   }
 }
-function white_balance(imgInput,canvasSrc,canvasOut) {
-  console.time(canvasOut);
-  let src = cv.imread(imgInput);
-  cv.imshow(canvasSrc, src);
-  cv.balanceWhite(src,src,cv.WHITE_BALANCE_SIMPLE);
-  cv.imshow(canvasOut, src);
-  console.timeLog(canvasOut);
+function output(imgData) {
+  let c = document.createElement("canvas");
+  let id = "canvas_out_"+(new Date()).valueOf();
+  c.setAttribute("id",id);
+  document.querySelector(PARENT).append(c);
+  cv.imshow(id, imgData);
+  return id;
 }
-function equalize(imgInput,canvasSrc,canvasOut) {
-  console.time(canvasOut);
+function outer_edges(imgInput) {
+  let time = (new Date().valueOf());
+  console.time(time);
   let src = cv.imread(imgInput);
-  cv.imshow(canvasSrc, src);
+  let dst = cv.Mat.zeros(src.rows, src.cols, cv.CV_8UC3);
+  cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0);
+  cv.threshold(src, src, 127, 255, cv.THRESH_BINARY);
+  console.log("image threshold done");
+  console.timeLog(time);
+  output(src);
+  let contours = new cv.MatVector();
+  let hierarchy = new cv.Mat();
+  //cv.medianBlur(src, src, 5);
+  //output(src);
+  cv.Canny(src, src, 60, 100);
+  output(src);
+  cv.findContours(src, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
+  for (let i = 0; i < contours.size(); ++i) {
+      let color = new cv.Scalar(Math.round(Math.random() * 255), Math.round(Math.random() * 255),
+                                Math.round(Math.random() * 255));
+      cv.drawContours(dst, contours, i, color, 1, cv.LINE_8, hierarchy, 100);
+  }
+  output(dst);
+  console.timeEnd(time);
+}
+function equalize(imgInput) {
+  let time = (new Date().valueOf());
+  console.time(time);
+  let src = cv.imread(imgInput);
   let dst = [new cv.Mat(),new cv.Mat(),new cv.Mat()];
   let rgbaPlanes = new cv.MatVector();
   let dstVect = new cv.MatVector();
@@ -42,11 +68,12 @@ function equalize(imgInput,canvasSrc,canvasOut) {
   dst.map((e,i) => cv.equalizeHist(rgbaPlanes.get(i), e));
   dst.map(e => dstVect.push_back(e));
   cv.merge(dstVect, src);
-  cv.imshow(canvasOut, src);
-  console.timeLog(canvasOut);
+  output(src);
+  console.timeEnd(time);
 }
-function histogram(imgInput,canvasOutput,hsv=false) {
-  console.time(canvasOutput);
+function histogram(imgInput,hsv=false) {
+  let time = (new Date().valueOf());
+  console.time(time);
   let src = cv.imread(imgInput);
   let srcVec = new cv.MatVector();
   srcVec.push_back(src);
@@ -66,7 +93,7 @@ function histogram(imgInput,canvasOutput,hsv=false) {
   let max = Math.max(...color_hist.map((e) => cv.minMaxLoc(e, mask).maxVal));
   let dst = new cv.Mat.zeros(src.rows, histSize[0],
                              cv.CV_8UC3);
-  console.timeLog(canvasOutput);
+  console.timeLog(time);
   for (let i = 0; i < histSize[0]; i++) {
     color_hist.map(function(e,j) {
       let binVal = e.data32F[i] * src.rows / max;
@@ -75,9 +102,8 @@ function histogram(imgInput,canvasOutput,hsv=false) {
       cv.rectangle(dst, point1, point2, colors[j], cv.FILLED);
     });
   }
-  cv.imshow(canvasOutput, dst);
-  document.getElementById(canvasOutput).setAttribute("style","width: 50vw;");
-  console.timeEnd(canvasOutput);
+  document.getElementById(output(dst)).setAttribute("style","height: 50vh;");
+  console.timeEnd(time);
 }
 function onOpenCvReady() {
   console.log("opencv loaded");
@@ -88,9 +114,11 @@ function onOpenCvReady() {
   inputElement.addEventListener("change", (e) => {
     let imgElement = document.createElement("img");
     imgElement.onload = function() {
-      //histogram(this,"canvasOutput2",true);
-      equalize(this,"canvasOutput","canvasOutput2");
-        
+      /*output(cv.imread(this));
+      histogram(this,false);
+      histogram(this,true);
+      equalize(this);*/
+      outer_edges(this);
     };  
   imgElement.src = URL.createObjectURL(e.target.files[0]);
   }, false);

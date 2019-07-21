@@ -7,4 +7,36 @@ En gros en partant des trois personas que j'envisage (Visiteur, Admin, Artiste, 
 
 ![Appli](process.png "Appli")
 
+## Avancée des développements :
+Cette section illustre les développements déjà réalisés.
+
+### Recadrage
+
+Image originale :
+![Img_example](examples/orig.jpg "image brute")
+
+On applique un seuil :
+![Img_example](examples/tresh.jpg "image binarisée")
+
+Algorithme de Canny :
+![Img_example](examples/canny.jpg "contours détectés")
+
+### Normalisation
+
+Exemple de correction de luminosité :
+Avant :
+![Img_example](examples/original.jpg "image brute")
+Après :
+![Img_example](examples/normalized.jpg "image égalisée")
+
+### Analyse
+
+#### Colorimétrie
+Calcul des histogrammes :
+Exemple d'histogramme calculé dans l'espace de couleur RGB (modélisation des couleurs sur un écran) :
+![Img_example](examples/hist_rgb.jpg "histogramme rgb")
+
+Exemple d'histogramme calculé dans l'espace de couleur HSV (modèle perceptif) :
+![Img_example](examples/hist_hsv.jpg "histogramme hsv")
+
 Il faudra voir pour la licence. Le nom du dépôt est peut-être négociable.

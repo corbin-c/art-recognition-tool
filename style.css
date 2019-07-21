@@ -51,7 +51,7 @@ video
 }
 canvas
 {
-  height: 50vh;
+  width: 50vw;
   display: block;
 }
 #take_shot
