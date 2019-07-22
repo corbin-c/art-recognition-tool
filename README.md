@@ -18,6 +18,8 @@ Cette section illustre les développements déjà réalisés. Les images affich�
 
 ### Recadrage
 
+La capacité à pouvoir recadrer ou non l'image dépendra essentiellement de la possibilité de la distinguer facilement du fond, sur la base du contraste essentiellement. Le fait que l'image soit encadrée, (ou bordée de noir comme l'exemple ci-dessous) facilite grandement cette étape.
+
 Image originale :
 
 ![Img_example](examples/orig.jpg "image brute")

@@ -149,7 +149,7 @@ function outer_edges(imgInput) {
     cv.warpPerspective(cv.imread(imgInput), dst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
     output(dst);    //contours.poly.intAt(0->7) n=x,n+1=y;
   } else {
-    dst = src;
+    dst = cv.imread(imgInput);
   }
   crop_rotated_rect(dst,dstTri,rotatedRect);
   /*ajouter une règle : si le polygone obtenu n'est pas satisfaisant, on
