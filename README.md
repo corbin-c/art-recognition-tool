@@ -26,9 +26,23 @@ On applique un seuil :
 
 ![Img_example](examples/tresh.jpg "image binarisée")
 
-Algorithme de Canny :
+Détections de contours :
 
 ![Img_example](examples/canny.jpg "contours détectés")
+
+Isolation du plus grand contour :
+
+![Img_example](examples/contour.jpg "contour extérieur isolé")
+
+Algorithme de Ramer–Douglas–Peucker : (polygone rouge)
+
+![Img_example](examples/approxDP.jpg "approxDP")
+
+Détermination du plus petit rectangle circonscrit : (en vert)
+
+![Img_example](examples/bounding.jpg "bounding rect")
+
+De là il reste à appliquer la transformation en perspective pour faire coller l'intérieur du polygone rouge aux dimensions du rectangle vert.
 
 ### Normalisation
 
