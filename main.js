@@ -27,8 +27,7 @@ function pixel_at(src,x,y) {
 function output(imgData) {
   let c = document.createElement("canvas");
   let id = "canvas_out_"+(new Date()).valueOf();
-  c.setAttribute("id",id);
-  document.querySelector(PARENT).append(c);
+  c.setAttribute("id",id); document.querySelector(PARENT).append(c);
   cv.imshow(id, imgData);
   return id;
 }
@@ -91,8 +90,7 @@ function histogram(imgInput,hsv=false) {
   let mask = new cv.Mat();
   color_hist.map((e,i) => cv.calcHist(srcVec, [i], mask, e, histSize, ranges, false));
   let max = Math.max(...color_hist.map((e) => cv.minMaxLoc(e, mask).maxVal));
-  let dst = new cv.Mat.zeros(src.rows, histSize[0],
-                             cv.CV_8UC3);
+  let dst = new cv.Mat.zeros(src.rows, histSize[0], cv.CV_8UC3);
   console.timeLog(time);
   for (let i = 0; i < histSize[0]; i++) {
     color_hist.map(function(e,j) {
@@ -105,7 +103,9 @@ function histogram(imgInput,hsv=false) {
   document.getElementById(output(dst)).setAttribute("style","height: 50vh;");
   console.timeEnd(time);
 }
-function onOpenCvReady() {
+
+let utils = new Utils('errorMessage');
+utils.loadOpenCv(() => {
   console.log("opencv loaded");
   let inputElement = document.createElement("input");
   inputElement.setAttribute("type","file");
@@ -114,12 +114,12 @@ function onOpenCvReady() {
   inputElement.addEventListener("change", (e) => {
     let imgElement = document.createElement("img");
     imgElement.onload = function() {
-      /*output(cv.imread(this));
-      histogram(this,false);
-      histogram(this,true);
-      equalize(this);*/
-      outer_edges(this);
+      output(cv.imread(this));
+      /*histogram(this,false);
+      histogram(this,true);*/
+      equalize(this);
+      //outer_edges(this);
     };  
   imgElement.src = URL.createObjectURL(e.target.files[0]);
   }, false);
-}
+  });
