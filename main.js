@@ -1,10 +1,52 @@
 /**
- * JS Wrapper to use common OpenCV Feature to analyze images.
+ * JS Wrapper to use common OpenCV features to analyze images.
  * It depends on opencv.js, WASM-compiled OpenCV release.
  * 
  * Developed by Clément CORBIN
  */
 const PARENT = "section";
+function crop_rotated_rect(src,srcTri,rect) {
+  let dst = new cv.Mat();
+  let w = rect.size.width;
+  let h = rect.size.height;
+  console.log(rect.angle);
+  console.log(w,h);
+  if (rect.angle < -45) {
+    console.log("swap height & width");
+    w = rect.size.height;
+    h = rect.size.width;
+  }
+  console.log(w,h);
+  let dsize = new cv.Size(w,h);
+  let dstTri = [0,0,w,0,w,h,0,h];
+  dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, dstTri);
+  let M = cv.getPerspectiveTransform(srcTri, dstTri);
+  cv.warpPerspective(src, dst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
+  output(dst);
+}
+function order_matrix(mat) {
+  let xs = mat.map(e => e[0]);
+  let ys = mat.map(e => e[1]);
+  let cx = 0.5*(Math.max(...xs)-Math.min(...xs));
+  let cy = 0.5*(Math.max(...ys)-Math.min(...ys));
+  let out = [[],[],[],[]];
+  mat.map(function(e) {
+    if (e[0] < cx) {
+      if (e[1] < cy) {
+        out[0] = e;
+      } else {
+        out[3] = e;
+      }
+    } else {
+      if (e[1] < cy) {
+        out[1] = e;
+      } else {
+        out[2] = e;
+      }    
+    }
+  });
+  return out;
+}
 function img_properties(src) {
   console.log("image width: " + src.cols);
   console.log("image height: " + src.rows);
@@ -75,28 +117,43 @@ function outer_edges(imgInput) {
 
   cv.drawContours(dst, contours, largestContour, white, cv.FILLED, cv.LINE_8, hierarchy, 100);
   output(dst);
-  //CONTOUR POLYGON
-  let contours_poly = new cv.MatVector();
-  let tmp = new cv.Mat();
   let external = contours.get(largestContour);
-  cv.approxPolyDP(external,tmp,0.1*cv.arcLength(external,true),true);
-  contours_poly.push_back(tmp);
-  for (let i = 0; i < contours_poly.size(); ++i) {
-    cv.drawContours(dst, contours_poly, i, red, 2, 8, hierarchy, 0);
-  }
-  /*ajouter une règle : si le polygone obtenu n'est pas satisfaisant, on
-  * utilisera le rectangle circonscrit (minimal bounding rect) */
-  output(dst);  
   //MINIMAL BOUNDING RECT
   let rotatedRect = cv.minAreaRect(external);
   let vertices = cv.RotatedRect.points(rotatedRect);
+  bidule = vertices;
   for (let i = 0; i < 4; i++) {
       cv.line(dst, vertices[i], vertices[(i + 1) % 4], green, 2, cv.LINE_AA, 0);
   }
   console.log("minimal bounding rect");
   console.timeLog(time);
   output(dst);
-
+  //CONTOUR POLYGON
+  let poly = new cv.Mat();
+  let contours_poly = new cv.MatVector();
+  cv.approxPolyDP(external,poly,0.1*cv.arcLength(external,true),true);
+  contours_poly.push_back(poly);
+  cv.drawContours(dst,contours_poly,0,red,2,8,hierarchy,0);
+  console.log("approx Poly DP");
+  console.timeLog(time);
+  output(dst);
+  let dstTri = [[vertices[0].x,vertices[0].y],[vertices[1].x,vertices[1].y],
+                  [vertices[2].x,vertices[2].y],[vertices[3].x,vertices[3].y]];
+  dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, order_matrix(dstTri).flat());
+  if (poly.size().height == 4) { //PERSPECTIVE CORRECTION
+    let dsize = new cv.Size(src.cols, src.rows);
+    let srcTri = [[poly.intAt(0),poly.intAt(1)],[poly.intAt(2),poly.intAt(3)],
+                  [poly.intAt(4),poly.intAt(5)],[poly.intAt(6),poly.intAt(7)]];
+    srcTri = cv.matFromArray(4, 1, cv.CV_32FC2, order_matrix(srcTri).flat());
+    let M = cv.getPerspectiveTransform(srcTri, dstTri);
+    cv.warpPerspective(cv.imread(imgInput), dst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
+    output(dst);    //contours.poly.intAt(0->7) n=x,n+1=y;
+  } else {
+    dst = src;
+  }
+  crop_rotated_rect(dst,dstTri,rotatedRect);
+  /*ajouter une règle : si le polygone obtenu n'est pas satisfaisant, on
+  * utilisera le rectangle circonscrit (minimal bounding rect) */
   console.timeEnd(time);
 }
 function equalize(imgInput) {
