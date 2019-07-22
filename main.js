@@ -27,7 +27,8 @@ function pixel_at(src,x,y) {
 function output(imgData) {
   let c = document.createElement("canvas");
   let id = "canvas_out_"+(new Date()).valueOf();
-  c.setAttribute("id",id); document.querySelector(PARENT).append(c);
+  c.setAttribute("id",id);
+  document.querySelector(PARENT).append(c);
   cv.imshow(id, imgData);
   return id;
 }
