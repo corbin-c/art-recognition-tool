@@ -77,19 +77,11 @@ function blur(imgData) {
   return imgData;
 }
 function threshold(imgData) {
-  /*let contrast = 100;
-  let f = 131*(contrast + 127)/(127*(131-contrast));
-  let alpha_c = f;
-  let gamma_c = 127*(1-f);
-  cv.addWeighted(imgData, f, imgData, 0, gamma_c, imgData);*/
   cv.cvtColor(imgData, imgData, cv.COLOR_RGBA2GRAY, 0);
   let dst = new cv.Mat();
-  let tileGridSize = new cv.Size(8, 8);
-  let clahe = new cv.CLAHE(40, tileGridSize);
-  clahe.apply(imgData, dst);
+  cv.equalizeHist(imgData, dst);
   output(dst);
   cv.threshold(dst, dst, 1, 255, cv.THRESH_OTSU); //use Otsu Algorithm to determine the optimal threshold value
-  //cv.adaptiveThreshold(imgData, imgData, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 9, 5);
   return dst;
 }
 function outer_edges(imgInput) {
