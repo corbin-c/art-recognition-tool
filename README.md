@@ -24,7 +24,7 @@ Image originale :
 
 ![Img_example](examples/orig.jpg "image brute")
 
-On applique un seuil :
+On applique un seuil, déterminé par l'algorithme d'Otsu :
 
 ![Img_example](examples/tresh.jpg "image binarisée")
 

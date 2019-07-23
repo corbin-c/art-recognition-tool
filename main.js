@@ -4,7 +4,7 @@
  * 
  * Developed by Clément CORBIN
  */
-const PARENT = "section";
+const PARENT = "#viz";
 function crop_rotated_rect(src,srcTri,rect) {
   let dst = new cv.Mat();
   let w = rect.size.width;
@@ -18,7 +18,7 @@ function crop_rotated_rect(src,srcTri,rect) {
   dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, dstTri);
   let M = cv.getPerspectiveTransform(srcTri, dstTri);
   cv.warpPerspective(src, dst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
-  output(dst);
+  return dst;
 }
 function order_matrix(mat) {
   let xs = mat.map(e => e[0]);
@@ -70,27 +70,43 @@ function output(imgData) {
   cv.imshow(id, imgData);
   return id;
 }
+function blur(imgData) {
+  let ksize = new cv.Size(9, 9);
+  let anchor = new cv.Point(-1, -1);
+  cv.blur(imgData, imgData, ksize, anchor, cv.BORDER_DEFAULT);
+  return imgData;
+}
+function threshold(imgData) {
+  let contrast = 64;
+  let f = 131*(contrast + 127)/(127*(131-contrast));
+  let alpha_c = f;
+  let gamma_c = 127*(1-f);
+  cv.addWeighted(imgData, f, imgData, 0, gamma_c, imgData);
+  cv.cvtColor(imgData, imgData, cv.COLOR_RGBA2GRAY, 0);
+  cv.threshold(imgData, imgData, 1, 255, cv.THRESH_OTSU); //use Otsu Algorithm to determine the optimal threshold value
+  //cv.adaptiveThreshold(imgData, imgData, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 9, 5);
+  return imgData;
+}
 function outer_edges(imgInput) {
   //INIT
+  let white = new cv.Scalar(255,255,255);
+  let red = new cv.Scalar(255, 0, 0);
+  let green = new cv.Scalar(0, 255, 0);
+  let yellow = new cv.Scalar(255, 255, 0);
   let time = (new Date().valueOf());
   console.time(time);
   let src = cv.imread(imgInput);
   let dst = cv.Mat.zeros(src.rows, src.cols, cv.CV_8UC3);
   //BLURRING
-  let ksize = new cv.Size(9, 9);
-  let anchor = new cv.Point(-1, -1);
-  cv.blur(src, src, ksize, anchor, cv.BORDER_DEFAULT);
+  src = blur(src);
+  output(src);
   console.log("blurring done");
   console.timeLog(time);
-  //output(src);
   //RGB2GRAY & THRESHOLDING
-  cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0);
-  cv.threshold(src, src, 127, 255, cv.THRESH_BINARY);
+  src = threshold(src);
+  output(src);
   console.log("threshold done");
   console.timeLog(time);
-  //output(src);
-  //cv.Canny(src, src, 60, 100);
-  //output(src);
   //CONTOURS DETECTION
   let contours = new cv.MatVector();
   let hierarchy = new cv.Mat();
@@ -100,24 +116,21 @@ function outer_edges(imgInput) {
   //LARGEST CONTOUR DETECTION
   for (let i = 0; i < contours.size(); ++i) {
       let area = cv.contourArea(contours.get(i),true);
+      cv.drawContours(dst,contours,i,yellow,2,8,hierarchy,0);
       if (area > largestArea) {
         largestArea = area;
         largestContour = i;
       }
   }
+  output(dst);
   console.log("largest contour found");
   console.timeLog(time);
-  let white = new cv.Scalar(255,255,255);
-  let red = new cv.Scalar(255, 0, 0);
-  let green = new cv.Scalar(0, 255, 0);
-
   cv.drawContours(dst, contours, largestContour, white, cv.FILLED, cv.LINE_8, hierarchy, 100);
   output(dst);
   let external = contours.get(largestContour);
   //MINIMAL BOUNDING RECT
   let rotatedRect = cv.minAreaRect(external);
   let vertices = cv.RotatedRect.points(rotatedRect);
-  bidule = vertices;
   for (let i = 0; i < 4; i++) {
       cv.line(dst, vertices[i], vertices[(i + 1) % 4], green, 2, cv.LINE_AA, 0);
   }
@@ -143,11 +156,11 @@ function outer_edges(imgInput) {
     srcTri = cv.matFromArray(4, 1, cv.CV_32FC2, order_matrix(srcTri).flat());
     let M = cv.getPerspectiveTransform(srcTri, dstTri);
     cv.warpPerspective(cv.imread(imgInput), dst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
-    output(dst);    //contours.poly.intAt(0->7) n=x,n+1=y;
   } else {
     dst = cv.imread(imgInput);
   }
-  crop_rotated_rect(dst,dstTri,rotatedRect);
+  dst = crop_rotated_rect(dst,dstTri,rotatedRect);
+  output(dst);
   console.timeEnd(time);
 }
 function equalize(imgInput) {
@@ -204,8 +217,10 @@ utils.loadOpenCv(() => {
   let inputElement = document.createElement("input");
   inputElement.setAttribute("type","file");
   inputElement.setAttribute("accept","image/*");
+  inputElement.setAttribute("style","position: fixed; right: 5%; bottom: 40%;");
   document.querySelector("section").insertBefore(inputElement,document.querySelector("#canvasOutput"));
   inputElement.addEventListener("change", (e) => {
+    document.querySelector("#viz").innerHTML = "";
     let imgElement = document.createElement("img");
     imgElement.onload = function() {
       output(cv.imread(this));
