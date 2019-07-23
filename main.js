@@ -71,21 +71,26 @@ function output(imgData) {
   return id;
 }
 function blur(imgData) {
-  let ksize = new cv.Size(9, 9);
+  let ksize = new cv.Size(12, 12);
   let anchor = new cv.Point(-1, -1);
   cv.blur(imgData, imgData, ksize, anchor, cv.BORDER_DEFAULT);
   return imgData;
 }
 function threshold(imgData) {
-  let contrast = 64;
+  /*let contrast = 100;
   let f = 131*(contrast + 127)/(127*(131-contrast));
   let alpha_c = f;
   let gamma_c = 127*(1-f);
-  cv.addWeighted(imgData, f, imgData, 0, gamma_c, imgData);
+  cv.addWeighted(imgData, f, imgData, 0, gamma_c, imgData);*/
   cv.cvtColor(imgData, imgData, cv.COLOR_RGBA2GRAY, 0);
-  cv.threshold(imgData, imgData, 1, 255, cv.THRESH_OTSU); //use Otsu Algorithm to determine the optimal threshold value
+  let dst = new cv.Mat();
+  let tileGridSize = new cv.Size(8, 8);
+  let clahe = new cv.CLAHE(40, tileGridSize);
+  clahe.apply(imgData, dst);
+  output(dst);
+  cv.threshold(dst, dst, 1, 255, cv.THRESH_OTSU); //use Otsu Algorithm to determine the optimal threshold value
   //cv.adaptiveThreshold(imgData, imgData, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 9, 5);
-  return imgData;
+  return dst;
 }
 function outer_edges(imgInput) {
   //INIT
@@ -110,7 +115,7 @@ function outer_edges(imgInput) {
   //CONTOURS DETECTION
   let contours = new cv.MatVector();
   let hierarchy = new cv.Mat();
-  cv.findContours(src, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
+  cv.findContours(src, contours, hierarchy, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE);
   let largestArea = 0;
   let largestContour = 0;
   //LARGEST CONTOUR DETECTION
@@ -176,6 +181,7 @@ function equalize(imgInput) {
   cv.merge(dstVect, src);
   output(src);
   console.timeEnd(time);
+  return src;
 }
 function histogram(imgInput,hsv=false) {
   let time = (new Date().valueOf());
