@@ -9,14 +9,10 @@ function crop_rotated_rect(src,srcTri,rect) {
   let dst = new cv.Mat();
   let w = rect.size.width;
   let h = rect.size.height;
-  console.log(rect.angle);
-  console.log(w,h);
   if (rect.angle < -45) {
-    console.log("swap height & width");
     w = rect.size.height;
     h = rect.size.width;
   }
-  console.log(w,h);
   let dsize = new cv.Size(w,h);
   let dstTri = [0,0,w,0,w,h,0,h];
   dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, dstTri);
@@ -152,8 +148,6 @@ function outer_edges(imgInput) {
     dst = cv.imread(imgInput);
   }
   crop_rotated_rect(dst,dstTri,rotatedRect);
-  /*ajouter une règle : si le polygone obtenu n'est pas satisfaisant, on
-  * utilisera le rectangle circonscrit (minimal bounding rect) */
   console.timeEnd(time);
 }
 function equalize(imgInput) {
