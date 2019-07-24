@@ -23,8 +23,8 @@ function crop_rotated_rect(src,srcTri,rect) {
 function order_matrix(mat) {
   let xs = mat.map(e => e[0]);
   let ys = mat.map(e => e[1]);
-  let cx = 0.5*(Math.max(...xs)-Math.min(...xs));
-  let cy = 0.5*(Math.max(...ys)-Math.min(...ys));
+  let cx = 0.5*(Math.max(...xs)-Math.min(...xs))+Math.min(...xs);
+  let cy = 0.5*(Math.max(...ys)-Math.min(...ys))+Math.min(...ys);
   let out = [[],[],[],[]];
   mat.map(function(e) {
     if (e[0] < cx) {
@@ -77,7 +77,7 @@ function blur(imgData) {
   return imgData;
 }
 function threshold(imgData) {
-  cv.threshold(imgData, imgData, 1, 255, cv.THRESH_OTSU); //use Otsu Algorithm to determine the optimal threshold value
+  cv.threshold(imgData, imgData, 1, 255, cv.THRESH_TRIANGLE); //use Otsu Algorithm to determine the optimal threshold value
   return imgData;
 }
 function clahe_equalize(imgData) {
@@ -101,7 +101,7 @@ function outer_edges(imgInput) {
   //CLAHE EQUALIZATION
   src = clahe_equalize(src);
   output(src);
-  console.log("CLAHE done");
+  console.log("blurring done");
   console.timeLog(time);
   //BLURRING
   src = blur(src);
@@ -154,18 +154,24 @@ function outer_edges(imgInput) {
   output(dst);
   let dstTri = [[vertices[0].x,vertices[0].y],[vertices[1].x,vertices[1].y],
                   [vertices[2].x,vertices[2].y],[vertices[3].x,vertices[3].y]];
+  console.log(dstTri);
+  console.log(order_matrix(dstTri).flat());
   dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, order_matrix(dstTri).flat());
-  if (poly.size().height == 4) { //PERSPECTIVE CORRECTION
+  if ((poly.size().height == 4) && (cv.isContourConvex(poly))) { //PERSPECTIVE CORRECTION
     let dsize = new cv.Size(src.cols, src.rows);
     let srcTri = [[poly.intAt(0),poly.intAt(1)],[poly.intAt(2),poly.intAt(3)],
                   [poly.intAt(4),poly.intAt(5)],[poly.intAt(6),poly.intAt(7)]];
     srcTri = cv.matFromArray(4, 1, cv.CV_32FC2, order_matrix(srcTri).flat());
     let M = cv.getPerspectiveTransform(srcTri, dstTri);
     cv.warpPerspective(cv.imread(imgInput), dst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
+    dst = crop_rotated_rect(dst,dstTri,rotatedRect);
   } else {
-    dst = cv.imread(imgInput);
+    let dsize = new cv.Size(src.cols, src.rows);
+    let srcTri = [0,0,src.cols,0,src.cols,src.rows,0,src.rows];
+    srcTri = cv.matFromArray(4, 1, cv.CV_32FC2, srcTri);
+    let M = cv.getPerspectiveTransform(dstTri, srcTri);
+    cv.warpPerspective(cv.imread(imgInput), dst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
   }
-  dst = crop_rotated_rect(dst,dstTri,rotatedRect);
   output(dst);
   console.timeEnd(time);
 }
