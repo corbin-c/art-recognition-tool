@@ -70,14 +70,14 @@ function output(imgData) {
   cv.imshow(id, imgData);
   return id;
 }
-function blur(imgData) {
-  let ksize = new cv.Size(15, 15);
+function blur(imgData,q) {
+  let ksize = new cv.Size(q, q);
   let anchor = new cv.Point(-1, -1);
   cv.blur(imgData, imgData, ksize, anchor, cv.BORDER_DEFAULT);
   return imgData;
 }
 function threshold(imgData) {
-  cv.threshold(imgData, imgData, 1, 255, cv.THRESH_TRIANGLE); //use Otsu Algorithm to determine the optimal threshold value
+  cv.threshold(imgData, imgData, 1, 255, cv.THRESH_OTSU); //use Otsu Algorithm to determine the optimal threshold value
   return imgData;
 }
 function clahe_equalize(imgData) {
@@ -104,7 +104,7 @@ function outer_edges(imgInput) {
   console.log("blurring done");
   console.timeLog(time);
   //BLURRING
-  src = blur(src);
+  src = blur(src,15);
   output(src);
   console.log("blurring done");
   console.timeLog(time);
