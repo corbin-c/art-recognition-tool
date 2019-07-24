@@ -68,13 +68,13 @@ Isolation du plus grand contour :
 
 ![Img_example](examples/largest_contour.jpg "contour extérieur isolé")
 
-Algorithme de Ramer–Douglas–Peucker : (polygone rouge)
-
-![Img_example](examples/approxDP.jpg "approxDP")
-
 Détermination du MBR (minimum bounding rectangle) : (en vert)
 
 ![Img_example](examples/bounding.jpg "bounding rect")
+
+Algorithme de Ramer–Douglas–Peucker : (polygone rouge)
+
+![Img_example](examples/approxDP.jpg "approxDP")
 
 De là il reste à appliquer la transformation en perspective pour faire
 coller l'intérieur du polygone rouge aux dimensions du rectangle vert :
