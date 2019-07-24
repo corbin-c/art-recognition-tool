@@ -76,8 +76,8 @@ Algorithme de Ramer–Douglas–Peucker : (polygone rouge)
 
 ![Img_example](examples/approxDP.jpg "approxDP")
 
-De là il reste à appliquer la transformation en perspective pour faire
-coller l'intérieur du polygone rouge aux dimensions du rectangle vert :
+Transformation en perspective pour faire coller l'intérieur du polygone
+rouge aux dimensions du rectangle vert :
 
 ![Img_example](examples/perspective.jpg "perspective corrigée")
 
