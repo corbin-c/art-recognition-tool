@@ -48,7 +48,11 @@ Image originale :
 
 ![Img_example](examples/orig.jpg "image brute")
 
-On applique un seuil, déterminé par l'algorithme d'Otsu.
+Égalisation de type CLAHE (Contrast Limited Adaptative Histogram Equalization) :
+
+![Img_example](examples/clahe.jpg "CLAHE equalization")
+
+On applique un seuil, déterminé par l'algorithme d'Otsu :
 
 ![Img_example](examples/tresh.jpg "image binarisée")
 
