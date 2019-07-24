@@ -37,6 +37,13 @@ Cette section illustre les développements déjà réalisés. Les images
 affichées ici le sont à des fins illustratives ; ce sont des étapes de
 calcul qui ne seront pas montrées à l'utilisateur final.
 
+On voit que l'on a déjà les briques fondamentales du module "Processus
+d'analyse d'images". Il faut désormais les calibrer, c'est à dire
+ajuster chaque brique finement de façon à pouvoir traiter le plus de cas
+possible (diversité de situations en luminosité & contraste).
+L'utilisation des méthodes CLAHE, Otsu et du flou (cf. infra) relève de
+cette démarche.
+
 ### Recadrage
 
 La capacité à pouvoir recadrer ou non l'image dépendra essentiellement
