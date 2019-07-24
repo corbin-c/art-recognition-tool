@@ -71,7 +71,7 @@ function output(imgData) {
   return id;
 }
 function blur(imgData) {
-  let ksize = new cv.Size(12, 12);
+  let ksize = new cv.Size(15, 15);
   let anchor = new cv.Point(-1, -1);
   cv.blur(imgData, imgData, ksize, anchor, cv.BORDER_DEFAULT);
   return imgData;
@@ -79,7 +79,9 @@ function blur(imgData) {
 function threshold(imgData) {
   cv.cvtColor(imgData, imgData, cv.COLOR_RGBA2GRAY, 0);
   let dst = new cv.Mat();
-  cv.equalizeHist(imgData, dst);
+  let tileGridSize = new cv.Size(8, 8);
+  let clahe = new cv.CLAHE(5, tileGridSize);
+  clahe.apply(imgData, dst);
   output(dst);
   cv.threshold(dst, dst, 1, 255, cv.THRESH_OTSU); //use Otsu Algorithm to determine the optimal threshold value
   return dst;
