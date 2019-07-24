@@ -52,17 +52,21 @@ Image originale :
 
 ![Img_example](examples/clahe.jpg "CLAHE equalization")
 
+Flou, pour adoucir le rendu de l'étape suivante :
+
+![Img_example](examples/blur.jpg "Flou")
+
 On applique un seuil, déterminé par l'algorithme d'Otsu :
 
-![Img_example](examples/tresh.jpg "image binarisée")
+![Img_example](examples/threshold.jpg "image binarisée")
 
 Détections de contours :
 
-![Img_example](examples/canny.jpg "contours détectés")
+![Img_example](examples/contours.jpg "contours détectés")
 
 Isolation du plus grand contour :
 
-![Img_example](examples/contour.jpg "contour extérieur isolé")
+![Img_example](examples/largest_contour.jpg "contour extérieur isolé")
 
 Algorithme de Ramer–Douglas–Peucker : (polygone rouge)
 

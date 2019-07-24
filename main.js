@@ -77,13 +77,15 @@ function blur(imgData) {
   return imgData;
 }
 function threshold(imgData) {
+  cv.threshold(imgData, imgData, 1, 255, cv.THRESH_OTSU); //use Otsu Algorithm to determine the optimal threshold value
+  return imgData;
+}
+function clahe_equalize(imgData) {
   cv.cvtColor(imgData, imgData, cv.COLOR_RGBA2GRAY, 0);
   let dst = new cv.Mat();
   let tileGridSize = new cv.Size(8, 8);
   let clahe = new cv.CLAHE(5, tileGridSize);
   clahe.apply(imgData, dst);
-  output(dst);
-  cv.threshold(dst, dst, 1, 255, cv.THRESH_OTSU); //use Otsu Algorithm to determine the optimal threshold value
   return dst;
 }
 function outer_edges(imgInput) {
@@ -96,6 +98,11 @@ function outer_edges(imgInput) {
   console.time(time);
   let src = cv.imread(imgInput);
   let dst = cv.Mat.zeros(src.rows, src.cols, cv.CV_8UC3);
+  //CLAHE EQUALIZATION
+  src = clahe_equalize(src);
+  output(src);
+  console.log("CLAHE done");
+  console.timeLog(time);
   //BLURRING
   src = blur(src);
   output(src);
