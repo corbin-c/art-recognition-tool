@@ -1,10 +1,37 @@
-importScripts("opencv.js");
-//console.log("LOADED");
-postMessage("LOADED");
-onmessage = function(e) {
-  //let src = cv.matFromArray(4, 1,new cv.Mat(e.data.h, e.data.w, cv.CV_8UC4);
-  console.log(e.data);
-  let src = cv.matFromArray(e.data.h, e.data.w, cv.CV_32FC2, e.data.buffer);
-  console.log("image width: " + src.cols);
-  console.log("image height: " + src.rows);
+/*
+ * This worker loads OpenCV WASM module. Then, It notifies the main
+ * thread so it can start sending messages to it.
+ * The worker is instentiated with imageData from a canvas, which serves
+ * then as a reference for the worker_class_picture, a class dedicated
+ * to image processing.
+ * This script only serves as a bridge between the window object and the
+ * worker picture class.
+ * 
+ */
+importScripts("../opencv.js");
+let pic;
+if (cv.getBuildInformation) {       // asm.js
+  loaded();
+} else {
+  cv['onRuntimeInitialized']=()=>{  // WASM
+      loaded();
+  }
+}
+function loaded()
+{
+  importScripts("worker_class_picture.js");
+  postMessage("LOADED");
+  onmessage = function(e) {
+    if (e.data.cmd == "init") {
+      let src = cv.matFromImageData(e.data.imgData);
+      pic = new Picture(src);
+    } else {
+      if (typeof e.data.opts !== "undefined") {
+        pic[e.data.cmd](...e.data.opts);
+      } else {
+        pic[e.data.cmd]();
+      }
+      postMessage(pic.output());
+    }
+  }
 }
