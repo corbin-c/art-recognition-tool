@@ -55,7 +55,8 @@ Image originale :
 
 ![Img_example](examples/orig.jpg "image brute")
 
-Égalisation de type CLAHE (Contrast Limited Adaptative Histogram Equalization) :
+Égalisation de type CLAHE (Contrast Limited Adaptative Histogram
+Equalization) :
 
 ![Img_example](examples/clahe.jpg "CLAHE equalization")
 
