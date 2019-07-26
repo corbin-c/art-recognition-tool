@@ -22,7 +22,7 @@ function loaded()
   importScripts("worker_class_picture.js");
   postMessage("LOADED");
   onmessage = function(e) {
-    if (e.data.cmd == "init") {
+    /*if (e.data.cmd == "init") {
       let src = cv.matFromImageData(e.data.imgData);
       pic = new Picture(src);
     } else {
@@ -33,5 +33,7 @@ function loaded()
       }
       postMessage(pic.output());
     }
+  }*/
+  postMessage(e.data);
   }
 }

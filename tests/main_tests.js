@@ -1,4 +1,4 @@
-const ocv_worker = new Worker("worker_opencv.js");
+const worker = new AWorker();
 function createImage(url) {
   let img = document.createElement("img");
   img.crossOrigin = "anonymous";
@@ -14,9 +14,9 @@ function imgData(img) {
   ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
   let picture = ctx.getImageData(0, 0, img.naturalWidth, img.naturalHeight);
   picture = new Picture(picture); 
-  pp.postMessage({cmd:"blur",opts:[15]});
-  pp.postMessage({cmd:"clahe_equalize",opts:[8,5]});
-  pp.postMessage({cmd:"threshold"});
+  worker.postMessage({cmd:"blur",opts:[15]});
+  worker.postMessage({cmd:"clahe_equalize",opts:[8,5]});
+  worker.postMessage({cmd:"threshold"});
 }
 function data_to_canvas(imgData,visible) {
   let canvas = document.createElement("canvas");
@@ -28,13 +28,3 @@ function data_to_canvas(imgData,visible) {
   ctx.putImageData(z, 0, 0);
   document.querySelector("section").append(canvas);
 }
-ocv_worker.onmessage = function(e) {
-  if (e.data == "LOADED") {
-    createImage("./1.jpg");
-  } else {
-    data_to_canvas(e.data,true);
-    // send received messages to class pictures,
-    // create Async/Await logic for sending & receiving messages from
-    // worker
-  }
-};

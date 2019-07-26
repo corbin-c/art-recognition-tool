@@ -5,5 +5,5 @@
 * 
 */
 function Picture(imgData) {
-  ocv_worker.postMessage({imgData:imgData,cmd:"init"});
+  worker.postMessage({imgData:imgData,cmd:"init"});
 }
