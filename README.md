@@ -15,10 +15,10 @@ on peut fournir un proxy qui permet de rendre l'application utilisable
 hors-ligne.
 
 L'application repose sur la bibliothèque [OpenCV](https://opencv.org),
-une bibliothèque graphique libre, initialement développée par Intel,
-spécialisée dans le traitement d'images en temps réel. (selon Wikipédia)
-S'agissant ici d'une appli web, la bibliothèque est compilé en
-[WASM (Web Assembly)](https://developer.mozilla.org/en-US/docs/WebAssembly),
+« une bibliothèque graphique libre, initialement développée par Intel,
+spécialisée dans le traitement d'images en temps réel » (source :
+Wikipédia). S'agissant ici d'une appli web, la bibliothèque est compilée
+en [WASM (Web Assembly)](https://developer.mozilla.org/en-US/docs/WebAssembly),
 ce qui nous permet d'exécuter du code bas niveau et d'échanger avec
 celui-ci dans un environnement web (navigateur + JS).
 
