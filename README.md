@@ -5,8 +5,7 @@
 
 ### Outils utilisés
 
-L'application web utilisera de nombreuses innovations technologiques du
-web :
+L'application utilisera de nombreuses innovations récentes du web :
 
 Il s'agit de produire une [PWA (Progressive Web Application)](https://developers.google.com/web/progressive-web-apps/).
 On obtient une application installable sur le périphérique client, quel
