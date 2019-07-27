@@ -22,7 +22,7 @@ ce qui nous permet d'exécuter du code bas niveau et d'échanger avec
 celui-ci dans un environnement web (navigateur + JS).
 
 Ce module WASM est encapsulé dans un [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API)
-afin que ces calculs soit effectués dans un thread séparé, en
+afin que ces calculs soient effectués dans un thread séparé, en
 arrière-plan. Par ailleurs, l'acquisition vidéo profitera de 
 [l'API Media Capture & Streams](https://developer.mozilla.org/en-US/docs/Web/API/Media_Streams_API),
 qui offre une interface standard pour accéder à la caméra de
