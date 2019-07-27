@@ -28,9 +28,10 @@ arrière-plan. Par ailleurs, l'acquisition vidéo profitera de
 qui offre une interface standard pour accéder à la caméra de
 l'utilisateur, l'élément HTML5 [Canvas](https://www.w3schools.com/html/html5_canvas.asp)
 et son [API associée](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
-sont bien sûr utilisés. Enfin, l'ensemble du code exploite les dernières
-innovations des spécifications ECMA (méthodes sur les tableaux,
-fonctions fléchées ou asynchrones, promesses, décomposition, etc. )
+sont bien sûr utilisés pour l'affichage. Enfin, l'ensemble du code
+exploite les dernières innovations des spécifications ECMA (méthodes
+sur les tableaux, fonctions fléchées ou asynchrones, promesses,
+décomposition, etc. )
 
 Sont exclus du dépôt les fichiers issus de la compilation d'OpenCV, ce
 n'est pas l'objet ici.
@@ -77,7 +78,7 @@ principal, qui offre des interactions de haut niveau :
 ```myPicture = new Picture(imgData,OCV);
 await myPicture.autocrop();
 await myPicture.normalize();
-myPicture.output();```
+myPicture.output(); ```
 ## Avancée des développements :
 Cette section illustre les développements déjà réalisés. Les images
 affichées ici le sont à des fins illustratives ; ce sont des étapes de
