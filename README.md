@@ -3,8 +3,38 @@
 
 ## Description
 
+### Outils utilisés
+
+L'application web utilisera de nombreuses innovations technologiques du
+web :
+
+Il s'agit de produire une [PWA (Progressive Web Application)](https://developers.google.com/web/progressive-web-apps/).
+On obtient une application installable sur le périphérique client, quel
+que soit l'OS. Par l'utilisation de [Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers),
+on peut fournir un proxy qui permet de rendre l'application utilisable
+hors-ligne.
+
+L'application repose sur la bibliothèque [OpenCV](https://opencv.org),
+une bibliothèque graphique libre, initialement développée par Intel,
+spécialisée dans le traitement d'images en temps réel. (selon Wikipédia)
+S'agissant ici d'une appli web, la bibliothèque est compilé en
+[WASM (Web Assembly)](https://developer.mozilla.org/en-US/docs/WebAssembly),
+ce qui nous permet d'exécuter du code bas niveau et d'échanger avec
+celui-ci dans un environnement web (navigateur + JS).
+
+Ce module WASM est encapsulé dans un [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API)
+afin que ces calculs soit effectués dans un thread séparé, en
+arrière-plan. Par ailleurs, l'acquisition vidéo profitera de 
+[l'API Media Capture & Streams](https://developer.mozilla.org/en-US/docs/Web/API/Media_Streams_API),
+qui offre une interface standard pour accéder à la caméra de
+l'utilisateur. Enfin, l'ensemble du code exploite les dernières
+innovations des spécifications ECMA (méthodes sur les tableaux,
+fonctions fléchées ou asynchrones, promesses, décomposition, etc. )
+
 Sont exclus du dépôt les fichiers issus de la compilation d'OpenCV, ce
 n'est pas l'objet ici.
+
+### Diagramme fonctionnel
 
 En partant des trois personas que j'envisage (Visiteur, Admin, Artiste,
 à voir si d'autres cas sont prévoir) ça donne ça :
