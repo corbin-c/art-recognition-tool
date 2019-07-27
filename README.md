@@ -26,7 +26,9 @@ afin que ces calculs soient effectués dans un thread séparé, en
 arrière-plan. Par ailleurs, l'acquisition vidéo profitera de 
 [l'API Media Capture & Streams](https://developer.mozilla.org/en-US/docs/Web/API/Media_Streams_API),
 qui offre une interface standard pour accéder à la caméra de
-l'utilisateur. Enfin, l'ensemble du code exploite les dernières
+l'utilisateur, l'élément HTML5 [Canvas](https://www.w3schools.com/html/html5_canvas.asp)
+et son [API associée](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
+sont bien sûr utilisés. Enfin, l'ensemble du code exploite les dernières
 innovations des spécifications ECMA (méthodes sur les tableaux,
 fonctions fléchées ou asynchrones, promesses, décomposition, etc. )
 
@@ -59,9 +61,7 @@ d'alimentation du catalogue aux artistes, qui s'inscrivent sur le site,
 remplissent leur profil et chargent leurs travaux. Un module de ventes
 pourrait également être implémenté. L'application de reconnaissance
 d'images reçoit de l'API les descriptions des œuvres d'une collection
-donnée, selon l'expo visitée par l'utilisateur. L'élément HTML5 [Canvas](https://www.w3schools.com/html/html5_canvas.asp)
-et son [API associée](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
-sont bien sûr utilisés.
+donnée, selon l'expo visitée par l'utilisateur.
 
 ## Utilisation
 
