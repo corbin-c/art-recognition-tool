@@ -8,22 +8,24 @@
 function Picture(imgData) {
   this.original_picture = imgData.clone(); //expected: cv.Mat
   this.working_copy = this.original_picture.clone();
+  this.output_copy = this.original_picture.clone();
   imgData.delete();
 
   this.output = function(q) {
     /*  First we'll convert colorspace back to RGBA so it can be
     *   displayed on a HTML5 Canvas element; */
-    if (this.working_copy.channels() == 1) {
-      cv.cvtColor(this.working_copy, this.working_copy,
+    this.output_copy = this.working_copy.clone();
+    if (this.output_copy.channels() == 1) {
+      cv.cvtColor(this.output_copy, this.output_copy,
                   cv.COLOR_GRAY2RGBA, 0);
-    } else if (this.working_copy.channels() == 3) {
-      cv.cvtColor(this.working_copy, this.working_copy,
+    } else if (this.output_copy.channels() == 3) {
+      cv.cvtColor(this.output_copy, this.output_copy,
                   cv.COLOR_RGB2RGBA, 0);
     }
     return {
-      width:this.working_copy.cols,
-      height:this.working_copy.rows,
-      data:this.working_copy.data
+      width:this.output_copy.cols,
+      height:this.output_copy.rows,
+      data:this.output_copy.data
     }
   }
   

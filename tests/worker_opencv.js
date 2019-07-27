@@ -22,18 +22,23 @@ function loaded()
   importScripts("worker_class_picture.js");
   postMessage("LOADED");
   onmessage = function(e) {
-    /*if (e.data.cmd == "init") {
-      let src = cv.matFromImageData(e.data.imgData);
+    e = e.data;
+    let message = e.message.cmd+": DONE";
+    if (e.message.cmd == "init") {
+      let src = cv.matFromImageData(e.message.imgData);
       pic = new Picture(src);
     } else {
-      if (typeof e.data.opts !== "undefined") {
-        pic[e.data.cmd](...e.data.opts);
+      if (typeof e.message.opts !== "undefined") {
+        pic[e.message.cmd](...e.message.opts);
       } else {
-        pic[e.data.cmd]();
+        if (e.message.cmd == "output") {
+          message = pic.output();
+        } else {
+          pic[e.message.cmd]();
+        }
       }
-      postMessage(pic.output());
     }
-  }*/
-  postMessage(e.data);
+    e.message = message;
+    postMessage(e);
   }
 }
