@@ -69,16 +69,23 @@ donnée, selon l'expo visitée par l'utilisateur.
 OpenCV est utilisable à travers le Web Worker `worker_opencv.js`, lequel
 instantie un objet Picture. Afin de pouvoir interroger le worker de
 façon synchrone, on créé un objet AWorker :
-```const OCV = new AWorker("worker_opencv.js");```
+```javascript
+const OCV = new AWorker("worker_opencv.js");
+```
 On initialise le worker avec un message, où `imgData` correspond à une
 matrice de pixels extraite d'un [canvas](https://www.w3schools.com/html/html5_canvas.asp) :
-```worker.postMessage({imgData:imgData,cmd:"init"});```
+```javascript
+worker.postMessage({imgData:imgData,cmd:"init"});
+```
 Ceci se fait à l'instantiation de la classe Picture dans le thread
 principal, qui offre des interactions de haut niveau :
-```myPicture = new Picture(imgData,OCV);
+```javascript
+myPicture = new Picture(imgData,OCV);
 await myPicture.autocrop();
 await myPicture.normalize();
-myPicture.output(); ```
+myPicture.output();
+```
+
 ## Avancée des développements :
 Cette section illustre les développements déjà réalisés. Les images
 affichées ici le sont à des fins illustratives ; ce sont des étapes de
