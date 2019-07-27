@@ -5,7 +5,7 @@
 * 
 */
 function Picture(imgData) {
-  aworker.postMessage({imgData:imgData,cmd:"init"});
+  worker.postMessage({imgData:imgData,cmd:"init"});
   this.FONCTIONPOURNEGARDERQUELECONTENU
   this.NORMALISATION
   this.ANALYSE
