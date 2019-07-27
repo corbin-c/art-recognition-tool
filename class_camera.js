@@ -21,7 +21,7 @@ function Video(video_element)
         document.querySelector("section").append(inputElement);
         inputElement.addEventListener("click", (e) => {
           e.target.remove();
-          resolve(_this);
+          resolve(_this); //changer la valeur renvoyée
           //_this.stop_camera();
         }, false);
       }

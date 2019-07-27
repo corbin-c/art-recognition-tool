@@ -59,8 +59,25 @@ d'alimentation du catalogue aux artistes, qui s'inscrivent sur le site,
 remplissent leur profil et chargent leurs travaux. Un module de ventes
 pourrait également être implémenté. L'application de reconnaissance
 d'images reçoit de l'API les descriptions des œuvres d'une collection
-donnée, selon l'expo visitée par l'utilisateur.
+donnée, selon l'expo visitée par l'utilisateur. L'élément HTML5 [Canvas](https://www.w3schools.com/html/html5_canvas.asp)
+et son [API associée](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
+sont bien sûr utilisés.
 
+## Utilisation
+
+OpenCV est utilisable à travers le Web Worker `worker_opencv.js`, lequel
+instantie un objet Picture. Afin de pouvoir interroger le worker de
+façon synchrone, on créé un objet AWorker :
+```const OCV = new AWorker("worker_opencv.js");```
+On initialise le worker avec un message, où `imgData` correspond à une
+matrice de pixels extraite d'un [canvas](https://www.w3schools.com/html/html5_canvas.asp) :
+```worker.postMessage({imgData:imgData,cmd:"init"});```
+Ceci se fait à l'instantiation de la classe Picture dans le thread
+principal, qui offre des interactions de haut niveau :
+```myPicture = new Picture(imgData,OCV);
+await myPicture.autocrop();
+await myPicture.normalize();
+myPicture.output();```
 ## Avancée des développements :
 Cette section illustre les développements déjà réalisés. Les images
 affichées ici le sont à des fins illustratives ; ce sont des étapes de
