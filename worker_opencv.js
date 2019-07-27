@@ -14,7 +14,7 @@ if (cv.getBuildInformation) {       // asm.js
   loaded();
 } else {
   cv['onRuntimeInitialized']=()=>{  // WASM
-      loaded();
+    loaded();
   }
 }
 function loaded()

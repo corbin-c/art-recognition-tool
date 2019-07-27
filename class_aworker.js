@@ -6,6 +6,7 @@
 * next request.
 * 
 * */
+let status = "unavailable";
 function AWorker(workerPath) {
   const WORKER = new Worker(workerPath);
   this.id = 0;
@@ -25,9 +26,20 @@ function AWorker(workerPath) {
   }
   this.messageResolve = function(msgData) {
     if (msgData == "LOADED") { //This is triggered when OpenCV ready
-      createImage("./1.jpg");
+      this.allow_input();
     } else {
       this.messagePromises[msgData.id](msgData);
+    }
+  }
+  this.allow_input = function() {
+    status = "running";
+    console.log("loaded");
+    if (document.querySelector("#user_input") !== null) {
+      if (document.querySelector("#user_input")
+          .getAttribute("disabled") !== null) {
+        document.querySelector("#user_input")
+          .removeAttribute("disabled");
+      }
     }
   }
   this.onMessage(this.messageResolve);
