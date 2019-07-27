@@ -5,10 +5,10 @@
  * then as a reference for the worker_class_picture, a class dedicated
  * to image processing.
  * This script only serves as a bridge between the window object and the
- * worker picture class.
+ * picture worker-class.
  * 
  */
-importScripts("../opencv.js");
+importScripts("opencv.js");
 let pic;
 if (cv.getBuildInformation) {       // asm.js
   loaded();

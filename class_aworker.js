@@ -19,16 +19,16 @@ function AWorker(workerPath) {
   }
   this.onMessage = function(callback) {
     let that = this;
-    WORKER.onmessage = ((e) => {
-      if (e.data == "LOADED") { //This is triggered when OpenCV ready
-        createImage("./1.jpg");
-      } else {
-        callback.call(that,e.data);
-      }
-    });
+    WORKER.onmessage = function(e) {
+      callback.call(that,e.data);
+    }
   }
   this.messageResolve = function(msgData) {
-    this.messagePromises[msgData.id](msgData);
+    if (msgData == "LOADED") { //This is triggered when OpenCV ready
+      createImage("./1.jpg");
+    } else {
+      this.messagePromises[msgData.id](msgData);
+    }
   }
   this.onMessage(this.messageResolve);
 }

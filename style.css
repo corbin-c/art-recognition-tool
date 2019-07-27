@@ -49,10 +49,10 @@ video
   width: 100%;
   display: none;
 }
-canvas
+canvas, img
 {
-  width: 50vw;
-  display: block;
+  height: 50vh;
+  display: inline;
 }
 #take_shot
 {
