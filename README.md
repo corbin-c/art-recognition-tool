@@ -3,7 +3,7 @@
 
 ## Description
 
-### Outils utilisés
+### Outils et technologies utilisés
 
 L'application utilisera de nombreuses innovations récentes du web :
 
