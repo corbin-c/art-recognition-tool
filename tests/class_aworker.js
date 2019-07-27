@@ -2,7 +2,7 @@
 * This class provides a wrapper for sending/receiving messages to a web
 * worker. It is instantianted and used like a classic web worker but it
 * returns promises instead of providing an onMessage event. It allows
-* to chain operations on a worker, waiting for an answer before sending
+* operation chaining on a worker, waiting for an answer before sending
 * next request.
 * 
 * */
