@@ -33,8 +33,6 @@ exploite les dernières innovations des spécifications ECMA (méthodes
 sur les tableaux, fonctions fléchées ou asynchrones, promesses,
 décomposition, etc. )
 
-Sont exclus du dépôt les fichiers issus de la compilation d'OpenCV, ce
-n'est pas l'objet ici.
 
 ### Diagramme fonctionnel
 
