@@ -8,37 +8,43 @@
  * picture worker-class.
  * 
  */
-importScripts("opencv.js");
-let pic;
-if (cv.getBuildInformation) {       // asm.js
-  loaded();
-} else {
-  cv['onRuntimeInitialized']=()=>{  // WASM
+onconnect = function(e) {
+  console.log("worker connected");
+  let port = e.ports[0];
+  importScripts("opencv.js");
+  console.log("opencv connected");  
+  let pic;
+  if (cv.getBuildInformation) {       // asm.js
     loaded();
+  } else {
+    cv['onRuntimeInitialized']=()=>{  // WASM
+      loaded();
+    }
   }
-}
-function loaded()
-{
-  importScripts("worker_class_picture.js");
-  postMessage("LOADED");
-  onmessage = function(e) {
-    e = e.data;
-    let message = e.message.cmd+": DONE";
-    if (e.message.cmd == "init") {
-      let src = cv.matFromImageData(e.message.imgData);
-      pic = new Picture(src);
-    } else {
-      if (typeof e.message.opts !== "undefined") {
-        pic[e.message.cmd](...e.message.opts);
+  function loaded()
+  {
+    console.log("loaded !");
+    importScripts("worker_class_picture.js");
+    port.postMessage("LOADED");
+    port.onmessage = function(e) {
+      e = e.data;
+      let message = e.message.cmd+": DONE";
+      if (e.message.cmd == "init") {
+        let src = cv.matFromImageData(e.message.imgData);
+        pic = new Picture(src);
       } else {
-        if (e.message.cmd == "output") {
-          message = pic.output();
+        if (typeof e.message.opts !== "undefined") {
+          pic[e.message.cmd](...e.message.opts);
         } else {
-          pic[e.message.cmd]();
+          if (e.message.cmd == "output") {
+            message = pic.output();
+          } else {
+            pic[e.message.cmd]();
+          }
         }
       }
+      e.message = message;
+      port.postMessage(e);
     }
-    e.message = message;
-    postMessage(e);
   }
 }

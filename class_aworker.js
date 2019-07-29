@@ -8,11 +8,12 @@
 * */
 let status = "unavailable";
 function AWorker(workerPath) {
-  const WORKER = new Worker(workerPath);
+  const WORKER = new SharedWorker(workerPath);
+  WORKER.port.start();
   this.id = 0;
   this.messagePromises = [];
   this.postMessage = function(message) {
-    WORKER.postMessage({id:this.id,message:message});
+    WORKER.port.postMessage({id:this.id,message:message});
     this.id++;
     return (new Promise((resolve,reject) => {
       this.messagePromises.push(resolve);
@@ -20,7 +21,7 @@ function AWorker(workerPath) {
   }
   this.onMessage = function(callback) {
     let that = this;
-    WORKER.onmessage = function(e) {
+    WORKER.port.onmessage = function(e) {
       callback.call(that,e.data);
     }
   }
