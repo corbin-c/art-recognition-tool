@@ -9,10 +9,8 @@
  * 
  */
 onconnect = function(e) {
-  console.log("worker connected");
   let port = e.ports[0];
   importScripts("opencv.js");
-  console.log("opencv connected");  
   let pic;
   if (cv.getBuildInformation) {       // asm.js
     loaded();
@@ -23,7 +21,6 @@ onconnect = function(e) {
   }
   function loaded()
   {
-    console.log("loaded !");
     importScripts("worker_class_picture.js");
     port.postMessage("LOADED");
     port.onmessage = function(e) {
