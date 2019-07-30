@@ -1,6 +1,7 @@
 {
   "short_name": "ART",
   "name": "Art Recognition Tool",
+  "description": "Application de reconnaissance de tableaux",
   "icons": [
     {
       "src": "/icons/192.png",
