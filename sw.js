@@ -17,7 +17,7 @@ this.addEventListener("fetch", function(event) {
         } else {
           return caches.match("blank.png");
         }
-      }).catch(function() { return caches.match("index.html") })
+      })
     }
   }));
 });
