@@ -963,6 +963,7 @@
                         } else {
                             instantiateStreaming(receiveInstantiatedSource)
                         }
+                        console.log("wasm instantiated");
                         return {}
                     }
                     Module["asmPreload"] = Module["asm"];

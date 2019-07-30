@@ -10,18 +10,21 @@
  */
 onconnect = function(e) {
   let port = e.ports[0];
+  console.log("sharedworker started (worker side)");
   importScripts("opencv.js");
+  console.log("opencv loaded (worker side)");
   let pic;
   if (cv.getBuildInformation) {       // asm.js
     loaded();
   } else {
-    cv['onRuntimeInitialized']=()=>{  // WASM
+    cv["onRuntimeInitialized"]=()=>{  // WASM
       loaded();
     }
   }
   function loaded()
   {
     importScripts("worker_class_picture.js");
+    console.log("pictureclass loaded (worker side)");
     port.postMessage("LOADED");
     port.onmessage = function(e) {
       e = e.data;
