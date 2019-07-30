@@ -8,10 +8,8 @@
 * */
 let status = "unavailable";
 function AWorker(workerPath) {
-  console.log("aworker called");
   const WORKER = new SharedWorker(workerPath);
   WORKER.port.start();
-  console.log("sharedworker started");
   this.id = 0;
   this.messagePromises = [];
   this.postMessage = function(message) {
