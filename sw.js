@@ -1,5 +1,5 @@
 this.addEventListener("install", async function(event) {
-  event.waitUntil(caches.open("art").then((e) => e.addAll(["opencv.wasm","blank.png","index.html"])));
+  event.waitUntil(caches.open("art").then((e) => e.addAll(["blank.png","index.html"])));
   console.log("init");
 });
 
