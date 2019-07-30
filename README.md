@@ -96,6 +96,18 @@ possible (diversité de situations en luminosité & contraste).
 L'utilisation des méthodes CLAHE, Otsu et du flou (cf. infra) relève de
 cette démarche.
 
+Une première approche pour créer une PWA est en cours : le fichier
+`manifest.json` a été créé et lié, il faudra le remplir correctement. Des icônes
+lambda, issues du set [Tango](http://tango.freedesktop.org/Tango_Icon_Library)
+sont utilisées, il faudra les remplacer par un vrai logo. Cela permet au
+navigateur de proposer à l'utilisateur d'ajouter l'appli à l'écran d'accueil
+[(A2HS)](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Add_to_home_screen).
+Par ailleurs, un service worker minimal (`sw.js`) a été créé afin de déployer un
+proxy côté client. Cela permet la mise en cache des ressources sur le
+périphérique du client, ce qui permet d'optimiser le chargement (la bibliothèque
+OpenCV pèse quelques mégaoctets) sur les connexions lentes et de rendre l'appli
+utilisable hors ligne.
+
 ### Recadrage
 
 La capacité à pouvoir recadrer ou non l'image dépendra essentiellement
