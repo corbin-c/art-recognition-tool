@@ -9,15 +9,17 @@ this.addEventListener("fetch", function(event) {
       return response;
     } else {
       return fetch(event.request).then(function (response) {
+        let r = response.clone();
         if (response.status == 200) {
           caches.open("art").then(function (cache) {
-            cache.put(event.request, response.clone());
+            cache.put(event.request, r);
           });
           return response;
         } else {
           return caches.match("blank.png");
         }
-      })
+      },function(){return caches.match("blank.png");})
     }
-  }));
+  },function(){return caches.match("blank.png");}));
 });
+// ajouter gestion versions cache
