@@ -5,6 +5,14 @@
  * processing and returns output image data.
  * 
  */
+import { cv from "./opencv.js" };
+if (cv.getBuildInformation) {       // asm.js
+  allow_input();
+} else {
+cv["onRuntimeInitialized"]=()=>{  // WASM
+  allow_input();
+}
+}
 function OCV_Picture(imgData) {
   this.original_picture = imgData.clone(); //expected: cv.Mat
   this.working_copy = this.original_picture.clone();
