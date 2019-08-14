@@ -109,3 +109,4 @@ async function addCameraInput() {
   return video;
 }
 main();
+console.log("main function executed");
