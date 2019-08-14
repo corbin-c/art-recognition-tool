@@ -9,5 +9,5 @@ var asmjsCodeFile="";if(!isDataURI(wasmTextFile)){wasmTextFile=locateFile(wasmTe
 return cv;
 }
 );
-}();
+})();
 export { cv };
