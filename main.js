@@ -6,12 +6,10 @@ const PARENT = "section";
 const MAX_WIDTH = 1000;
 
 function createImage(url) {
-  console.log("Fn createImage");
   let img = document.createElement("img");
   img.crossOrigin = "anonymous";
   img.addEventListener("load",function() { imgData(this,true); } );
   img.src = url;
-  console.log("Image created");
 }
 async function imgData(img,visible=false) {
   let canvas = document.createElement("canvas");
