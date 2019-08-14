@@ -226,4 +226,8 @@ function OCV_Picture(imgData) {
     }
   }
 }
+window.onbeforeunload = function() {
+  cv.quit();
+  delete cv;
+}
 export { OCV_Picture };
