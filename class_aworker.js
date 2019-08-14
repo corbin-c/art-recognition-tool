@@ -7,32 +7,28 @@
 * 
 * */
 let status = "unavailable";
-function AWorker(workerPath) {
-  const WORKER = new SharedWorker(workerPath);
-  WORKER.port.start();
-  this.id = 0;
-  this.messagePromises = [];
-  this.postMessage = function(message) {
-    WORKER.port.postMessage({id:this.id,message:message});
+let AWorker = class {
+  postMessage = function(message) {
+    this.worker.port.postMessage({id:this.id,message:message});
     this.id++;
     return (new Promise((resolve,reject) => {
       this.messagePromises.push(resolve);
     }));
   }
-  this.onMessage = function(callback) {
+  onMessage = function(callback) {
     let that = this;
-    WORKER.port.onmessage = function(e) {
+    this.worker.port.onmessage = function(e) {
       callback.call(that,e.data);
     }
   }
-  this.messageResolve = function(msgData) {
+  messageResolve = function(msgData) {
     if (msgData == "LOADED") { //This is triggered when OpenCV ready
       this.allow_input();
     } else {
       this.messagePromises[msgData.id](msgData);
     }
   }
-  this.allow_input = function() {
+  allow_input = function() {
     status = "running";
     console.log("loaded");
     if (document.querySelector("#user_input") !== null) {
@@ -43,5 +39,11 @@ function AWorker(workerPath) {
       }
     }
   }
-  this.onMessage(this.messageResolve);
+  constructor(workerPath) {
+    this.worker = new SharedWorker(workerPath);
+    this.worker.port.start();
+    this.id = 0;
+    this.messagePromises = [];
+    this.onMessage(this.messageResolve);
+  }
 }

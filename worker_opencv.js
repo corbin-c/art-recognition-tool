@@ -32,7 +32,7 @@ onconnect = function(e) {
       let message = e.message.cmd+": DONE";
       if (e.message.cmd == "init") {
         let src = cv.matFromImageData(e.message.imgData);
-        pic = new Picture(src);
+        pic = new ocv_Picture(src);
       } else {
         if (typeof e.message.opts !== "undefined") {
           pic[e.message.cmd](...e.message.opts);

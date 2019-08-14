@@ -5,30 +5,32 @@
  * processing and returns output image data.
  * 
  */
-function Picture(imgData) {
-  this.original_picture = imgData.clone(); //expected: cv.Mat
-  this.working_copy = this.original_picture.clone();
-  imgData.delete();
-  this.output = function(q) {
+let ocv_Picture = class { 
+  constructor(imgData) {
+    this.original_picture = imgData.clone(); //expected: cv.Mat
+    this.working_copy = this.original_picture.clone();
+    imgData.delete();
+  }
+  output = function(q) {
     /*  First we'll convert colorspace back to RGBA so it can be
     *   displayed on a HTML5 Canvas element; */
     return cv.imshow(this.working_copy);
   }
   
-  this.blur = function(q) {
+  blur = function(q) {
     q = Math.round(this.working_copy.cols/2500*q); //Q Factor must be
                                                   //picture-independent
     cv.blur(this.working_copy, this.working_copy, (new cv.Size(q, q)),
             (new cv.Point(-1, -1)), cv.BORDER_DEFAULT);
   }
   
-  this.threshold = function() {
+  threshold = function() {
     cv.threshold(this.working_copy, this.working_copy, 1, 255,
                   cv.THRESH_OTSU); //use Otsu Algorithm to determine
                                   //the optimal threshold value
   }
 
-  this.clahe_equalize = function(q,depth) {
+  clahe_equalize = function(q,depth) {
     // Contrast-Limited Adaptative Histogram Equalization
     q = Math.round(this.working_copy.cols/2500*q);
     cv.cvtColor(this.working_copy, this.working_copy,
@@ -41,7 +43,7 @@ function Picture(imgData) {
     clahe.delete();
   }
 
-  this.equalize = function() {
+  equalize = function() {
     let dst = [new cv.Mat(),new cv.Mat(),new cv.Mat()];
     let rgbaPlanes = new cv.MatVector();
     let dstVect = new cv.MatVector();
@@ -54,7 +56,7 @@ function Picture(imgData) {
     dstVect.delete();
   }
 
-  this.order_matrix = function(mat) {
+  order_matrix = function(mat) {
     /* This function orders 4 points to form a rectangle : top-left,
      * top-right, bottom-right & bottom-left; */
     let xs = mat.map(e => e[0]);
@@ -80,7 +82,7 @@ function Picture(imgData) {
     return out;
   }
 
-  this.histogram = function(q,depth,hsv=false) {
+  histogram = function(q,depth,hsv=false) {
     let srcVec = new cv.MatVector();
     srcVec.push_back(this.working_copy);
     let histSize = [q];
@@ -103,7 +105,7 @@ function Picture(imgData) {
     color_hist.map(e => e.delete());
   }
 
-  this.auto_frame = function() {
+  auto_frame = function() {
     //INIT
     let white = new cv.Scalar(255,255,255);
     let red = new cv.Scalar(255, 0, 0);

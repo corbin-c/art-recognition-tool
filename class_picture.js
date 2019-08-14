@@ -4,22 +4,25 @@
 * or not) for the OpenCV Wrapper Worker, which handles image processing.
 * 
 */
-function Picture(imgData,worker) {
-  worker.postMessage({imgData:imgData,cmd:"init"});
-  this.autocrop = async function() {
-      await worker.postMessage({cmd:"blur",opts:[15]});
-      await worker.postMessage({cmd:"clahe_equalize",opts:[8,5]});
-      await worker.postMessage({cmd:"threshold"});
-      await worker.postMessage({cmd:"auto_frame"});
+let Picture = class {
+  constructor(imgData,worker) {
+    this.worker = worker;
+    worker.postMessage({imgData:imgData,cmd:"init"});
   };
-  this.normalize = async function() {
-    await worker.postMessage({cmd:"equalize"});
+  autocrop = async function() {
+      await this.worker.postMessage({cmd:"blur",opts:[15]});
+      await this.worker.postMessage({cmd:"clahe_equalize",opts:[8,5]});
+      await this.worker.postMessage({cmd:"threshold"});
+      await this.worker.postMessage({cmd:"auto_frame"});
   };
-  this.analyze = async function() {
+  normalize = async function() {
+    await this.worker.postMessage({cmd:"equalize"});
+  };
+  analyze = async function() {
     
   };
-  this.output = async function() {
-    data_to_canvas((await worker.postMessage({cmd:"output"})).message,
+  output = async function() {
+    data_to_canvas((await this.worker.postMessage({cmd:"output"})).message,
                   true);
   };
 }
