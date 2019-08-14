@@ -10,7 +10,7 @@ function Picture(imgData) {
   this.working_copy = this.original_picture.clone();
   this.output_copy = this.original_picture.clone();
   imgData.delete();
-
+  console.log(this.original_picture);
   this.output = function(q) {
     /*  First we'll convert colorspace back to RGBA so it can be
     *   displayed on a HTML5 Canvas element; */
