@@ -16,7 +16,7 @@ onconnect = function(e) {
     console.log("opencv.js imported");
   } catch(e) {
     console.warn("something went wrong while loading opencv.js");
-    console.warn(e.msg);
+    console.warn(e);
   }
   let pic;
   if (cv.getBuildInformation) {       // asm.js
