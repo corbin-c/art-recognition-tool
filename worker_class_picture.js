@@ -5,7 +5,7 @@
  * processing and returns output image data.
  * 
  */
-import { cv from "./opencv.js" };
+import { cv } from "./opencv.js";
 if (cv.getBuildInformation) {       // asm.js
   allow_input();
 } else {

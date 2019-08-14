@@ -74,13 +74,6 @@ function main() {
     type = await get_input(type);
     createImage(type);
   });
-  if (cv.getBuildInformation) {       // asm.js
-      allow_input();
-  } else {
-    cv["onRuntimeInitialized"]=()=>{  // WASM
-      allow_input();
-    }
-  }
 }
 async function get_input(type) {
   let out;
