@@ -1,6 +1,6 @@
-if ("serviceWorker" in navigator) {
+/*if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js", { scope: "/" });
-}
+}*/
 const OCV = new AWorker("worker_opencv.js");
 function createImage(url) {
   console.log("Fn createImage");
