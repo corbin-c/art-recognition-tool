@@ -21,6 +21,10 @@ async function imgData(img,visible=false) {
     document.querySelector(PARENT).append(canvas);
   }
   let ctx = canvas.getContext("2d");
+  if (typeof img.naturalHeight === "undefined") {
+    img.naturalHeight = img.videoHeight;
+    img.naturalWidth = img.videoWidth;
+  }
   canvas.width = MAX_WIDTH;
   canvas.height = MAX_WIDTH*(img.naturalHeight/img.naturalWidth);
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -72,18 +76,18 @@ function main() {
     let type;
     type = (radio2.checked) ? "camera":"file";
     form.remove();
-    type = await get_input(type);
-    createImage(type);
+    get_input(type);
   });
 }
 async function get_input(type) {
   let out;
   if (type == "camera") {
     out = await addCameraInput();
+    imgData(out,true);
   } else {
     out = await addFileInputHandler();
+    createImage(out);
   }
-  return out;
 }
 function addFileInputHandler() {
   let inputElement = document.createElement("input");
@@ -92,7 +96,7 @@ function addFileInputHandler() {
   inputElement.setAttribute("accept","image/*");
   if (OCV.state != "running")
     inputElement.setAttribute("disabled", "true");
-  document.querySelector("section").append(inputElement);
+  document.querySelector(PARENT).append(inputElement);
   return new Promise(function(resolve,reject) {
     inputElement.addEventListener("change", (e) => {
         let files = e.target.files;
@@ -105,8 +109,9 @@ function addFileInputHandler() {
 };
 async function addCameraInput() {
   let video = document.createElement("video");
+  document.querySelector(PARENT).append(video);
   video = new Video(video);
-  video = await video.get_camera();
+  video = await video.get_camera(OCV.state);
   return video;
 }
 main();

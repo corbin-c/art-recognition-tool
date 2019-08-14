@@ -30,12 +30,10 @@ let AWorker = class {
   allow_input = function() {
     this.status = "running";
     console.log("loaded");
-    if (document.querySelector("#user_input") !== null) {
-      if (document.querySelector("#user_input")
-          .getAttribute("disabled") !== null) {
-        document.querySelector("#user_input")
-          .removeAttribute("disabled");
-      }
+    try {
+      document.querySelector("#user_input").removeAttribute("disabled");
+    } catch {
+      console.warn("couldn't allow input");
     }
   }
   get state() { return this.status; };
