@@ -2,20 +2,23 @@
   navigator.serviceWorker.register("sw.js", { scope: "/" });
 }*/
 const OCV = new AWorker("worker_opencv.js");
+const PARENT = "section";
 const MAX_WIDTH = 1000;
-console.log(OCV);
+
 function createImage(url) {
   console.log("Fn createImage");
   let img = document.createElement("img");
   img.crossOrigin = "anonymous";
-  document.querySelector("section").append(img);
   img.addEventListener("load",function() { imgData(this); } );
   img.src = url;
   console.log("Image created");
 }
-async function imgData(img) {
+async function imgData(img,visible=false) {
   console.log("Fn imgData");
   let canvas = document.createElement("canvas");
+  if (visible) {
+    document.querySelector(PARENT).append(canvas);
+  }
   let ctx = canvas.getContext("2d");
   canvas.width = MAX_WIDTH;
   canvas.height = MAX_WIDTH*(img.naturalHeight/img.naturalWidth);
@@ -37,8 +40,9 @@ function data_to_canvas(imgData,visible=false) {
   let z = new Uint8ClampedArray(imgData.data);
   z = new ImageData(z,imgData.width,imgData.height);
   ctx.putImageData(z, 0, 0);
-  if (visible)
-    document.querySelector("section").append(canvas);
+  if (visible) {
+    document.querySelector(PARENT).append(canvas);
+  }
 }
 function main() {
   let form = document.createElement("form");
