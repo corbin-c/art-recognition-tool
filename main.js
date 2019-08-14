@@ -74,10 +74,10 @@ function main() {
     createImage(type);
   });
   if (cv.getBuildInformation) {       // asm.js
-    loaded();
+      allow_input();
   } else {
     cv["onRuntimeInitialized"]=()=>{  // WASM
-      loaded();
+      allow_input();
     }
   }
 }
