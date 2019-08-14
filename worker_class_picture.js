@@ -12,6 +12,7 @@ function Picture(imgData) {
   imgData.delete();
   console.log("worker class picture initialized");
   this.output = function(q) {
+    console.log("output");
     /*  First we'll convert colorspace back to RGBA so it can be
     *   displayed on a HTML5 Canvas element; */
     this.output_copy = this.working_copy.clone();
@@ -30,6 +31,7 @@ function Picture(imgData) {
   }
   
   this.blur = function(q) {
+    console.log("blur");
     q = Math.round(this.working_copy.cols/2500*q); //Q Factor must be
                                                   //picture-independent
     cv.blur(this.working_copy, this.working_copy, (new cv.Size(q, q)),
@@ -37,12 +39,14 @@ function Picture(imgData) {
   }
   
   this.threshold = function() {
+    console.log("thresh");
     cv.threshold(this.working_copy, this.working_copy, 1, 255,
                   cv.THRESH_OTSU); //use Otsu Algorithm to determine
                                   //the optimal threshold value
   }
 
   this.clahe_equalize = function(q,depth) {
+    console.log("clahe");
     // Contrast-Limited Adaptative Histogram Equalization
     q = Math.round(this.working_copy.cols/2500*q);
     cv.cvtColor(this.working_copy, this.working_copy,
@@ -56,6 +60,7 @@ function Picture(imgData) {
   }
 
   this.equalize = function() {
+    console.log("eq");
     let dst = [new cv.Mat(),new cv.Mat(),new cv.Mat()];
     let rgbaPlanes = new cv.MatVector();
     let dstVect = new cv.MatVector();
@@ -71,6 +76,7 @@ function Picture(imgData) {
   this.order_matrix = function(mat) {
     /* This function orders 4 points to form a rectangle : top-left,
      * top-right, bottom-right & bottom-left; */
+     console.log("order");
     let xs = mat.map(e => e[0]);
     let ys = mat.map(e => e[1]);
     let cx = 0.5*(Math.max(...xs)-Math.min(...xs))+Math.min(...xs);
@@ -95,6 +101,7 @@ function Picture(imgData) {
   }
 
   this.histogram = function(q,depth,hsv=false) {
+    console.log("hist");
     let srcVec = new cv.MatVector();
     srcVec.push_back(this.working_copy);
     let histSize = [q];
@@ -118,6 +125,7 @@ function Picture(imgData) {
   }
 
   this.auto_frame = function() {
+    console.log("autoframe");
     //INIT
     let white = new cv.Scalar(255,255,255);
     let red = new cv.Scalar(255, 0, 0);
