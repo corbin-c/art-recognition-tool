@@ -13,7 +13,11 @@ onconnect = function(e) {
   console.log(e.ports);
   let port = e.ports[0];
   console.log(port);
-  importScripts("opencv.js");
+  try {
+    importScripts("opencv.js");
+  } catch {
+    console.warn("something went wrong while loading opencv.js");
+  }
   console.log("opencv.js imported");
   let pic;
   if (cv.getBuildInformation) {       // asm.js
