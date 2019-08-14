@@ -10,10 +10,10 @@ let Picture = class {
     worker.postMessage({imgData:imgData,cmd:"init"});
   };
   autocrop = async function() {
-      await this.worker.postMessage({cmd:"blur",opts:[15]});
-      await this.worker.postMessage({cmd:"clahe_equalize",opts:[8,5]});
-      await this.worker.postMessage({cmd:"threshold"});
-      await this.worker.postMessage({cmd:"auto_frame"});
+    await this.worker.postMessage({cmd:"blur",opts:[15]});
+    await this.worker.postMessage({cmd:"clahe_equalize",opts:[8,5]});
+    await this.worker.postMessage({cmd:"threshold"});
+    await this.worker.postMessage({cmd:"auto_frame"});
   };
   normalize = async function() {
     await this.worker.postMessage({cmd:"equalize"});
