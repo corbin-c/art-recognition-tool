@@ -26,7 +26,7 @@ let Video = class {
         resolve(true);
       }, false);
     })})();
-    return this.video;
+    return this;
   }
   stop_camera() {
     this.video.setAttribute("style","display:none;");

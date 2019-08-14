@@ -83,7 +83,8 @@ async function get_input(type) {
   let out;
   if (type == "camera") {
     out = await addCameraInput();
-    imgData(out,true);
+    imgData(out.video,true);
+    out.stop_camera();
   } else {
     out = await addFileInputHandler();
     createImage(out);
