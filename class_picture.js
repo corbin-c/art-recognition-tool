@@ -7,7 +7,7 @@
 import { OCV_Picture } from "./worker_class_picture.js";
 function Picture(imgData) {
   console.log("CS pic class instantiated");
-  ocv = new OCV(imgData);
+  ocv = new OCV_Picture(imgData);
   this.autocrop = async function() {
     ocv.blur(15);
     ocv.clahe_equalize(8,5);
@@ -25,3 +25,4 @@ function Picture(imgData) {
                   true);
   };
 }
+export { Picture };

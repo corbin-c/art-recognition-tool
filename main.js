@@ -2,6 +2,7 @@
   navigator.serviceWorker.register("sw.js", { scope: "/" });
 }*/
 //const OCV = new AWorker("worker_opencv.js");
+import { Picture } from "./class_picture.js";
 function createImage(url) {
   console.log("Fn createImage");
   let img = document.createElement("img");
