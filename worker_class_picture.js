@@ -11,7 +11,7 @@ function Picture(imgData) {
   this.output_copy = this.original_picture.clone();
   imgData.delete();
   console.log("worker class picture initialized");
-  this.output = function(q) {
+  this.output = function() {
     /*  First we'll convert colorspace back to RGBA so it can be
     *   displayed on a HTML5 Canvas element; */
     this.output_copy = this.working_copy.clone();
@@ -203,3 +203,4 @@ function Picture(imgData) {
     }
   }
 }
+export { Picture as OCV };

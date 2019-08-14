@@ -1,7 +1,7 @@
 /*if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js", { scope: "/" });
 }*/
-const OCV = new AWorker("worker_opencv.js");
+//const OCV = new AWorker("worker_opencv.js");
 function createImage(url) {
   console.log("Fn createImage");
   let img = document.createElement("img");
@@ -21,7 +21,7 @@ async function imgData(img) {
   console.log("img drawn to canvas");
   let picture = ctx.getImageData(0, 0, img.naturalWidth, img.naturalHeight);
   console.log("img data gathered");
-  picture = new Picture(picture,OCV);
+  picture = new Picture(picture);
   console.log("ocv img created");
   await picture.autocrop();
   await picture.normalize();
