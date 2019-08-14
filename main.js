@@ -14,7 +14,6 @@ function createImage(url) {
   console.log("Image created");
 }
 async function imgData(img,visible=false) {
-  console.log("Fn imgData");
   let canvas = document.createElement("canvas");
   if (visible) {
     document.querySelector(PARENT).append(canvas);
@@ -23,11 +22,8 @@ async function imgData(img,visible=false) {
   canvas.width = MAX_WIDTH;
   canvas.height = MAX_WIDTH*(img.naturalHeight/img.naturalWidth);
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-  console.log("img drawn to canvas");
   let picture = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  console.log("img data gathered");
   picture = new Picture(picture,OCV);
-  console.log("ocv img created");
   await picture.autocrop();
   await picture.normalize();
   picture.output();
@@ -84,7 +80,6 @@ async function get_input(type) {
   let out;
   if (type == "camera") {
     out = await addCameraInput();
-    console.log(out);
   } else {
     out = await addFileInputHandler();
   }
@@ -115,4 +110,3 @@ async function addCameraInput() {
   return video;
 }
 main();
-console.log("main function executed");

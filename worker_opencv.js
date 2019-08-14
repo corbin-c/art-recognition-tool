@@ -9,14 +9,11 @@
  * 
  */
 onconnect = function(e) {
-  console.log("shared worker connected");
   let port = e.ports[0];
   try {
     importScripts("opencv.js");
-    console.log("opencv.js imported");
-  } catch(e) {
+  } catch {
     console.warn("something went wrong while loading opencv.js");
-    console.warn(e);
   }
   let pic;
   if (cv.getBuildInformation) {       // asm.js
