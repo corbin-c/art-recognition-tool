@@ -8,26 +8,13 @@
 function Picture(imgData) {
   this.original_picture = imgData.clone(); //expected: cv.Mat
   this.working_copy = this.original_picture.clone();
-  this.output_copy = this.original_picture.clone();
   imgData.delete();
   console.log("worker class picture initialized");
   this.output = function(q) {
     console.log("output");
     /*  First we'll convert colorspace back to RGBA so it can be
     *   displayed on a HTML5 Canvas element; */
-    this.output_copy = this.working_copy.clone();
-    if (this.output_copy.channels() == 1) {
-      cv.cvtColor(this.output_copy, this.output_copy,
-                  cv.COLOR_GRAY2RGBA, 0);
-    } else if (this.output_copy.channels() == 3) {
-      cv.cvtColor(this.output_copy, this.output_copy,
-                  cv.COLOR_RGB2RGBA, 0);
-    }
-    return {
-      width:this.output_copy.cols,
-      height:this.output_copy.rows,
-      data:this.output_copy.data
-    }
+    return cv.imshow(this.working_copy);
   }
   
   this.blur = function(q) {
