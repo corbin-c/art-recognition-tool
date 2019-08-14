@@ -2,7 +2,7 @@ let Video = class {
   constructor(video_element) {
     this.video = video_element;
   }
-  get_camera = async function(status) {
+  async get_camera(status) {
     this.video.srcObject = await navigator.mediaDevices.getUserMedia({
         audio: false,
         video: true
@@ -28,7 +28,7 @@ let Video = class {
     })})();
     return this.video;
   }
-  stop_camera = function() {
+  stop_camera() {
     this.video.setAttribute("style","display:none;");
     this.camera_stream.getTracks().map(e => e.stop());
   }

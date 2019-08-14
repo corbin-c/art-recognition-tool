@@ -7,27 +7,27 @@
 * 
 * */
 let AWorker = class {
-  postMessage = function(message) {
+  postMessage(message) {
     this.worker.port.postMessage({id:this.id,message:message});
     this.id++;
     return (new Promise((resolve,reject) => {
       this.messagePromises.push(resolve);
     }));
   }
-  onMessage = function(callback) {
+  onMessage(callback) {
     let that = this;
     this.worker.port.onmessage = function(e) {
       callback.call(that,e.data);
     }
   }
-  messageResolve = function(msgData) {
+  messageResolve(msgData) {
     if (msgData == "LOADED") { //This is triggered when OpenCV ready
       this.allow_input();
     } else {
       this.messagePromises[msgData.id](msgData);
     }
   }
-  allow_input = function() {
+  allow_input() {
     this.status = "running";
     console.log("loaded");
     try {

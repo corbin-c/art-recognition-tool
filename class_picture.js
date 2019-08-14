@@ -9,19 +9,19 @@ let Picture = class {
     this.worker = worker;
     worker.postMessage({imgData:imgData,cmd:"init"});
   };
-  autocrop = async function() {
+  async autocrop() {
     await this.worker.postMessage({cmd:"blur",opts:[15]});
     await this.worker.postMessage({cmd:"clahe_equalize",opts:[8,5]});
     await this.worker.postMessage({cmd:"threshold"});
     await this.worker.postMessage({cmd:"auto_frame"});
   };
-  normalize = async function() {
+  async normalize() {
     await this.worker.postMessage({cmd:"equalize"});
   };
-  analyze = async function() {
+  async analyze() {
     
   };
-  output = async function() {
+  async output() {
     let output = await this.worker.postMessage({cmd:"output"});
     return output.message;
   };
