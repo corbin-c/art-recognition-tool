@@ -4,23 +4,25 @@
 * or not) for the OpenCV Wrapper Worker, which handles image processing.
 * 
 */
-function Picture(imgData,worker) {
+import cv from "opencv.js";
+import OCV from "worker_class_picture.js";
+function Picture(imgData) {
   console.log("CS pic class instantiated");
-  worker.postMessage({imgData:imgData,cmd:"init"});
+  ocv = new OCV(imgData);
   this.autocrop = async function() {
-      await worker.postMessage({cmd:"blur",opts:[15]});
-      await worker.postMessage({cmd:"clahe_equalize",opts:[8,5]});
-      await worker.postMessage({cmd:"threshold"});
-      await worker.postMessage({cmd:"auto_frame"});
+    ocv.blur(15);
+    ocv.clahe_equalize(8,5);
+    ocv.threshold();
+    ocv.auto_frame();
   };
   this.normalize = async function() {
-    await worker.postMessage({cmd:"equalize"});
+    ocv.equalize();
   };
   this.analyze = async function() {
-    
+    alert("NoOp");
   };
   this.output = async function() {
-    data_to_canvas((await worker.postMessage({cmd:"output"})).message,
+    data_to_canvas(ocv.output(),
                   true);
   };
 }
