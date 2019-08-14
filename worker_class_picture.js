@@ -5,7 +5,7 @@
  * processing and returns output image data.
  * 
  */
-function Picture(imgData) {
+function OCV_Picture(imgData) {
   this.original_picture = imgData.clone(); //expected: cv.Mat
   this.working_copy = this.original_picture.clone();
   this.output_copy = this.original_picture.clone();
@@ -203,4 +203,4 @@ function Picture(imgData) {
     }
   }
 }
-export { Picture as OCV };
+export { OCV_Picture };
