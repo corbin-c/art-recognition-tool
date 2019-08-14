@@ -5,6 +5,7 @@
 * 
 */
 function Picture(imgData,worker) {
+  console.log("CS pic class instantiated");
   worker.postMessage({imgData:imgData,cmd:"init"});
   this.autocrop = async function() {
       await worker.postMessage({cmd:"blur",opts:[15]});

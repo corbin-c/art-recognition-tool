@@ -1,5 +1,4 @@
-function Video(video_element)
-{
+function Video(video_element) {
   this.video = video_element;
   this.get_camera = async function() {
     _this = this;

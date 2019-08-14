@@ -3,20 +3,26 @@ if ("serviceWorker" in navigator) {
 }
 const OCV = new AWorker("worker_opencv.js");
 function createImage(url) {
+  console.log("Fn createImage");
   let img = document.createElement("img");
   img.crossOrigin = "anonymous";
   document.querySelector("section").append(img);
   img.addEventListener("load",function() { imgData(this); } );
   img.src = url;
+  console.log("Image created");
 }
 async function imgData(img) {
+  console.log("Fn imgData");
   let canvas = document.createElement("canvas");
   let ctx = canvas.getContext("2d");
   canvas.width = img.naturalWidth;
   canvas.height = img.naturalHeight;
   ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+  console.log("img drawn to canvas");
   let picture = ctx.getImageData(0, 0, img.naturalWidth, img.naturalHeight);
+  console.log("img data gathered");
   picture = new Picture(picture,OCV);
+  console.log("ocv img created");
   await picture.autocrop();
   await picture.normalize();
   picture.output();
