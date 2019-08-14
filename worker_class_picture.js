@@ -228,5 +228,6 @@ function OCV_Picture(imgData) {
 }
 window.onbeforeunload = function() {
   cv.quit();
+  console.warn("ocv exited");
 }
 export { OCV_Picture };
