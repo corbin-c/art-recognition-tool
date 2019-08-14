@@ -1,14 +1,10 @@
 /*if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js", { scope: "/" });
 }*/
-<<<<<<< HEAD
 const OCV = new AWorker("worker_opencv.js");
 const PARENT = "section";
 const MAX_WIDTH = 1000;
 
-=======
-//const OCV = new AWorker("worker_opencv.js");
->>>>>>> master
 function createImage(url) {
   console.log("Fn createImage");
   let img = document.createElement("img");
@@ -23,22 +19,11 @@ async function imgData(img,visible=false) {
     document.querySelector(PARENT).append(canvas);
   }
   let ctx = canvas.getContext("2d");
-<<<<<<< HEAD
   canvas.width = MAX_WIDTH;
   canvas.height = MAX_WIDTH*(img.naturalHeight/img.naturalWidth);
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   let picture = ctx.getImageData(0, 0, canvas.width, canvas.height);
   picture = new Picture(picture,OCV);
-=======
-  canvas.width = img.naturalWidth;
-  canvas.height = img.naturalHeight;
-  ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
-  console.log("img drawn to canvas");
-  let picture = ctx.getImageData(0, 0, img.naturalWidth, img.naturalHeight);
-  console.log("img data gathered");
-  picture = new Picture(picture);
-  console.log("ocv img created");
->>>>>>> master
   await picture.autocrop();
   await picture.normalize();
   picture.output();
