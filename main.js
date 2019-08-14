@@ -1,6 +1,8 @@
 /*if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js", { scope: "/" });
 }*/
+import { Picture } from "./class_picture.js";
+
 const OCV = new AWorker("worker_opencv.js");
 const PARENT = "section";
 const MAX_WIDTH = 1000;
@@ -24,16 +26,14 @@ async function imgData(img,visible=false) {
   picture = new Picture(picture,OCV);
   await picture.autocrop();
   await picture.normalize();
-  picture.output();
+  data_to_canvas(await picture.output(),true);
 }
 function data_to_canvas(imgData,visible=false) {
   let canvas = document.createElement("canvas");
   let ctx = canvas.getContext("2d");
   canvas.width = imgData.width;
   canvas.height = imgData.height;
-  let z = new Uint8ClampedArray(imgData.data);
-  z = new ImageData(z,imgData.width,imgData.height);
-  ctx.putImageData(z, 0, 0);
+  ctx.putImageData(imgData, 0, 0);
   if (visible) {
     document.querySelector(PARENT).append(canvas);
   }

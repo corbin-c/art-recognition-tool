@@ -22,7 +22,8 @@ let Picture = class {
     
   };
   output = async function() {
-    data_to_canvas((await this.worker.postMessage({cmd:"output"})).message,
-                  true);
+    let output = await this.worker.postMessage({cmd:"output"});
+    return output.message;
   };
 }
+export { Picture };
