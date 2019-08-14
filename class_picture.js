@@ -4,7 +4,6 @@
 * or not) for the OpenCV Wrapper Worker, which handles image processing.
 * 
 */
-import cv from "opencv.js";
 import OCV from "worker_class_picture.js";
 function Picture(imgData) {
   console.log("CS pic class instantiated");

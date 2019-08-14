@@ -73,6 +73,13 @@ function main() {
     type = await get_input(type);
     createImage(type);
   });
+  if (cv.getBuildInformation) {       // asm.js
+    loaded();
+  } else {
+    cv["onRuntimeInitialized"]=()=>{  // WASM
+      loaded();
+    }
+  }
 }
 async function get_input(type) {
   let out;
@@ -107,6 +114,17 @@ async function addCameraInput() {
   video = new Video(video);
   video = await video.get_camera();
   return video;
+}
+let allow_input = function() {
+  status = "running";
+  console.log("loaded");
+  if (document.querySelector("#user_input") !== null) {
+    if (document.querySelector("#user_input")
+        .getAttribute("disabled") !== null) {
+      document.querySelector("#user_input")
+        .removeAttribute("disabled");
+    }
+  }
 }
 main();
 console.log("main function executed");
