@@ -9,7 +9,12 @@ function Picture(imgData) {
   this.original_picture = imgData.clone(); //expected: cv.Mat
   this.working_copy = this.original_picture.clone();
   imgData.delete();
+<<<<<<< HEAD
   this.output = function(q) {
+=======
+  console.log("worker class picture initialized");
+  this.output = function() {
+>>>>>>> master
     /*  First we'll convert colorspace back to RGBA so it can be
     *   displayed on a HTML5 Canvas element; */
     return cv.imshow(this.working_copy);
@@ -189,3 +194,4 @@ function Picture(imgData) {
     }
   }
 }
+export { Picture as OCV };
