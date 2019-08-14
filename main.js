@@ -2,6 +2,7 @@
   navigator.serviceWorker.register("sw.js", { scope: "/" });
 }*/
 const OCV = new AWorker("worker_opencv.js");
+const MAX_WIDTH = 1000;
 console.log(OCV);
 function createImage(url) {
   console.log("Fn createImage");
@@ -16,11 +17,11 @@ async function imgData(img) {
   console.log("Fn imgData");
   let canvas = document.createElement("canvas");
   let ctx = canvas.getContext("2d");
-  canvas.width = img.naturalWidth;
-  canvas.height = img.naturalHeight;
-  ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+  canvas.width = MAX_WIDTH;
+  canvas.height = MAX_WIDTH*(img.naturalHeight/img.naturalWidth);
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   console.log("img drawn to canvas");
-  let picture = ctx.getImageData(0, 0, img.naturalWidth, img.naturalHeight);
+  let picture = ctx.getImageData(0, 0, canvas.width, canvas.height);
   console.log("img data gathered");
   picture = new Picture(picture,OCV);
   console.log("ocv img created");
