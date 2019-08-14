@@ -5,7 +5,21 @@
  * processing and returns output image data.
  * 
  */
-import { cv } from "./opencv.js";
+import { OCV } from "./opencv.js";
+console.log("ocv imported");
+let allow_input = function() {
+  status = "running";
+  console.log("loaded");
+  if (document.querySelector("#user_input") !== null) {
+    if (document.querySelector("#user_input")
+        .getAttribute("disabled") !== null) {
+      document.querySelector("#user_input")
+        .removeAttribute("disabled");
+    }
+  }
+}
+let cv = OCV();
+console.log(cv);
 if (cv.getBuildInformation) {       // asm.js
   allow_input();
 } else {

@@ -109,16 +109,6 @@ async function addCameraInput() {
   video = await video.get_camera();
   return video;
 }
-let allow_input = function() {
-  status = "running";
-  console.log("loaded");
-  if (document.querySelector("#user_input") !== null) {
-    if (document.querySelector("#user_input")
-        .getAttribute("disabled") !== null) {
-      document.querySelector("#user_input")
-        .removeAttribute("disabled");
-    }
-  }
-}
+
 main();
 console.log("main function executed");
