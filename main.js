@@ -1,8 +1,8 @@
 /*if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js", { scope: "/" });
 }*/
-//const OCV = new AWorker("worker_opencv.js");
-import { Picture } from "./class_picture.js";
+const OCV = new AWorker("worker_opencv.js");
+console.log(OCV);
 function createImage(url) {
   console.log("Fn createImage");
   let img = document.createElement("img");
@@ -22,11 +22,22 @@ async function imgData(img) {
   console.log("img drawn to canvas");
   let picture = ctx.getImageData(0, 0, img.naturalWidth, img.naturalHeight);
   console.log("img data gathered");
-  picture = new Picture(picture);
+  picture = new Picture(picture,OCV);
   console.log("ocv img created");
   await picture.autocrop();
   await picture.normalize();
   picture.output();
+}
+function data_to_canvas(imgData,visible=false) {
+  let canvas = document.createElement("canvas");
+  let ctx = canvas.getContext("2d");
+  canvas.width = imgData.width;
+  canvas.height = imgData.height;
+  let z = new Uint8ClampedArray(imgData.data);
+  z = new ImageData(z,imgData.width,imgData.height);
+  ctx.putImageData(z, 0, 0);
+  if (visible)
+    document.querySelector("section").append(canvas);
 }
 function main() {
   let form = document.createElement("form");
@@ -98,6 +109,5 @@ async function addCameraInput() {
   video = await video.get_camera();
   return video;
 }
-
 main();
 console.log("main function executed");

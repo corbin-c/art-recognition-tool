@@ -1,4 +1,4 @@
-let OCV = (function() {
+let cv = (function() {
   var _scriptDir = typeof document !== 'undefined' && document.currentScript ? document.currentScript.src : undefined;
   return (
 function(cv) {
@@ -9,6 +9,5 @@ var asmjsCodeFile="";if(!isDataURI(wasmTextFile)){wasmTextFile=locateFile(wasmTe
 console.log(cv);
 return cv;
 }
-);
+)();
 })();
-export { OCV };

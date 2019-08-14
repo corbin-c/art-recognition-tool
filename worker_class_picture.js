@@ -5,36 +5,13 @@
  * processing and returns output image data.
  * 
  */
-import { OCV } from "./opencv.js";
-console.log("ocv imported");
-let allow_input = function() {
-  status = "running";
-  console.log("loaded");
-  if (document.querySelector("#user_input") !== null) {
-    if (document.querySelector("#user_input")
-        .getAttribute("disabled") !== null) {
-      document.querySelector("#user_input")
-        .removeAttribute("disabled");
-    }
-  }
-}
-let cv = OCV();
-console.log(cv);
-if (cv.getBuildInformation) {       // asm.js
-  allow_input();
-} else {
-cv["onRuntimeInitialized"]=()=>{  // WASM
-  allow_input();
-}
-}
-function OCV_Picture(imgData) {
-  imgData = cv.matFromImageData(imgData);
+function Picture(imgData) {
   this.original_picture = imgData.clone(); //expected: cv.Mat
   this.working_copy = this.original_picture.clone();
   this.output_copy = this.original_picture.clone();
   imgData.delete();
   console.log("worker class picture initialized");
-  this.output = function() {
+  this.output = function(q) {
     /*  First we'll convert colorspace back to RGBA so it can be
     *   displayed on a HTML5 Canvas element; */
     this.output_copy = this.working_copy.clone();
@@ -226,8 +203,3 @@ function OCV_Picture(imgData) {
     }
   }
 }
-window.onbeforeunload = function() {
-  cv.quit();
-  console.warn("ocv exited");
-}
-export { OCV_Picture };
