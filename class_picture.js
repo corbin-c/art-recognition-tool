@@ -7,7 +7,7 @@
 import { OCV_Picture } from "./worker_class_picture.js";
 function Picture(imgData) {
   console.log("CS pic class instantiated");
-  ocv = new OCV_Picture(imgData);
+  let ocv = new OCV_Picture(imgData);
   this.autocrop = async function() {
     ocv.blur(15);
     ocv.clahe_equalize(8,5);
@@ -24,5 +24,16 @@ function Picture(imgData) {
     data_to_canvas(ocv.output(),
                   true);
   };
+}
+function data_to_canvas(imgData,visible=false) {
+  let canvas = document.createElement("canvas");
+  let ctx = canvas.getContext("2d");
+  canvas.width = imgData.width;
+  canvas.height = imgData.height;
+  let z = new Uint8ClampedArray(imgData.data);
+  z = new ImageData(z,imgData.width,imgData.height);
+  ctx.putImageData(z, 0, 0);
+  if (visible)
+    document.querySelector("section").append(canvas);
 }
 export { Picture };

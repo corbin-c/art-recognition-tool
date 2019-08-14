@@ -28,6 +28,7 @@ cv["onRuntimeInitialized"]=()=>{  // WASM
 }
 }
 function OCV_Picture(imgData) {
+  imgData = cv.matFromImageData(imgData);
   this.original_picture = imgData.clone(); //expected: cv.Mat
   this.working_copy = this.original_picture.clone();
   this.output_copy = this.original_picture.clone();
