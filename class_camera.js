@@ -33,3 +33,4 @@ let Video = class {
     this.camera_stream.getTracks().map(e => e.stop());
   }
 }
+export { Video };

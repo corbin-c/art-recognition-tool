@@ -6,7 +6,6 @@
 * next request.
 * 
 * */
-let status = "unavailable";
 let AWorker = class {
   postMessage = function(message) {
     this.worker.port.postMessage({id:this.id,message:message});
@@ -29,7 +28,7 @@ let AWorker = class {
     }
   }
   allow_input = function() {
-    status = "running";
+    this.status = "running";
     console.log("loaded");
     if (document.querySelector("#user_input") !== null) {
       if (document.querySelector("#user_input")
@@ -39,11 +38,14 @@ let AWorker = class {
       }
     }
   }
+  get state() { return this.status; };
   constructor(workerPath) {
     this.worker = new SharedWorker(workerPath);
     this.worker.port.start();
     this.id = 0;
     this.messagePromises = [];
     this.onMessage(this.messageResolve);
+    this.status = "unavailable";
   }
 }
+export { AWorker };

@@ -2,6 +2,8 @@
   navigator.serviceWorker.register("sw.js", { scope: "/" });
 }*/
 import { Picture } from "./class_picture.js";
+import { Video } from "./class_camera.js";
+import { AWorker } from "./class_aworker.js";
 
 const OCV = new AWorker("worker_opencv.js");
 const PARENT = "section";
@@ -88,7 +90,7 @@ function addFileInputHandler() {
   inputElement.setAttribute("id","user_input");
   inputElement.setAttribute("type","file");
   inputElement.setAttribute("accept","image/*");
-  if (status != "running")
+  if (OCV.state != "running")
     inputElement.setAttribute("disabled", "true");
   document.querySelector("section").append(inputElement);
   return new Promise(function(resolve,reject) {
