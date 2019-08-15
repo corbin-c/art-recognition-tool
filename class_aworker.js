@@ -59,6 +59,7 @@ let AWorker = class {
   onerror(e) {
     console.error("Worker Error",e);
     this.worker = new SharedWorker(this.path);
+    attempts--;
   }
   get state() { return this.status; };
   constructor(workerPath) {
@@ -73,8 +74,6 @@ let AWorker = class {
     this.worker.onerror = function(e) {
       console.error(e);
       delete this;
-      _this.worker = new SharedWorker(_this.path);
-      _this.worker.port.start();
     }
   }
 }

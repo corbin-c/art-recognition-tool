@@ -39,9 +39,13 @@ onconnect = function(e) {
       let src = cv.matFromImageData(e.message.imgData);
       pic = new ocv_Picture(src);
     } else if (e.message.cmd == "quit") {
-      delete cv.wasmMemory;
-      delete cv.wasmTable;
-      delete cv;
+      try {
+        delete cv.wasmMemory;
+        delete cv.wasmTable;
+        delete cv;
+      } catch {
+        console.warn("wasmMemory couldn't be emptied");
+      }
     } else if (e.message.cmd == "fail") {
       console.warn("Trying to relaunch OpenCV.js");
       init();
