@@ -59,11 +59,9 @@ function main() {
   radio2.setAttribute("id","camera");
   radio.setAttribute("name","type");
   radio2.setAttribute("name","type");
-  
   l_radio.innerHTML = "File Input";
   l_radio2.innerHTML = "Camera Input";
-  
-  button.innerHTML = "OK !";
+  button.innerHTML = "✔️";
   
   form.append(l_radio);
   l_radio.append(radio);
@@ -90,6 +88,14 @@ async function get_input(type) {
     out = await addFileInputHandler();
     createImage(out);
   }
+  let againButton = document.createElement("button");
+  againButton.setAttribute("id","againButton");
+  againButton.innerText = "🌟";
+  document.querySelector(PARENT).append(againButton);
+  againButton.addEventListener("click", function() {
+    document.querySelector(PARENT).innerHTML = "";
+    main();
+  });
 }
 function addFileInputHandler() {
   let inputElement = document.createElement("input");
@@ -99,7 +105,7 @@ function addFileInputHandler() {
   let inputLabel = document.createElement("label");
   inputLabel.setAttribute("class","inputLabel");
   inputLabel.setAttribute("for","user_input");
-  inputLabel.innerText = "📤";
+  inputLabel.innerText = "🗃";
   if (OCV.state != "running") {
     inputElement.setAttribute("disabled", "true");
     inputLabel.classList.add("disabled");
@@ -123,5 +129,9 @@ async function addCameraInput() {
   video = new Video(video);
   video = await video.get_camera(OCV);
   return video;
+}
+window.onbeforeunload = function() {
+  console.warn("exit");
+  OCV.postMessage({cmd:"quit"});
 }
 main();

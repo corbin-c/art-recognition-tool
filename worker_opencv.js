@@ -33,6 +33,10 @@ onconnect = function(e) {
       if (e.message.cmd == "init") {
         let src = cv.matFromImageData(e.message.imgData);
         pic = new ocv_Picture(src);
+      } else if (e.message.cmd == "quit") {
+        delete cv.wasmMemory;
+        delete cv.wasmTable;
+        delete cv;
       } else {
         if (typeof e.message.opts !== "undefined") {
           pic[e.message.cmd](...e.message.opts);

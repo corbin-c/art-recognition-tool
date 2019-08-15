@@ -51,25 +51,25 @@ canvas, img {
   height: 50vh;
   display: inline;
 }
-.camera {
+button {
   position: fixed;
   bottom: 100px;
-  left: 80vw;
-  border: 6px solid white;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  z-index: 200;
-  font-size: 1.5em;
+  left: 60vw;
 }
-.inputLabel {
+.camera {
+  left: 80vw;
+}
+.inputLabel, button {
+  margin: 0;
+  padding: 0;
+  line-height: 38px;
   border: 6px solid white;
+  background: #3af;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   z-index: 200;
-  font-size: 1.5em;
-  background: #33AAFF;
+  font-size: 1.8em;
   text-align: center;
 }
 #user_input[type=file] {
@@ -80,9 +80,6 @@ canvas, img {
   position: absolute;
   z-index: -1;
 }
-#user_input {
-  background: #33AAFF;
-}
-#user_input:disabled, .disabled {
+button:disabled, .disabled {
   background-color: yellow;
 }
