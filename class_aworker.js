@@ -70,8 +70,8 @@ let AWorker = class {
     this.status = "unavailable";
     this.worker.onerror = function(e) {
       console.error(e);
-      console.log(e);
-      this = new SharedWorker(workerPath);
+      console.log(this);
+      //this = new SharedWorker(workerPath);
     }
   }
 }
