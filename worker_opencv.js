@@ -10,46 +10,52 @@
  */
 onconnect = function(e) {
   let port = e.ports[0];
-  try {
-    importScripts("opencv.js");
-  } catch {
-    console.warn("something went wrong while loading opencv.js");
-  }
   let pic;
-  if (cv.getBuildInformation) {       // asm.js
-    loaded();
-  } else {
-    cv["onRuntimeInitialized"]=()=>{  // WASM
+  init();
+  function init() {
+    try {
+      importScripts("opencv.js");
+    } catch {
+      console.warn("something went wrong while loading opencv.js");
+      port.postMessage("FAILURE");
+    }
+    if (cv.getBuildInformation) {       // asm.js
       loaded();
+    } else {
+      cv["onRuntimeInitialized"]=()=>{  // WASM
+        loaded();
+      }
     }
   }
   function loaded()
   {
     importScripts("worker_class_picture.js");
     port.postMessage("LOADED");
-    port.onmessage = function(e) {
-      e = e.data;
-      let message = e.message.cmd+": DONE";
-      if (e.message.cmd == "init") {
-        let src = cv.matFromImageData(e.message.imgData);
-        pic = new ocv_Picture(src);
-      } else if (e.message.cmd == "quit") {
-        delete cv.wasmMemory;
-        delete cv.wasmTable;
-        delete cv;
+  }
+  port.onmessage = function(e) {
+    e = e.data;
+    let message = e.message.cmd+": DONE";
+    if (e.message.cmd == "init") {
+      let src = cv.matFromImageData(e.message.imgData);
+      pic = new ocv_Picture(src);
+    } else if (e.message.cmd == "quit") {
+      delete cv.wasmMemory;
+      delete cv.wasmTable;
+      delete cv;
+    } else if (e.message.cmd == "fail") {
+      init();
+    } else {
+      if (typeof e.message.opts !== "undefined") {
+        pic[e.message.cmd](...e.message.opts);
       } else {
-        if (typeof e.message.opts !== "undefined") {
-          pic[e.message.cmd](...e.message.opts);
+        if (e.message.cmd == "output") {
+          message = pic.output();
         } else {
-          if (e.message.cmd == "output") {
-            message = pic.output();
-          } else {
-            pic[e.message.cmd]();
-          }
+          pic[e.message.cmd]();
         }
       }
-      e.message = message;
-      port.postMessage(e);
     }
+    e.message = message;
+    port.postMessage(e);
   }
 }

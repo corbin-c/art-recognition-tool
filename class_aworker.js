@@ -20,9 +20,13 @@ let AWorker = class {
       callback.call(that,e.data);
     }
   }
-  messageResolve(msgData) {
+  async messageResolve(msgData) {
     if (msgData == "LOADED") { //This is triggered when OpenCV ready
       this.allow_input();
+    } else if (msgData == "FAILURE") {
+      console.warn("OpenCV Init Failed. Try again in 5 sec.");
+      await incr_wait(0,5000);
+      this.worker.port.postMessage({cmd:"fail"});
     } else {
       this.messagePromises[msgData.id](msgData);
     }
@@ -40,6 +44,15 @@ let AWorker = class {
     }
   }
   get state() { return this.status; };
+  incr_wait(i,t,rand=false)
+  {
+    t = (rand) ? Math.floor(t+2*t*Math.random()):t;
+    return new Promise(function(resolve,reject){
+      setTimeout(function(){
+        resolve(i+1);
+      },t)
+    })
+  }
   constructor(workerPath) {
     this.worker = new SharedWorker(workerPath);
     this.worker.port.start();
