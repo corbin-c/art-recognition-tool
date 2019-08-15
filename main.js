@@ -95,8 +95,15 @@ function addFileInputHandler() {
   inputElement.setAttribute("id","user_input");
   inputElement.setAttribute("type","file");
   inputElement.setAttribute("accept","image/*");
-  if (OCV.state != "running")
+  let inputLabel = document.createElement("label");
+  inputLabel.setAttribute("class","inputLabel");
+  inputLabel.setAttribute("for","user_input");
+  inputLabel.innerText = "📤";
+  if (OCV.state != "running") {
     inputElement.setAttribute("disabled", "true");
+    inputLabel.classList.add("disabled");
+  }
+  document.querySelector(PARENT).append(inputLabel);
   document.querySelector(PARENT).append(inputElement);
   return new Promise(function(resolve,reject) {
     inputElement.addEventListener("change", (e) => {
@@ -112,7 +119,7 @@ async function addCameraInput() {
   let video = document.createElement("video");
   document.querySelector(PARENT).append(video);
   video = new Video(video);
-  video = await video.get_camera(OCV.state);
+  video = await video.get_camera(OCV);
   return video;
 }
 main();

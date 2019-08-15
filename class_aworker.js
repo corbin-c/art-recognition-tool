@@ -27,13 +27,14 @@ let AWorker = class {
       this.messagePromises[msgData.id](msgData);
     }
   }
-  allow_input() {
+  async allow_input() {
     this.status = "running";
     console.log("loaded");
     try {
       document.querySelector("#user_input").removeAttribute("disabled");
-    } catch {
-      console.warn("couldn't allow input");
+      document.querySelector(".inputLabel").classList.remove("disabled");
+    } catch(e) {
+      console.log("couldn't allow input");
     }
   }
   get state() { return this.status; };
