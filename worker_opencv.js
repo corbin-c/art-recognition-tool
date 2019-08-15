@@ -16,7 +16,7 @@ onconnect = function(e) {
     console.log("init()");
     try {
       importScripts("opencv.js");
-      console.lgo("imported script");
+      console.log("imported script");
       if (cv.getBuildInformation) {       // asm.js
         loaded();
       } else {
