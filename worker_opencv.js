@@ -15,16 +15,16 @@ onconnect = function(e) {
   function init() {
     try {
       importScripts("opencv.js");
+      if (cv.getBuildInformation) {       // asm.js
+        loaded();
+      } else {
+        cv["onRuntimeInitialized"]=()=>{  // WASM
+          loaded();
+        }
+      }
     } catch {
       console.warn("something went wrong while loading opencv.js");
       port.postMessage("FAILURE");
-    }
-    if (cv.getBuildInformation) {       // asm.js
-      loaded();
-    } else {
-      cv["onRuntimeInitialized"]=()=>{  // WASM
-        loaded();
-      }
     }
   }
   function loaded()
