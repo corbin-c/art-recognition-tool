@@ -22,8 +22,8 @@ onconnect = function(e) {
           loaded();
         }
       }
-    } catch {
-      console.warn("something went wrong while loading opencv.js");
+    } catch(e) {
+      console.warn("something went wrong while loading opencv.js",e);
       port.postMessage("FAILURE");
     }
   }
