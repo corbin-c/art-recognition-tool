@@ -69,10 +69,12 @@ let AWorker = class {
     this.messagePromises = [];
     this.onMessage(this.messageResolve);
     this.status = "unavailable";
+    let _this = this;
     this.worker.onerror = function(e) {
       console.error(e);
-      console.log(this);
-      //this = new SharedWorker(workerPath);
+      delete this;
+      _this.worker = new SharedWorker(_this.path);
+      _this.worker.port.start();
     }
   }
 }
