@@ -29,6 +29,8 @@ let AWorker = class {
       if (attempts < 3) {
         await this.incr_wait(0,5000);
         this.postMessage({cmd:"fail"});
+      } else {
+        this.onerror("Load failed");
       }
     } else {
       this.messagePromises[msgData.id](msgData);
@@ -46,9 +48,7 @@ let AWorker = class {
       console.log("couldn't allow input");
     }
   }
-  get state() { return this.status; };
-  incr_wait(i,t,rand=false)
-  {
+  incr_wait(i,t,rand=false) {
     t = (rand) ? Math.floor(t+2*t*Math.random()):t;
     return new Promise(function(resolve,reject){
       setTimeout(function(){
@@ -56,6 +56,12 @@ let AWorker = class {
       },t)
     })
   }
+  onerror(e) {
+    console.error("Worker Error",e);
+    this.worker.port.stop();
+    this.worker = new SharedWorker(workerPath);
+  }
+  get state() { return this.status; };
   constructor(workerPath) {
     this.worker = new SharedWorker(workerPath);
     this.worker.port.start();
@@ -63,13 +69,7 @@ let AWorker = class {
     this.messagePromises = [];
     this.onMessage(this.messageResolve);
     this.status = "unavailable";
-    let _this = this;
-    this.worker.onerror = function(e) {
-      console.log(e);
-      console.warn("Worker Error");
-      _this.worker.port.stop();
-      _this.worker = new SharedWorker(workerPath);
-    }
+    this.worker.onerror = function(e) { onerror(e); }
   }
 }
 export { AWorker };
