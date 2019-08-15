@@ -65,6 +65,11 @@ let AWorker = class {
     this.messagePromises = [];
     this.onMessage(this.messageResolve);
     this.status = "unavailable";
+    this.worker.onerror = function() {
+      console.warn("Worker Error");
+      this.worker.port.stop();
+      this.worker = new SharedWorker(workerPath);
+    }
   }
 }
 export { AWorker };
