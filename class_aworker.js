@@ -30,7 +30,7 @@ let AWorker = class {
         console.warn("OpenCV Init Failed. Trying again in 5 sec.");
         await this.incr_wait(0,5000);
         console.warn("Trying to launch OpenCV again");
-        this.worker.port.postMessage({cmd:"fail"});
+        this.postMessage({cmd:"fail"});
       }
     } else {
       this.messagePromises[msgData.id](msgData);
