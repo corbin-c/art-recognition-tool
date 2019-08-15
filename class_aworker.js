@@ -25,7 +25,7 @@ let AWorker = class {
       this.allow_input();
     } else if (msgData == "FAILURE") {
       console.warn("OpenCV Init Failed. Try again in 5 sec.");
-      await incr_wait(0,5000);
+      await this.incr_wait(0,5000);
       this.worker.port.postMessage({cmd:"fail"});
     } else {
       this.messagePromises[msgData.id](msgData);
