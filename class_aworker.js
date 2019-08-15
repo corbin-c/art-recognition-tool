@@ -68,7 +68,11 @@ let AWorker = class {
     this.messagePromises = [];
     this.onMessage(this.messageResolve);
     this.status = "unavailable";
-    this.worker.onerror = function(e) { this.onerror(e); }
+    this.worker.onerror = function(e) {
+      console.error(e);
+      console.log(e);
+      this = new SharedWorker(workerPath);
+    }
   }
 }
 export { AWorker };
