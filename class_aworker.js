@@ -6,6 +6,7 @@
 * next request.
 * 
 * */
+let attempts = 0;
 let AWorker = class {
   postMessage(message) {
     this.worker.port.postMessage({id:this.id,message:message});
@@ -24,9 +25,13 @@ let AWorker = class {
     if (msgData == "LOADED") { //This is triggered when OpenCV ready
       this.allow_input();
     } else if (msgData == "FAILURE") {
-      console.warn("OpenCV Init Failed. Try again in 5 sec.");
-      await this.incr_wait(0,5000);
-      this.worker.port.postMessage({cmd:"fail"});
+      attempts++;
+      if (attempts < 3) {
+        console.warn("OpenCV Init Failed. Trying again in 5 sec.");
+        await this.incr_wait(0,5000);
+        console.warn("Trying to launch OpenCV again");
+        this.worker.port.postMessage({cmd:"fail"});
+      }
     } else {
       this.messagePromises[msgData.id](msgData);
     }
