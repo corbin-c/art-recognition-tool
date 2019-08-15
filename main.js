@@ -30,7 +30,8 @@ async function imgData(img,visible=false) {
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   let picture = ctx.getImageData(0, 0, canvas.width, canvas.height);
   picture = new Picture(picture,OCV);
-  await picture.autocrop();
+  let out = await picture.autocrop(true);
+  out.map(e => data_to_canvas(e,true));
   await picture.normalize();
   data_to_canvas(await picture.output(),true);
 }
@@ -108,6 +109,7 @@ function addFileInputHandler() {
   return new Promise(function(resolve,reject) {
     inputElement.addEventListener("change", (e) => {
         let files = e.target.files;
+        document.querySelector(".inputLabel").remove();
         e.target.remove();
         if (files.length > 0) {
             resolve(URL.createObjectURL(files[0]))

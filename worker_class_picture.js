@@ -12,8 +12,6 @@ let ocv_Picture = class {
     imgData.delete();
   }
   output() {
-    /*  First we'll convert colorspace back to RGBA so it can be
-    *   displayed on a HTML5 Canvas element; */
     return cv.imshow(this.working_copy);
   }
   
