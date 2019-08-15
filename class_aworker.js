@@ -28,7 +28,6 @@ let AWorker = class {
       attempts++;
       if (attempts < 3) {
         await this.incr_wait(0,5000);
-        console.warn("Trying to launch OpenCV again");
         this.postMessage({cmd:"fail"});
       }
     } else {
