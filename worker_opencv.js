@@ -16,6 +16,7 @@ onconnect = function(e) {
     console.log("init()");
     try {
       importScripts("opencv.js");
+      console.lgo("imported script");
       if (cv.getBuildInformation) {       // asm.js
         loaded();
       } else {
@@ -30,6 +31,7 @@ onconnect = function(e) {
   }
   function loaded()
   {
+    console.log("loaded");
     importScripts("worker_class_picture.js");
     port.postMessage("LOADED");
   }
