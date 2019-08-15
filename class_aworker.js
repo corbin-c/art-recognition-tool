@@ -58,7 +58,6 @@ let AWorker = class {
   }
   onerror(e) {
     console.error("Worker Error",e);
-    this.worker.port.stop();
     this.worker = new SharedWorker(workerPath);
   }
   get state() { return this.status; };
