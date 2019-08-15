@@ -33,6 +33,7 @@ onconnect = function(e) {
     port.postMessage("LOADED");
   }
   port.onmessage = function(e) {
+    console.log(e.data.message.cmd);
     e = e.data;
     let message = e.message.cmd+": DONE";
     if (e.message.cmd == "init") {
