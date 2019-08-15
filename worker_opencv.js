@@ -13,6 +13,7 @@ onconnect = function(e) {
   let pic;
   init();
   function init() {
+    console.log("init()");
     try {
       importScripts("opencv.js");
       if (cv.getBuildInformation) {       // asm.js
