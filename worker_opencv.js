@@ -13,7 +13,6 @@ onconnect = function(e) {
   let pic;
   init();
   function init() {
-    console.log("init()");
     try {
       importScripts("opencv.js");
       console.log("imported script");
@@ -31,12 +30,10 @@ onconnect = function(e) {
   }
   function loaded()
   {
-    console.log("loaded");
     importScripts("worker_class_picture.js");
     port.postMessage("LOADED");
   }
   port.onmessage = function(e) {
-    console.log(e.data.message.cmd);
     e = e.data;
     let message = e.message.cmd+": DONE";
     if (e.message.cmd == "init") {
