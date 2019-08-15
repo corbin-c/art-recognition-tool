@@ -43,6 +43,7 @@ onconnect = function(e) {
       delete cv.wasmTable;
       delete cv;
     } else if (e.message.cmd == "fail") {
+      console.warn("Trying to relaunch OpenCV.js");
       init();
     } else {
       if (typeof e.message.opts !== "undefined") {
