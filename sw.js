@@ -1,10 +1,12 @@
 this.addEventListener("install", async function(event) {
-  event.waitUntil(caches.open("art").then((e) => e.addAll(["blank.png","index.html"])));
+  event.waitUntil(caches.open("art")
+    .then((e) => e.addAll(["blank.png","index.html"])));
   console.log("init");
 });
 
 this.addEventListener("fetch", function(event) {
-  event.respondWith(caches.match(event.request).then(function(response) {
+  event.respondWith(caches.match(event.request)
+    .then(function(response) {
     if (typeof response !== "undefined") {
       return response;
     } else {

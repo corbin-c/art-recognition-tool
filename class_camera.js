@@ -7,11 +7,12 @@ let Video = class {
         audio: false,
         video: true
         });
-    await (function(video) { return new Promise(function(resolve,reject) {
-      video.onloadedmetadata = function() {
-        resolve(true);
-      }
-    })})(this.video);
+    await (function(video) { return new Promise(
+      function(resolve,reject) {
+        video.onloadedmetadata = function() {
+          resolve(true);
+        }
+      })})(this.video);
     this.video.play();
     this.video.setAttribute("style","display:block;");
     let inputElement = document.createElement("button");

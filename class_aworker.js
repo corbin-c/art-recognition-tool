@@ -31,8 +31,10 @@ let AWorker = class {
     this.status = "running";
     console.log("loaded");
     try {
-      document.querySelector("#user_input").removeAttribute("disabled");
-      document.querySelector(".inputLabel").classList.remove("disabled");
+      document.querySelector("#user_input")
+        .removeAttribute("disabled");
+      document.querySelector(".inputLabel")
+        .classList.remove("disabled");
     } catch(e) {
       console.log("couldn't allow input");
     }
