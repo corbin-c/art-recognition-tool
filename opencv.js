@@ -4334,7 +4334,7 @@ this.cv = (function() {
             throw new Error('Invalid arguments');
         }
       }
-      cv = {};
+      cv = cv || {};
       console.log(cv);
       var Module = typeof cv !== 'undefined' ? cv : {};
       var moduleOverrides = {};
