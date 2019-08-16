@@ -23,7 +23,8 @@ onconnect = function(e) {
         }
       }
     } catch(e) {
-      console.warn("something went wrong while loading opencv.js: ",e);
+      console.warn("something went wrong while loading opencv.js:");
+      console.error(e);
       port.postMessage("FAILURE");
     }
   }

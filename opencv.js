@@ -1,15 +1,5 @@
-(function(root, factory) {
-  if (typeof define === 'function' && define.amd) {
-    define(function() {
-      return (root.cv = factory());
-    });
-  } else if (typeof module === 'object' && module.exports) {
-    module.exports = factory();
-  } else {
-    root.cv = factory();
-  }
-})(this, function() {
-  var cv = (function() {
+this.cv = (function() {
+  let cv = (function() {
     var _scriptDir =
       typeof document !== 'undefined' && document.currentScript
         ? document.currentScript.src
@@ -11293,4 +11283,4 @@
     Module = {};
   }
   return cv(Module);
-});
+})();
