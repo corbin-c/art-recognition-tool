@@ -40,9 +40,9 @@ onconnect = function(e) {
       pic = new ocv_Picture(src);
     } else if (e.message.cmd == "quit") {
       try {
-        delete cv.wasmMemory;
-        delete cv.wasmTable;
-        delete cv;
+        cv.wasmMemory = undefined;
+        cv.wasmTable = undefined;
+        cv = undefined;
       } catch {
         console.warn("wasmMemory couldn't be emptied");
       }
