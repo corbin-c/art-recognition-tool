@@ -714,6 +714,7 @@ this.cv = (function() {
             !isDataURI(wasmBinaryFile) &&
             typeof fetch === 'function'
           ) {
+            console.log("instantiateStreaming");
             WebAssembly.instantiateStreaming(
               fetch(wasmBinaryFile, { credentials: 'same-origin' }),
               info
