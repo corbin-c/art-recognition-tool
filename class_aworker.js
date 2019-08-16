@@ -38,7 +38,7 @@ let AWorker = class {
   }
   async allow_input() {
     this.status = "running";
-    console.log("loaded");
+    console.info("OpenCV Shared Worker is loaded");
     try {
       document.querySelector("#user_input")
         .removeAttribute("disabled");
