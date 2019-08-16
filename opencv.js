@@ -728,7 +728,7 @@ this.cv = (function() {
           }
           return {};
         }
-        var wasmBinaryFile = '';
+        var wasmBinaryFile = 'opencv.wasm';
         wasmBinaryFile = locateFile(wasmBinaryFile);
         var wasmPageSize = 64 * 1024;
         var info = {
