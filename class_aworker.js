@@ -25,13 +25,14 @@ let AWorker = class {
     if (msgData == "LOADED") { //This is triggered when OpenCV ready
       this.allow_input();
     } else if (msgData == "FAILURE") {
-      attempts++;
+      /*attempts++;
       if (attempts < 3) {
         await this.incr_wait(0,5000);
         this.postMessage({cmd:"fail"});
       } else {
         this.onerror("Load failed");
-      }
+      }*/
+      //NoOp
     } else {
       this.messagePromises[msgData.id](msgData);
     }
@@ -59,7 +60,6 @@ let AWorker = class {
   onerror(e) {
     console.error("Worker Error",e);
     this.worker = new SharedWorker(this.path);
-    attempts--;
   }
   get state() { return this.status; };
   constructor(workerPath) {
@@ -73,7 +73,6 @@ let AWorker = class {
     let _this = this;
     this.worker.onerror = function(e) {
       console.error(e);
-      delete this;
     }
   }
 }
