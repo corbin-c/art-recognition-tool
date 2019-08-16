@@ -23,7 +23,7 @@ onconnect = function(e) {
         }
       }
     } catch(e) {
-      console.warn("something went wrong while loading opencv.js",e);
+      console.warn("something went wrong while loading opencv.js: ",e);
       port.postMessage("FAILURE");
     }
   }
@@ -43,8 +43,8 @@ onconnect = function(e) {
         cv.wasmMemory = undefined;
         cv.wasmTable = undefined;
         cv = undefined;
-      } catch {
-        console.warn("wasmMemory couldn't be emptied");
+      } catch(e) {
+        console.warn("wasmMemory couldn't be emptied:",e);
       }
     } else if (e.message.cmd == "fail") {
       console.warn("Trying to relaunch OpenCV.js");
