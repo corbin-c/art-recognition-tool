@@ -89,69 +89,46 @@ Cette section illustre les développements déjà réalisés. Les images
 affichées ici le sont à des fins illustratives ; ce sont des étapes de
 calcul qui ne seront pas montrées à l'utilisateur final.
 
-On voit que l'on a déjà les briques fondamentales du module "Processus
-d'analyse d'images". Il faut désormais les calibrer, c'est à dire
-ajuster chaque brique finement de façon à pouvoir traiter le plus de cas
-possible (diversité de situations en luminosité & contraste).
-L'utilisation des méthodes CLAHE, Otsu et du flou (cf. infra) relève de
-cette démarche.
-
 Une première approche pour créer une PWA est en cours : le fichier
-`manifest.json` a été créé et lié, il faudra le remplir correctement. Des icônes
-lambda, issues du set [Tango](http://tango.freedesktop.org/Tango_Icon_Library)
+`manifest.json` a été créé et lié, il faudra le remplir correctement.
+Des icônes lambda, issues du set [Tango](http://tango.freedesktop.org/Tango_Icon_Library)
 sont utilisées, il faudra les remplacer par un vrai logo. Cela permet au
-navigateur de proposer à l'utilisateur d'ajouter l'appli à l'écran d'accueil
-[(A2HS)](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Add_to_home_screen).
-Par ailleurs, un service worker minimal (`sw.js`) a été créé afin de déployer un
-proxy côté client. Cela permet la mise en cache des ressources sur le
-périphérique du client, ce qui permet d'optimiser le chargement (la bibliothèque
-OpenCV pèse quelques mégaoctets) sur les connexions lentes et de rendre l'appli
-utilisable hors ligne.
+navigateur de proposer à l'utilisateur d'ajouter l'appli à l'écran
+d'accueil [(A2HS)](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Add_to_home_screen).
+Par ailleurs, un service worker minimal (`sw.js`) a été créé afin de
+déployer un proxy côté client. Cela permet la mise en cache des
+ressources sur le périphérique du client, ce qui permet d'optimiser le
+chargement (la bibliothèque OpenCV pèse quelques mégaoctets) sur les
+connexions lentes et de rendre l'appli utilisable hors ligne.
 
-### Recadrage
+### Détection des caractéristiques
 
-La capacité à pouvoir recadrer ou non l'image dépendra essentiellement
-de la possibilité de la distinguer facilement du fond, sur la base du
-contraste essentiellement. Le fait que l'image soit encadrée, (ou bordée
-de noir comme l'exemple ci-dessous) facilite grandement cette étape.
+On utilisera la méthode ORB (ORiented FAST (Features from
+Accelerated Segment Test) &  BRIEF (Binary Robust Independent Elementary
+Features)) de détection de caractéristiques. Cet algorithme présente
+l'avantage majeur d'être libre de droits, à la différence des
+algorithmes classiques de détection de caractéristiques (SIFT ou SURF),
+qui sont protégés par des brevets, et dont l'utilisation dans des
+applications est donc payante.
 
-Image originale :
+L'utilisation de cet algorithme permet de mettre en évidence les
+points-clés et descripteurs d'une image, de façon extrêmement rapide,
+sans avoir à recadrer l'image au préalable. La méthode d'autocrop déjà
+développée pourra néanmoins être utilisée en complément afin de procéder
+à l'analyse colorimétrique.
 
-![Img_example](examples/orig.jpg "image brute")
+Exemple de détection de caractéristiques par méthode ORB :
 
-Égalisation de type CLAHE (Contrast Limited Adaptative Histogram
-Equalization) :
+![Img_example](examples/features.jpg "match")
 
-![Img_example](examples/clahe.jpg "CLAHE equalization")
+### Comparaison
 
-Flou, pour adoucir le rendu de l'étape suivante :
+Une fois ces caractéristiques établies, on peut les comparer avec celles
+stockées pour les images de référence, avec une méthode de force brute.
 
-![Img_example](examples/blur.jpg "Flou")
+Exemple de matching réussi :
 
-On applique un seuil, déterminé par l'algorithme d'Otsu :
-
-![Img_example](examples/threshold.jpg "image binarisée")
-
-Détections de contours :
-
-![Img_example](examples/contours.jpg "contours détectés")
-
-Isolation du plus grand contour :
-
-![Img_example](examples/largest_contour.jpg "contour extérieur isolé")
-
-Détermination du MBR (minimum bounding rectangle) : (en vert)
-
-![Img_example](examples/bounding.jpg "bounding rect")
-
-Algorithme de Ramer–Douglas–Peucker : (polygone rouge)
-
-![Img_example](examples/approxDP.jpg "approxDP")
-
-Transformation en perspective pour faire coller l'intérieur du polygone
-rouge aux dimensions du rectangle vert :
-
-![Img_example](examples/perspective.jpg "perspective corrigée")
+![Img_example](examples/match.jpg "match")
 
 ### Normalisation
 
