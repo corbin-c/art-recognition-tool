@@ -36,7 +36,7 @@ onconnect = function(e) {
   }
   port.onmessage = function(e) {
     e = e.data;
-    let message = e.message.cmd+": DONE";
+    let message;
     if (e.message.cmd == "init") {
       let src = cv.matFromImageData(e.message.imgData);
       pic = new ocv_Picture(src);
@@ -53,13 +53,12 @@ onconnect = function(e) {
       init();
     } else {
       if (typeof e.message.opts !== "undefined") {
-        pic[e.message.cmd](...e.message.opts);
+        message = pic[e.message.cmd](...e.message.opts);
       } else {
-        if (e.message.cmd == "output") {
-          message = pic.output();
-        } else {
-          pic[e.message.cmd]();
-        }
+        message = pic[e.message.cmd]();
+      }
+      if (typeof message === "undefined") {
+        message = e.message.cmd+": DONE";
       }
     }
     e.message = message;

@@ -30,9 +30,11 @@ async function imgData(img,visible=false) {
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   let picture = ctx.getImageData(0, 0, canvas.width, canvas.height);
   picture = new Picture(picture,OCV);
-  let out = await picture.autocrop(true);
-  out.map(e => data_to_canvas(e,true));
-  await picture.normalize();
+  //let out = await picture.autocrop(true);
+  //out.map(e => data_to_canvas(e,true));
+  //await picture.normalize();
+  let feats = await picture.features(true);
+  console.log(feats);
   data_to_canvas(await picture.output(),true);
 }
 function data_to_canvas(imgData,visible=false) {

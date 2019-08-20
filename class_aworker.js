@@ -6,7 +6,6 @@
 * next request.
 * 
 * */
-let attempts = 0;
 let AWorker = class {
   postMessage(message) {
     this.worker.port.postMessage({id:this.id,message:message});
@@ -25,13 +24,6 @@ let AWorker = class {
     if (msgData == "LOADED") { //This is triggered when OpenCV ready
       this.allow_input();
     } else if (msgData == "FAILURE") {
-      /*attempts++;
-      if (attempts < 3) {
-        await this.incr_wait(0,5000);
-        this.postMessage({cmd:"fail"});
-      } else {
-        this.onerror("Load failed");
-      }*/
       //NoOp
     } else {
       this.messagePromises[msgData.id](msgData);
@@ -49,14 +41,6 @@ let AWorker = class {
       console.log("couldn't allow input");
     }
   }
-  incr_wait(i,t,rand=false) {
-    t = (rand) ? Math.floor(t+2*t*Math.random()):t;
-    return new Promise(function(resolve,reject){
-      setTimeout(function(){
-        resolve(i+1);
-      },t)
-    })
-  }
   onerror(e) {
     console.error("Worker Error",e);
     this.worker = new SharedWorker(this.path);
@@ -70,7 +54,6 @@ let AWorker = class {
     this.messagePromises = [];
     this.onMessage(this.messageResolve);
     this.status = "unavailable";
-    let _this = this;
     this.worker.onerror = function(e) {
       console.error(e);
     }

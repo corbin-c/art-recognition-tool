@@ -188,4 +188,17 @@ let ocv_Picture = class {
                         new cv.Scalar());
     }
   }
+
+  orb_features(draw=false) {
+    let color = new cv.Scalar(0,255,0);
+    let orb = new cv.ORB();
+    let descriptors = new cv.Mat();
+    let kp = new cv.KeyPointVector();
+    orb.detect(this.working_copy,kp);
+    orb.compute(this.working_copy,kp,descriptors);
+    if (draw) {
+      cv.drawKeypoints(this.working_copy, kp, this.working_copy, color);
+    }
+    return {keypoints:kp,descriptors:descriptors};
+  }
 }

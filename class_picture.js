@@ -26,8 +26,12 @@ let Picture = class {
   async normalize() {
     await this.worker.postMessage({cmd:"equalize"});
   };
+  async features(draw=false) {
+    return (await this.worker.postMessage(
+      {cmd:"orb_features",opts:[draw]})).message;
+  }
   async analyze() {
-    
+    //NoOp
   };
   async output() {
     let output = await this.worker.postMessage({cmd:"output"});
