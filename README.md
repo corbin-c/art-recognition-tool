@@ -119,7 +119,7 @@ développée pourra néanmoins être utilisée en complément afin de procéder
 
 Exemple de détection de caractéristiques par méthode ORB :
 
-![Img_example](examples/features.jpg "match")
+![Img_example](examples/features.jpg "orb feature detection")
 
 ### Comparaison
 
