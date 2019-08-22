@@ -1,7 +1,7 @@
 /*
  * This worker loads OpenCV WASM module. Then, It notifies the main
  * thread so it can start sending messages to it.
- * The worker is instentiated with imageData from a canvas, which serves
+ * The worker is instantiated with imageData from a canvas, which serves
  * then as a reference for the worker_class_picture, a class dedicated
  * to image processing.
  * This script only serves as a bridge between the window object and the
