@@ -4,11 +4,19 @@
 * or not) for the OpenCV Wrapper Worker, which handles image processing.
 * 
 */
+const REFERENCES = "./collection.json"; //this is to be updated
+                                       // w/ API endpoint 
 let Picture = class {
   constructor(imgData,worker) {
     this.worker = worker;
     worker.postMessage({imgData:imgData,cmd:"init"});
+    this.get_collection();
   };
+  async get_collection() {
+    this.collection = await fetch(REFERENCES);
+    this.collection = await this.collection.json();
+    console.log(this.collection);
+  }
   async autocrop(debugging=false) {
     let out = [];
     await this.worker.postMessage({cmd:"blur",opts:[15]});

@@ -8,7 +8,6 @@ import { AWorker } from "./class_aworker.js";
 const OCV = new AWorker("worker_opencv.js");
 const PARENT = "section";
 const MAX_WIDTH = 1000;
-
 function createImage(url) {
   let img = document.createElement("img");
   img.crossOrigin = "anonymous";
@@ -34,7 +33,7 @@ async function imgData(img,visible=false) {
   //out.map(e => data_to_canvas(e,true));
   //await picture.normalize();
   let feats = await picture.features(true);
-  console.log(feats);
+  console.log(feats.descriptors.toString()); // stringified descriptors for json storage
   data_to_canvas(await picture.output(),true);
 }
 function data_to_canvas(imgData,visible=false) {
@@ -74,8 +73,7 @@ function main() {
   document.querySelector("section").append(form);
   button.addEventListener("click", async function(e) {
     e.preventDefault();
-    let type;
-    type = (radio2.checked) ? "camera":"file";
+    let type = (radio2.checked) ? "camera":"file";
     form.remove();
     get_input(type);
   });
