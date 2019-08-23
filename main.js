@@ -34,6 +34,18 @@ async function imgData(img,visible=false) {
   //await picture.normalize();
   let feats = await picture.features(true);
   console.log(feats.descriptors.toString()); // stringified descriptors for json storage
+  /*
+   * Here we need to picture.match(feats.descriptors); This will run a
+   * cv.BFMatcher on every picture in the reference collection.
+   * Eventually, a reduced wasm module with only BFMatcher might be used
+   * in order to run this process in separate workers.
+   * 
+   * If no confirmed match is found, we might run colometric comparison
+   * (histogram matching)
+   * 
+   * We also need a way to feed the json w/ data running this imgData()
+   * on a large set of pictures)
+   */
   data_to_canvas(await picture.output(),true);
 }
 function data_to_canvas(imgData,visible=false) {
