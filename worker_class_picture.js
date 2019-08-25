@@ -199,7 +199,7 @@ let ocv_Picture = class {
     if (draw) {
       cv.drawKeypoints(this.working_copy, kp, this.working_copy, color);
     }
-    let output = descriptors.data; //is raw data enough to perform bfmatch ? cv.Mat from UInt Array ?
+    let output = descriptors.data;
     descriptors.delete();
     kp.delete();
     return {descriptors:output};

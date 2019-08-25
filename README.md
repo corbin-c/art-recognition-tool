@@ -62,6 +62,15 @@ pourrait également être implémenté. L'application de reconnaissance
 d'images reçoit de l'API les descriptions des œuvres d'une collection
 donnée, selon l'expo visitée par l'utilisateur.
 
+## Génération des données pour alimenter la base
+
+Afin de procéder aux tests à partir d'un lot d'images, on peut utiliser
+le fichier `bulk.html` qui exploite les composants de l'application
+principale pour générer un fichier JSON minimal. Celui-ci ne contient
+alors que l'empreinte caractéristique nécessaire et le chemin vers
+chaque image. Il peut ensuite être enrichi des métadonnées concernant 
+l'œuvre décrite (date, auteur, etc.)
+
 ## Utilisation
 
 OpenCV est utilisable à travers le Web Worker `worker_opencv.js`, lequel
