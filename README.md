@@ -71,6 +71,11 @@ alors que l'empreinte caractéristique nécessaire et le chemin vers
 chaque image. Il peut ensuite être enrichi des métadonnées concernant 
 l'œuvre décrite (date, auteur, etc.)
 
+**NB: Afin de pouvoir fonctionner, le module de traitement de masse
+nécessite un serveur avec PHP pour exécuter le script `./bulk/index.php`
+qui génère à la volée un JSON minimal avec tous les fichiers contenus
+dans le dossier `./bulk/`.**
+
 ## Utilisation
 
 OpenCV est utilisable à travers le Web Worker `worker_opencv.js`, lequel
