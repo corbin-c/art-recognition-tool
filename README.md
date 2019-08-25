@@ -74,7 +74,8 @@ l'œuvre décrite (date, auteur, etc.)
 **NB: Afin de pouvoir fonctionner, le module de traitement de masse
 nécessite un serveur avec PHP pour exécuter le script `./bulk/index.php`
 qui génère à la volée un JSON minimal avec tous les fichiers contenus
-dans le dossier `./bulk/`.**
+dans le dossier `./bulk/`. En d'autres termes, ce module ne fonctionne
+pas sur le déploiement Netlify.**
 
 ## Utilisation
 
