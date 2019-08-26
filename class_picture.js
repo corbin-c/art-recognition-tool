@@ -10,12 +10,23 @@ let Picture = class {
   constructor(imgData,worker) {
     this.worker = worker;
     worker.postMessage({imgData:imgData,cmd:"init"});
-    //this.getCollection();
+    this.collection = {}
+    this.collection.ready = new Promise((resolve,reject) => {
+      this.collection.resolve = resolve;
+    });
+    this.getCollection();
   };
   async getCollection() {
-    this.collection = await fetch(REFERENCES);
-    this.collection = await this.collection.json();
-    console.log(this.collection);
+    this.collection.data = await fetch(REFERENCES)
+      .then(e => {
+        if (e.ok) {
+          e.json();
+          this.collection.resolve(true);
+        } else {
+          throw new Error("Fetch fail");
+        }
+      })
+      .catch(e => console.error("Collection retrieval failure:",e));
   }
   async autocrop(debugging=false) {
     let out = [];
@@ -47,6 +58,10 @@ let Picture = class {
   };
   async clean() {
     await this.worker.postMessage({cmd:"cleanPicture"});
+  }
+  async match() {
+    await this.collection.ready;
+    console.info("Collection ready");
   }
 }
 export { Picture };

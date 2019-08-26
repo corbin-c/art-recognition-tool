@@ -46,6 +46,7 @@ async function imgData(img,visible=false) {
    * We also need a way to feed the json w/ data running this imgData()
    * on a large set of pictures)
    */
+  picture.match();
   dataToCanvas(await picture.output(),true);
 }
 function dataToCanvas(imgData,visible=false) {
