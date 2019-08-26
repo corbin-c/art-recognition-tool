@@ -142,8 +142,4 @@ async function addCameraInput() {
   video = await video.getCamera(OCV);
   return video;
 }
-window.onbeforeunload = function() {
-  console.warn("exit");
-  OCV.postMessage({cmd:"quit"});
-}
 main();
