@@ -11,7 +11,10 @@ function createImage(url) {
   let img = document.createElement("img");
   img.crossOrigin = "anonymous";
   return new Promise(function(resolve,reject) {
-    img.addEventListener("load",function() { resolve(imgData(this)); } );
+    img.addEventListener("load",async function() {
+      let data = await imgData(this);
+      resolve(data);
+    });
     img.src = url;
   })
 }
