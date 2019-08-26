@@ -10,8 +10,10 @@ const MAX_WIDTH = 1000;
 function createImage(url) {
   let img = document.createElement("img");
   img.crossOrigin = "anonymous";
-  img.addEventListener("load",function() { imgData(this,true); } );
-  img.src = url;
+  return new Promise(function(resolve,reject) {
+    img.addEventListener("load",function() { resolve(imgData(this)); } );
+    img.src = url;
+  })
 }
 async function imgData(img,visible=false) {
   let canvas = document.createElement("canvas");
@@ -31,8 +33,7 @@ async function imgData(img,visible=false) {
   //let out = await picture.autocrop(true);
   //out.map(e => data_to_canvas(e,true));
   //await picture.normalize();
-  let feats = await picture.features(true);
-  console.log(feats.descriptors.toString()); // stringified descriptors for json storage
+  let feats = await picture.features();
   /*
    * Here we need to picture.match(feats.descriptors); This will run a
    * cv.BFMatcher on every picture in the reference collection.
@@ -45,7 +46,7 @@ async function imgData(img,visible=false) {
    * We also need a way to feed the json w/ data running this imgData()
    * on a large set of pictures)
    */
-  data_to_canvas(await picture.output(),true);
+  return feats.descriptors.toString();
 }
 function data_to_canvas(imgData,visible=false) {
   let canvas = document.createElement("canvas");
@@ -57,9 +58,40 @@ function data_to_canvas(imgData,visible=false) {
     document.querySelector(PARENT).append(canvas);
   }
 }
+function output(filename, data, type)
+{
+  var blob = new Blob([data], {type: type});
+  var elem = window.document.createElement('a');
+  elem.href = window.URL.createObjectURL(blob);
+  elem.download = filename;        
+  document.body.appendChild(elem);
+  elem.click();        
+  document.body.removeChild(elem);
+}
 async function main() {
+  let inputElement = document.createElement("button");
+  inputElement.setAttribute("id","user_input");
+  inputElement.setAttribute("class","camera");
+  if (OCV.state != "running") {
+    inputElement.setAttribute("disabled", "true");
+  }
+  inputElement.innerHTML = "📷";
+  document.querySelector("section").append(inputElement);
+  await (function () { return new Promise(function(resolve,reject) {
+    inputElement.addEventListener("click", (e) => {
+      e.target.remove();
+      resolve(true);
+    }, false);
+  })})();
   let collection = await fetch("bulk/index.php");
   collection = (await collection.json()).collection;
-  collection.map(e => createImage("./bulk/"+e.file_path));
+  for (let e in collection) { 
+    collection[e].features =
+      await createImage("./bulk/"+collection[e].file_path);
+  }
+  output("collection.json",
+    JSON.stringify({ collection:collection }),
+    "application/json");
 }
+
 main();
