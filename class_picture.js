@@ -10,7 +10,7 @@ let Picture = class {
   constructor(imgData,worker) {
     this.worker = worker;
     worker.postMessage({imgData:imgData,cmd:"init"});
-    this.getCollection();
+    //this.getCollection();
   };
   async getCollection() {
     this.collection = await fetch(REFERENCES);
@@ -45,5 +45,8 @@ let Picture = class {
     let output = await this.worker.postMessage({cmd:"output"});
     return output.message;
   };
+  async clean() {
+    await this.worker.postMessage({cmd:"cleanPicture"});
+  }
 }
 export { Picture };

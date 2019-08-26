@@ -204,4 +204,10 @@ let ocv_Picture = class {
     kp.delete();
     return {descriptors:output};
   }
+  
+  cleanPicture() {
+    this.original_picture.delete();
+    this.working_copy.delete();
+    return true;
+  }
 }

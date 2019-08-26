@@ -34,6 +34,7 @@ async function imgData(img,visible=false) {
   //out.map(e => data_to_canvas(e,true));
   //await picture.normalize();
   let feats = await picture.features();
+  await picture.clean();
   /*
    * Here we need to picture.match(feats.descriptors); This will run a
    * cv.BFMatcher on every picture in the reference collection.
@@ -46,6 +47,7 @@ async function imgData(img,visible=false) {
    * We also need a way to feed the json w/ data running this imgData()
    * on a large set of pictures)
    */
+  picture = null;
   return feats.descriptors.toString();
 }
 function data_to_canvas(imgData,visible=false) {
@@ -68,6 +70,15 @@ function output(filename, data, type)
   elem.click();        
   document.body.removeChild(elem);
 }
+function incr_wait(i,t,rand=false)
+{
+  t = (rand) ? Math.floor(t+2*t*Math.random()):t;
+  return new Promise(function(resolve,reject){
+    setTimeout(function(){
+      resolve(i+1);
+    },t)
+  })
+}
 async function main() {
   let inputElement = document.createElement("button");
   inputElement.setAttribute("id","user_input");
@@ -88,6 +99,7 @@ async function main() {
   for (let e in collection) { 
     collection[e].features =
       await createImage("./bulk/"+collection[e].file_path);
+    await incr_wait(0,500);
   }
   output("collection.json",
     JSON.stringify({ collection:collection }),
