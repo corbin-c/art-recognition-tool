@@ -38,7 +38,7 @@ let AWorker = class {
       document.querySelector(".inputLabel")
         .classList.remove("disabled");
     } catch(e) {
-      console.log("couldn't allow input");
+      console.info("couldn't allow input");
     }
   }
   onerror(e) {
