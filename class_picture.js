@@ -10,9 +10,9 @@ let Picture = class {
   constructor(imgData,worker) {
     this.worker = worker;
     worker.postMessage({imgData:imgData,cmd:"init"});
-    this.get_collection();
+    this.getCollection();
   };
-  async get_collection() {
+  async getCollection() {
     this.collection = await fetch(REFERENCES);
     this.collection = await this.collection.json();
     console.log(this.collection);
@@ -21,11 +21,11 @@ let Picture = class {
     let out = [];
     await this.worker.postMessage({cmd:"blur",opts:[15]});
     if (debugging) { out.push(await this.output()); }
-    await this.worker.postMessage({cmd:"clahe_equalize",opts:[8,5]});
+    await this.worker.postMessage({cmd:"claheEqualize",opts:[8,5]});
     if (debugging) { out.push(await this.output()); }
     await this.worker.postMessage({cmd:"threshold"});
     if (debugging) { out.push(await this.output()); }
-    await this.worker.postMessage({cmd:"auto_frame"});
+    await this.worker.postMessage({cmd:"autoFrame"});
     if (debugging) {
       out.push(await this.output());
       return out;
@@ -36,7 +36,7 @@ let Picture = class {
   };
   async features(draw=false) {
     return (await this.worker.postMessage(
-      {cmd:"orb_features",opts:[draw]})).message;
+      {cmd:"orbFeatures",opts:[draw]})).message;
   }
   async analyze() {
     //NoOp

@@ -28,7 +28,7 @@ let ocv_Picture = class {
                                   //the optimal threshold value
   }
 
-  clahe_equalize(q,depth) {
+  claheEqualize(q,depth) {
     // Contrast-Limited Adaptative Histogram Equalization
     q = Math.round(this.working_copy.cols/2500*q);
     cv.cvtColor(this.working_copy, this.working_copy,
@@ -54,7 +54,7 @@ let ocv_Picture = class {
     dstVect.delete();
   }
 
-  order_matrix(mat) {
+  orderMatrix(mat) {
     /* This function orders 4 points to form a rectangle : top-left,
      * top-right, bottom-right & bottom-left; */
     let xs = mat.map(e => e[0]);
@@ -103,7 +103,7 @@ let ocv_Picture = class {
     color_hist.map(e => e.delete());
   }
 
-  auto_frame() {
+  autoFrame() {
     //INIT
     let white = new cv.Scalar(255,255,255);
     let red = new cv.Scalar(255, 0, 0);
@@ -148,7 +148,7 @@ let ocv_Picture = class {
                   [vertices[2].x,vertices[2].y],
                   [vertices[3].x,vertices[3].y]];
     dstTri = cv.matFromArray(4, 1, cv.CV_32FC2,
-                            this.order_matrix(dstTri).flat());
+                            this.orderMatrix(dstTri).flat());
     if ((poly.size().height == 4) && (cv.isContourConvex(poly))) {
       //PERSPECTIVE CORRECTION
       let dsize = new cv.Size(this.working_copy.cols,
@@ -189,7 +189,7 @@ let ocv_Picture = class {
     }
   }
 
-  orb_features(draw=false) {
+  orbFeatures(draw=false) {
     let color = new cv.Scalar(0,255,0);
     let orb = new cv.ORB();
     let descriptors = new cv.Mat();

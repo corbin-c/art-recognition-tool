@@ -29,9 +29,9 @@ async function imgData(img,visible=false) {
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   let picture = ctx.getImageData(0, 0, canvas.width, canvas.height);
   picture = new Picture(picture,OCV);
-  //let out = await picture.autocrop(true);
-  //out.map(e => data_to_canvas(e,true));
-  //await picture.normalize();
+  /*let out = await picture.autocrop(true);
+  out.map(e => dataToCanvas(e,true));
+  await picture.normalize();*/
   let feats = await picture.features(true);
   console.log(feats.descriptors.toString()); // stringified descriptors for json storage
   /*
@@ -46,9 +46,9 @@ async function imgData(img,visible=false) {
    * We also need a way to feed the json w/ data running this imgData()
    * on a large set of pictures)
    */
-  data_to_canvas(await picture.output(),true);
+  dataToCanvas(await picture.output(),true);
 }
-function data_to_canvas(imgData,visible=false) {
+function dataToCanvas(imgData,visible=false) {
   let canvas = document.createElement("canvas");
   let ctx = canvas.getContext("2d");
   canvas.width = imgData.width;
@@ -87,15 +87,15 @@ function main() {
     e.preventDefault();
     let type = (radio2.checked) ? "camera":"file";
     form.remove();
-    get_input(type);
+    getInput(type);
   });
 }
-async function get_input(type) {
+async function getInput(type) {
   let out;
   if (type == "camera") {
     out = await addCameraInput();
     imgData(out.video,true);
-    out.stop_camera();
+    out.stopCamera();
   } else {
     out = await addFileInputHandler();
     createImage(out);
@@ -139,7 +139,7 @@ async function addCameraInput() {
   let video = document.createElement("video");
   document.querySelector(PARENT).append(video);
   video = new Video(video);
-  video = await video.get_camera(OCV);
+  video = await video.getCamera(OCV);
   return video;
 }
 window.onbeforeunload = function() {

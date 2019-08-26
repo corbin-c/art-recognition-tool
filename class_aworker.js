@@ -22,14 +22,14 @@ let AWorker = class {
   }
   async messageResolve(msgData) {
     if (msgData == "LOADED") { //This is triggered when OpenCV ready
-      this.allow_input();
+      this.allowInput();
     } else if (msgData == "FAILURE") {
       //NoOp
     } else {
       this.messagePromises[msgData.id](msgData);
     }
   }
-  async allow_input() {
+  async allowInput() {
     this.status = "running";
     console.info("OpenCV Shared Worker is loaded");
     try {
