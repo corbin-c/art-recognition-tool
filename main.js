@@ -42,9 +42,6 @@ async function imgData(img,visible=false) {
    * 
    * If no confirmed match is found, we might run colometric comparison
    * (histogram matching)
-   * 
-   * We also need a way to feed the json w/ data running this imgData()
-   * on a large set of pictures)
    */
   picture.match();
   dataToCanvas(await picture.output(),true);
