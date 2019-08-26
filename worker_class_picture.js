@@ -14,20 +14,17 @@ let ocv_Picture = class {
   output() {
     return cv.imshow(this.working_copy);
   }
-  
   blur(q) {
     q = Math.round(this.working_copy.cols/2500*q); //Q Factor must be
                                                   //picture-independent
     cv.blur(this.working_copy, this.working_copy, (new cv.Size(q, q)),
             (new cv.Point(-1, -1)), cv.BORDER_DEFAULT);
   }
-  
   threshold() {
     cv.threshold(this.working_copy, this.working_copy, 1, 255,
                   cv.THRESH_OTSU); //use Otsu Algorithm to determine
                                   //the optimal threshold value
   }
-
   claheEqualize(q,depth) {
     // Contrast-Limited Adaptative Histogram Equalization
     q = Math.round(this.working_copy.cols/2500*q);
@@ -40,7 +37,6 @@ let ocv_Picture = class {
     dst.delete();
     clahe.delete();
   }
-
   equalize() {
     let dst = [new cv.Mat(),new cv.Mat(),new cv.Mat()];
     let rgbaPlanes = new cv.MatVector();
@@ -53,7 +49,6 @@ let ocv_Picture = class {
     rgbaPlanes.delete();
     dstVect.delete();
   }
-
   orderMatrix(mat) {
     /* This function orders 4 points to form a rectangle : top-left,
      * top-right, bottom-right & bottom-left; */
@@ -79,7 +74,6 @@ let ocv_Picture = class {
     });
     return out;
   }
-
   histogram(q,depth,hsv=false) {
     let srcVec = new cv.MatVector();
     srcVec.push_back(this.working_copy);
@@ -99,10 +93,8 @@ let ocv_Picture = class {
                                         ranges, false));
     srcVec.delete();
     mask.delete();
-    //convertir color_hist en simple tableau et le retourner
     color_hist.map(e => e.delete());
   }
-
   autoFrame() {
     //INIT
     let white = new cv.Scalar(255,255,255);
@@ -188,7 +180,6 @@ let ocv_Picture = class {
                         new cv.Scalar());
     }
   }
-
   orbFeatures(draw=false) {
     let color = new cv.Scalar(0,255,0);
     let orb = new cv.ORB();
@@ -204,7 +195,6 @@ let ocv_Picture = class {
     kp.delete();
     return {descriptors:output};
   }
-  
   cleanPicture() {
     this.original_picture.delete();
     this.working_copy.delete();
