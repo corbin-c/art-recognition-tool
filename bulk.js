@@ -57,7 +57,9 @@ function data_to_canvas(imgData,visible=false) {
     document.querySelector(PARENT).append(canvas);
   }
 }
-function main() {
-
+async function main() {
+  let collection = await fetch("bulk/index.php");
+  collection = (await collection.json()).collection;
+  collection.map(e => createImage("./bulk/"+e.file_path));
 }
 main();
