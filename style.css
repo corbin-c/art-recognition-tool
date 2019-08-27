@@ -2,7 +2,7 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: Sans;
+  font-family: "Rubik",rubik;
   box-sizing: border-box;
   color: #002949;
 }
@@ -23,8 +23,19 @@ label {
 section {
   min-height: 91%;
 }
+h1 {
+  padding-left: 5%;
+}
+h1::before {
+  background: linear-gradient(to right, #54595f 5px, #d66c2d 4px);
+  width: 13px;
+  content: '';
+  left: calc(5% - 18px);
+  padding-top: 3%;
+  position: absolute;
+}
 header,footer {
-  background-color: #ececec;
+  background-color: white;
   height: 9%;
   width: 100%;
   position: relative;
@@ -33,9 +44,8 @@ header,footer {
   padding: 10px;
 }
 header {
-  border-bottom: 6px solid #33AAFF;
+  box-shadow: 0px 0px 38px 0px rgba(0,0,0,.1);
   top: 0px;
-  font-family: "Rubik",rubik;
   font-weight: 600;
   letter-spacing: -1.6px;
 }
