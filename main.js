@@ -42,7 +42,9 @@ async function imgData(img,visible=false) {
    * Instead of logging output, graphical output must be generated w/
    * associated metadata & reference picture. Graphical style from
    * belenos website will be gathered (offset #e0c387 bkg, box-shadow).
-   * Links to associated artist page & buy button should be added.  
+   * Links to associated artist page & buy button should be added.
+   * 
+   * Case when no match should be handled
    */
   console.log(match.file_path,match.match);
 }
