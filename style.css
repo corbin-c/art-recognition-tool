@@ -77,6 +77,8 @@ button {
   background: #d66c2d;
   width: 9.4vh;
   height: 9.4vh;
+  min-width: 50px;
+  min-height: 50px;
   border-radius: 50%;
   z-index: 200;
   font-size: 1.8em;
