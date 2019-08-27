@@ -1,3 +1,4 @@
+// Developed by Clément Corbin
 /* 
 * must instantiante worker w/ imgData=ctx.getImageData(sx, sy, sw, sh);
 * This class describes an input image. Its methods calls (asyncronously

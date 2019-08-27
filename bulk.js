@@ -1,3 +1,4 @@
+// Developed by Clément Corbin
 /*if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js", { scope: "/" });
 }*/

@@ -1,3 +1,4 @@
+// Developed by Clément Corbin
 let Video = class {
   constructor(video_element) {
     this.video = video_element;

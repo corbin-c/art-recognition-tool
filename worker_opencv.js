@@ -1,3 +1,4 @@
+// Developed by Clément Corbin
 /*
  * This worker loads OpenCV WASM module. Then, It notifies the main
  * thread so it can start sending messages to it.

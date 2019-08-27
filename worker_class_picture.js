@@ -1,3 +1,4 @@
+// Developed by Clément Corbin
 /* 
  * This class exists within the OpenCV Web Worker. It describes the 
  * image being processsed and its processing states and methods.

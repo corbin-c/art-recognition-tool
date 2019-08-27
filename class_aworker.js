@@ -1,3 +1,4 @@
+// Developed by Clément Corbin
 /* 
 * This class provides a wrapper for sending/receiving messages to a web
 * worker. It is instantianted and used like a classic web worker but it
