@@ -110,8 +110,8 @@ Des icônes lambda, issues du set [Tango](http://tango.freedesktop.org/Tango_Ico
 sont utilisées, il faudra les remplacer par un vrai logo. Cela permet au
 navigateur de proposer à l'utilisateur d'ajouter l'appli à l'écran
 d'accueil [(A2HS)](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Add_to_home_screen).
-Par ailleurs, un service worker minimal (`sw.js`) a été créé afin de
-déployer un proxy côté client. Cela permet la mise en cache des
+Par ailleurs, un service worker minimal (`service_worker.js`) a été créé
+afin de déployer un proxy côté client. Cela permet la mise en cache des
 ressources sur le périphérique du client, ce qui permet d'optimiser le
 chargement (la bibliothèque OpenCV pèse quelques mégaoctets) sur les
 connexions lentes et de rendre l'appli utilisable hors ligne.
