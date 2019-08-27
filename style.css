@@ -91,5 +91,5 @@ button {
   z-index: -1;
 }
 button:disabled, .disabled {
-  background-color: yellow;
+  background-color: #54595f;
 }
