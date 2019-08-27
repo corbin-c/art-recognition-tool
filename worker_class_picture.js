@@ -5,6 +5,9 @@
  * processing and returns output image data.
  * 
  */
+const MAX_DISTANCE_MATCH = 50;
+const GOOD_MATCH_RATIO = 25;
+
 let ocv_Picture = class { 
   constructor(imgData) {
     this.original_picture = imgData.clone(); //expected: cv.Mat
@@ -194,6 +197,37 @@ let ocv_Picture = class {
     descriptors.delete();
     kp.delete();
     return {descriptors:output};
+  }
+  match(test,reference) {
+    test = cv.matFromArray(
+      500,
+      32,
+      cv.CV_8U,
+      (new Uint8Array(test.split(","))));
+    reference = cv.matFromArray(
+      500,
+      32,
+      cv.CV_8U,
+      (new Uint8Array(reference.split(","))));
+    let bf = new cv.BFMatcher(cv.NORM_HAMMING, true);
+    let matches = new cv.DMatchVector();
+    let good_m = new cv.DMatchVector();
+    bf.match(test, reference,matches);
+    for (let i=0;i<matches.size();i++) {
+      if (matches.get(i).distance < MAX_DISTANCE_MATCH) {
+        good_m.push_back(matches.get(i));
+      }
+    }
+    let result;
+    let percent_match = Math.round(good_m.size()/matches.size()*100);
+    if (percent_match >= GOOD_MATCH_RATIO) {
+      result = true;
+    } else {
+      result = false;
+    }
+    test.delete();
+    reference.delete();
+    return result;
   }
   cleanPicture() {
     this.original_picture.delete();

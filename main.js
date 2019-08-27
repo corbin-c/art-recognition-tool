@@ -29,11 +29,6 @@ async function imgData(img,visible=false) {
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   let picture = ctx.getImageData(0, 0, canvas.width, canvas.height);
   picture = new Picture(picture,OCV);
-  /*let out = await picture.autocrop(true);
-  out.map(e => dataToCanvas(e,true));
-  await picture.normalize();*/
-  let feats = await picture.features(true);
-  console.log(feats.descriptors.toString()); // stringified descriptors for json storage
   /*
    * Here we need to picture.match(feats.descriptors); This will run a
    * cv.BFMatcher on every picture in the reference collection.
@@ -43,7 +38,8 @@ async function imgData(img,visible=false) {
    * If no confirmed match is found, we might run colometric comparison
    * (histogram matching)
    */
-  picture.match();
+  let match = await picture.match();
+  console.log(match);
   dataToCanvas(await picture.output(),true);
 }
 function dataToCanvas(imgData,visible=false) {

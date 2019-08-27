@@ -10,17 +10,17 @@ let Picture = class {
   constructor(imgData,worker) {
     this.worker = worker;
     worker.postMessage({imgData:imgData,cmd:"init"});
-    this.collection = {}
+    this.collection = {data:{}}
     this.collection.ready = new Promise((resolve,reject) => {
       this.collection.resolve = resolve;
     });
     this.getCollection();
   };
   async getCollection() {
-    this.collection.data = await fetch(REFERENCES)
-      .then(e => {
+    fetch(REFERENCES)
+      .then(async e => {
         if (e.ok) {
-          e.json();
+          this.collection.data = (await e.json()).collection;
           this.collection.resolve(true);
         } else {
           throw new Error("Fetch fail");
@@ -62,6 +62,18 @@ let Picture = class {
   async match() {
     await this.collection.ready;
     console.info("Collection ready");
+    let feats = await this.features();
+    feats = feats.descriptors.toString();
+    let match_collection = Array.from(this.collection.data);
+    match_collection = await Promise.all(match_collection.map(
+      async e => {
+        e.match = (await this.worker.postMessage({
+          cmd:"match",
+          opts:[feats,e.features]
+        })).message;
+        return e;
+      }));
+    return match_collection.filter(e => e.match);
   }
 }
 export { Picture };
