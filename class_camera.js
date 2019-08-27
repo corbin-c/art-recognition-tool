@@ -6,7 +6,7 @@ let Video = class {
   async getCamera(opencv_instance) {
     this.video.srcObject = await navigator.mediaDevices.getUserMedia({
         audio: false,
-        video: true
+        video: { facingMode: "environment" }
         });
     await (function(video) { return new Promise(
       function(resolve,reject) {
