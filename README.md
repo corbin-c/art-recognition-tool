@@ -106,8 +106,7 @@ calcul qui ne seront pas montrées à l'utilisateur final.
 
 Une première approche pour créer une PWA est en cours : le fichier
 `manifest.json` a été créé et lié, il faudra le remplir correctement.
-Des icônes lambda, issues du set [Tango](http://tango.freedesktop.org/Tango_Icon_Library)
-sont utilisées, il faudra les remplacer par un vrai logo. Cela permet au
+Cela permet au
 navigateur de proposer à l'utilisateur d'ajouter l'appli à l'écran
 d'accueil [(A2HS)](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Add_to_home_screen).
 Par ailleurs, un service worker minimal (`service_worker.js`) a été créé
