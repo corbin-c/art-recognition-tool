@@ -38,6 +38,12 @@ async function imgData(img,visible=false) {
    * (histogram matching)
    */
   let match = await picture.match();
+  /*
+   * Instead of logging output, graphical output must be generated w/
+   * associated metadata & reference picture. Graphical style from
+   * belenos website will be gathered (offset #e0c387 bkg, box-shadow).
+   * Links to associated artist page & buy button should be added.
+   */
   console.log(match.file_path,match.match);
 }
 function dataToCanvas(imgData,visible=false) {
