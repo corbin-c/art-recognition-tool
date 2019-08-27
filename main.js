@@ -31,8 +31,6 @@ async function imgData(img,visible=false) {
   let picture = ctx.getImageData(0, 0, canvas.width, canvas.height);
   picture = new Picture(picture,OCV);
   /*
-   * Here we need to picture.match(feats.descriptors); This will run a
-   * cv.BFMatcher on every picture in the reference collection.
    * Eventually, a reduced wasm module with only BFMatcher might be used
    * in order to run this process in separate workers.
    * 
@@ -40,8 +38,7 @@ async function imgData(img,visible=false) {
    * (histogram matching)
    */
   let match = await picture.match();
-  console.log(match);
-  dataToCanvas(await picture.output(),true);
+  console.log(match.file_path,match.match);
 }
 function dataToCanvas(imgData,visible=false) {
   let canvas = document.createElement("canvas");

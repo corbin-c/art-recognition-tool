@@ -222,7 +222,7 @@ let ocv_Picture = class {
     let result;
     let percent_match = Math.round(good_m.size()/matches.size()*100);
     if (percent_match >= GOOD_MATCH_RATIO) {
-      result = true;
+      result = percent_match;
     } else {
       result = false;
     }

@@ -11,11 +11,13 @@ let Picture = class {
   constructor(imgData,worker) {
     this.worker = worker;
     worker.postMessage({imgData:imgData,cmd:"init"});
-    this.collection = {data:{}}
-    this.collection.ready = new Promise((resolve,reject) => {
-      this.collection.resolve = resolve;
-    });
-    this.getCollection();
+    if (typeof this.collection === "undefined") {
+      this.collection = {}
+      this.collection.ready = new Promise((resolve,reject) => {
+        this.collection.resolve = resolve;
+      });
+      this.getCollection();
+    }
   };
   async getCollection() {
     fetch(REFERENCES)
@@ -74,7 +76,8 @@ let Picture = class {
         })).message;
         return e;
       }));
-    return match_collection.filter(e => e.match);
+    match_collection = match_collection.filter(e => e.match);
+    return match_collection.sort((a,b) => b.match - a.match)[0];
   }
 }
 export { Picture };
