@@ -30,8 +30,9 @@ h1::before {
   background: linear-gradient(to right, #54595f 5px, #d66c2d 4px);
   width: 13px;
   content: '';
-  left: calc(5% - 18px);
-  padding-top: 3%;
+  left: calc(5% - 10px);
+  padding-top: 26px;
+  margin-top: 5px;
   position: absolute;
 }
 header,footer {
