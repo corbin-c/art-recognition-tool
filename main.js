@@ -42,7 +42,7 @@ async function imgData(img,visible=false) {
    * Instead of logging output, graphical output must be generated w/
    * associated metadata & reference picture. Graphical style from
    * belenos website will be gathered (offset #e0c387 bkg, box-shadow).
-   * Links to associated artist page & buy button should be added.
+   * Links to associated artist page & buy button should be added.  
    */
   console.log(match.file_path,match.match);
 }
@@ -96,7 +96,7 @@ async function getInput(type) {
   let out;
   if (type == "camera") {
     out = await addCameraInput();
-    imgData(out.video,true);
+    imgData(out.video);
     out.stopCamera();
   } else {
     out = await addFileInputHandler();
@@ -106,10 +106,12 @@ async function getInput(type) {
   againButton.setAttribute("id","againButton");
   againButton.innerText = "🌟";
   document.querySelector(PARENT).append(againButton);
-  againButton.addEventListener("click", function() {
-    document.querySelector(PARENT).innerHTML = "";
-    main();
-  });
+  againButton.addEventListener("click", tryAgain);
+}
+function tryAgain() { //this function must be triggered by clicking on
+                      //the again button or by history.back
+  document.querySelector(PARENT).innerHTML = "";
+  main();
 }
 function addFileInputHandler() {
   let inputElement = document.createElement("input");
