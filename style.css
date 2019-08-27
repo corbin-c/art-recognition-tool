@@ -4,6 +4,7 @@
   padding: 0;
   font-family: Sans;
   box-sizing: border-box;
+  color: #002949;
 }
 html {
   min-height: 100vh;
@@ -20,13 +21,11 @@ label {
   display: block;
 }
 section {
-  min-height: calc(100% - 210px);
-  padding-left: 2%;
-  padding-right: 2%;
+  min-height: 91%;
 }
 header,footer {
   background-color: #ececec;
-  height: 80px;
+  height: 9%;
   width: 100%;
   position: relative;
   z-index:102;
@@ -34,9 +33,11 @@ header,footer {
   padding: 10px;
 }
 header {
-  margin-bottom: 25px;
   border-bottom: 6px solid #33AAFF;
   top: 0px;
+  font-family: "Rubik",rubik;
+  font-weight: 600;
+  letter-spacing: -1.6px;
 }
 footer {
   margin-top: 25px;

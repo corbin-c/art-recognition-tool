@@ -50,37 +50,41 @@ function dataToCanvas(imgData,visible=false) {
     document.querySelector(PARENT).append(canvas);
   }
 }
-function main() {
-  let form = document.createElement("form");
-  let radio = document.createElement("input");
-  let l_radio = document.createElement("label");
-  let radio2 = document.createElement("input");
-  let l_radio2 = document.createElement("label");
-  let button = document.createElement("button");
-  
-  radio.setAttribute("type","radio");
-  radio2.setAttribute("type","radio");
-  radio.setAttribute("id","file");
-  radio2.setAttribute("id","camera");
-  radio.setAttribute("name","type");
-  radio2.setAttribute("name","type");
-  l_radio.innerHTML = "File Input";
-  l_radio2.innerHTML = "Camera Input";
-  button.innerHTML = "✔️";
-  
-  form.append(l_radio);
-  l_radio.append(radio);
-  form.append(l_radio2);
-  l_radio2.append(radio2);
-  
-  form.append(button);
-  document.querySelector("section").append(form);
-  button.addEventListener("click", async function(e) {
-    e.preventDefault();
-    let type = (radio2.checked) ? "camera":"file";
-    form.remove();
-    getInput(type);
-  });
+function main(type=false) {
+  if (type) {
+    let form = document.createElement("form");
+    let radio = document.createElement("input");
+    let l_radio = document.createElement("label");
+    let radio2 = document.createElement("input");
+    let l_radio2 = document.createElement("label");
+    let button = document.createElement("button");
+    
+    radio.setAttribute("type","radio");
+    radio2.setAttribute("type","radio");
+    radio.setAttribute("id","file");
+    radio2.setAttribute("id","camera");
+    radio.setAttribute("name","type");
+    radio2.setAttribute("name","type");
+    l_radio.innerHTML = "File Input";
+    l_radio2.innerHTML = "Camera Input";
+    button.innerHTML = "✔️";
+    
+    form.append(l_radio);
+    l_radio.append(radio);
+    form.append(l_radio2);
+    l_radio2.append(radio2);
+    
+    form.append(button);
+    document.querySelector("section").append(form);
+    button.addEventListener("click", async function(e) {
+      e.preventDefault();
+      let type = (radio2.checked) ? "camera":"file";
+      form.remove();
+      getInput(type);
+    });
+  } else {
+    getInput("camera");
+  }
 }
 async function getInput(type) {
   let out;
