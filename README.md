@@ -48,6 +48,8 @@ Pour que ce soit optimal, à terme, il faudrait (comme décrit dans le
 schéma) une API qui permette d'intéragir avec le dépôt central, de façon
 à pouvoir ajouter différents modules au fil du temps.
 
+-> ACK
+
 Ce que j'appelle le "catalogue" correpond au site public. On peut
 *a mimima* y consulter les fiches des artistes, voire les descriptifs
 des œuvres ou le catalogue de chaque collection. Il me semble avoir
@@ -61,6 +63,8 @@ remplissent leur profil et chargent leurs travaux. Un module de ventes
 pourrait également être implémenté. L'application de reconnaissance
 d'images reçoit de l'API les descriptions des œuvres d'une collection
 donnée, selon l'expo visitée par l'utilisateur.
+
+-> Dans ce dernier paragraphe, nous souhaitons gérer le module de vote, la gestion des collections et le module de vente via notre plateforme wordpress existante ce qui nous permet de créer nos collections d'artistes et d'oeuvres de manière dynamique et sans input tech. Il existe un certain nombre de solutions permettant de faire vivre, à moyen-terme, la dualité wordpress webapp de reconnaissance visuelle; notamment une RESTful API qui peut fetcher et updater la donnée qu'on store sur le MySQL du wordpress.
 
 ## Génération des données pour alimenter la base
 
@@ -76,6 +80,8 @@ nécessite un serveur avec PHP pour exécuter le script `./bulk/index.php`
 qui génère à la volée un JSON minimal avec tous les fichiers contenus
 dans le dossier `./bulk/`. En d'autres termes, ce module ne fonctionne
 pas sur le déploiement Netlify.**
+
+-> OK, comment tu veux qu'on s'occupe de ça ?
 
 ## Utilisation
 
