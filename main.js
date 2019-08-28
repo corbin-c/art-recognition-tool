@@ -8,7 +8,7 @@ import { AWorker } from "./class_aworker.js";
 
 const OCV = new AWorker("worker_opencv.js");
 const PARENT = "section";
-const MAX_WIDTH = 1000;
+const MAX_WIDTH = 500;
 function createImage(url) {
   let img = document.createElement("img");
   img.crossOrigin = "anonymous";
@@ -25,8 +25,8 @@ async function imgData(img,visible=false) {
     img.naturalHeight = img.videoHeight;
     img.naturalWidth = img.videoWidth;
   }
-  canvas.width = MAX_WIDTH;
-  canvas.height = MAX_WIDTH*(img.naturalHeight/img.naturalWidth);
+  canvas.width = (img.naturalWidth>MAX_WIDTH)?MAX_WIDTH:img.naturalWidth;
+  canvas.height = canvas.width*(img.naturalHeight/img.naturalWidth);
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   let picture = ctx.getImageData(0, 0, canvas.width, canvas.height);
   picture = new Picture(picture,OCV);
