@@ -1,7 +1,7 @@
 {
   "short_name": "Belenos ART",
-  "name": "test Belenos ART | Art Recognition Tool",
-  "description": "Application de reconnaissance d'oeuvres d'art",
+  "name": "Belenos ART | Art Recognition Tool",
+  "description": "Application de reconnaissance d'œuvres d'art",
   "icons": [
     {
       "src": "/icons/192.png",
