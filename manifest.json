@@ -1,7 +1,7 @@
 {
-  "short_name": "ART",
-  "name": "Art Recognition Tool",
-  "description": "Application de reconnaissance de tableaux",
+  "short_name": "Belenos ART",
+  "name": "Belenos ART | Art Recognition Tool",
+  "description": "Application de reconnaissance d'œuvres d'art",
   "icons": [
     {
       "src": "/icons/192.png",
@@ -15,8 +15,8 @@
     }
   ],
   "start_url": "/index.html",
-  "background_color": "#dec186",
+  "background_color": "#d66c2d",
   "display": "fullscreen",
   "scope": "/",
-  "theme_color": "#dec186"
+  "theme_color": "#d66c2d"
 }
