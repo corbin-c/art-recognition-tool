@@ -28,7 +28,7 @@ let Video = class {
     inputElement.setAttribute("id","user_input");
     inputElement.setAttribute("class","camera");
     inputElement.setAttribute("disabled", "true");
-    OCV.status[1].then(() => {
+    opencv_instance.status[1].then(() => {
       inputElement.removeAttribute("disabled");
     });
     inputElement.innerHTML = "📷";
