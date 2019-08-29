@@ -4,16 +4,24 @@ let Video = class {
     this.video = video_element;
   }
   async getCamera(opencv_instance) {
-    this.video.srcObject = await navigator.mediaDevices.getUserMedia({
-        audio: false,
-        video: true
-        });
+    try {
+      this.video.srcObject = await navigator.mediaDevices.getUserMedia({
+          audio: false,
+          video: true
+          });
+    } catch(e) {
+      throw new Error("Permission failure:",e);
+    }
+    try {
     await (function(video) { return new Promise(
       function(resolve,reject) {
         video.onloadedmetadata = function() {
           resolve(true);
         }
       })})(this.video);
+    } catch(e) {
+      throw new Error("Camera stream couldn't be loaded:",e);
+    }
     this.video.play();
     this.video.setAttribute("style","display:block;");
     let inputElement = document.createElement("button");

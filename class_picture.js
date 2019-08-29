@@ -77,7 +77,10 @@ let Picture = class {
         return e;
       }));
     match_collection = match_collection.filter(e => e.match);
-    return match_collection.sort((a,b) => b.match - a.match)[0];
+    match_collection = match_collection.sort((a,b) => b.match - a.match)[0];
+    match_collection = (typeof match_collection == "undefined") ?
+      false:match_collection;
+    return match_collection;
   }
 }
 export { Picture };

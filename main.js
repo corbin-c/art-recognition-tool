@@ -1,12 +1,9 @@
 // Developed by Clément Corbin
-/*if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js", { scope: "/" });
-}*/
 import { Picture } from "./class_picture.js";
 import { Video } from "./class_camera.js";
 import { AWorker } from "./class_aworker.js";
 
-const OCV = new AWorker("worker_opencv.js");
+const OCV = new AWorker("service_worker.js");
 const PARENT = "section";
 const MAX_WIDTH = 500;
 function createImage(url) {
@@ -46,7 +43,14 @@ async function imgData(img,visible=false) {
    * 
    * Case when no match should be handled
    */
-  console.log(match.file_path,match.match);
+  if (match === false) {
+    alert("no match found :/");
+  } else
+  {
+    console.log(match.file_path,match.match);
+    window.location.href = "https://www.belenos-art.com/concept#"
+      +match.file_path+","+match.match;
+  }
 }
 function dataToCanvas(imgData,visible=false) {
   let canvas = document.createElement("canvas");

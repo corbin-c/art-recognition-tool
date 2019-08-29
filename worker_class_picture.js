@@ -6,10 +6,11 @@
  * processing and returns output image data.
  * 
  */
+function declare_class_picture() {
 const MAX_DISTANCE_MATCH = 50;
 const GOOD_MATCH_RATIO = 25;
 
-let ocv_Picture = class { 
+return ocv_Picture = class { 
   constructor(imgData) {
     this.original_picture = imgData.clone(); //expected: cv.Mat
     this.working_copy = this.original_picture.clone();
@@ -235,4 +236,5 @@ let ocv_Picture = class {
     this.working_copy.delete();
     return true;
   }
+}
 }
