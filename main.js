@@ -152,7 +152,7 @@ async function addFileInputHandler() {
 async function addCameraInput() {
   let video = document.createElement("video");
   document.querySelector(PARENT).append(video);
-  video = new Video(video);
+  video = new Video(video,PARENT);
   video = await video.getCamera(OCV);
   return video;
 }

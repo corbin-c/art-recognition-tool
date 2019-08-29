@@ -1,7 +1,8 @@
 // Developed by Clément Corbin
 let Video = class {
-  constructor(video_element) {
+  constructor(video_element,parent_element) {
     this.video = video_element;
+    this.parent_element = parent_element;
   }
   async getCamera(opencv_instance) {
     try {
@@ -28,10 +29,10 @@ let Video = class {
     inputElement.setAttribute("id","user_input");
     inputElement.setAttribute("class","camera");
     inputElement.setAttribute("disabled", "true");
-    document.querySelector(PARENT).classList.add("inactive");
+    document.querySelector(this.parent_element).classList.add("inactive");
     opencv_instance.status.ready.then(() => {
       inputElement.removeAttribute("disabled");
-      document.querySelector(PARENT).classList.remove("inactive");
+      document.querySelector(this.parent_element).classList.remove("inactive");
     });
     inputElement.innerHTML = "📷";
     document.querySelector(PARENT).append(inputElement);
