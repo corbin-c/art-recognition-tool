@@ -119,7 +119,7 @@ function tryAgain() { //this function must be triggered by clicking on
   document.querySelector(PARENT).innerHTML = "";
   main();
 }
-function addFileInputHandler() {
+async function addFileInputHandler() {
   let inputElement = document.createElement("input");
   inputElement.setAttribute("id","user_input");
   inputElement.setAttribute("type","file");
@@ -128,12 +128,13 @@ function addFileInputHandler() {
   inputLabel.setAttribute("class","inputLabel");
   inputLabel.setAttribute("for","user_input");
   inputLabel.innerText = "🗃";
-  if (OCV.state != "running") {
-    inputElement.setAttribute("disabled", "true");
-    inputLabel.classList.add("disabled");
-  }
+  inputElement.setAttribute("disabled", "true");
+  inputLabel.classList.add("disabled");
   document.querySelector(PARENT).append(inputLabel);
   document.querySelector(PARENT).append(inputElement);
+  await OCV.status[1];
+  inputElement.removeAttribute("disabled");
+  inputLabel.classList.remove("disabled");
   return new Promise(function(resolve,reject) {
     inputElement.addEventListener("change", (e) => {
         let files = e.target.files;

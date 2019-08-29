@@ -27,9 +27,10 @@ let Video = class {
     let inputElement = document.createElement("button");
     inputElement.setAttribute("id","user_input");
     inputElement.setAttribute("class","camera");
-    if (opencv_instance.state != "running") {
-      inputElement.setAttribute("disabled", "true");
-    }
+    inputElement.setAttribute("disabled", "true");
+    OCV.status[1].then(() => {
+      inputElement.removeAttribute("disabled");
+    });
     inputElement.innerHTML = "📷";
     document.querySelector("section").append(inputElement);
     await (function () { return new Promise(function(resolve,reject) {

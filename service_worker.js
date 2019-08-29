@@ -1,5 +1,6 @@
 // Developed by Clément Corbin
 let pic;
+let ocv_picture_class;
 function postMessage(e) {
   self.clients.matchAll({includeUncontrolled: true, type: 'window'})
     .then(function(clients) {
@@ -10,17 +11,11 @@ function load() {
   let picture = false;
   if (cv.getBuildInformation) {
     postMessage("LOADED");
-    picture = true;
   } else {
     cv["onRuntimeInitialized"]=()=>{  // WASM
       postMessage("LOADED");
-      picture = true;
-      declare_class_picture();
     }
   }
-  if (picture) {
-    ocv_picture_class = declare_class_picture();
-  }  
 }
 self.addEventListener("install", async (event) => {
   event.waitUntil(caches.open("art")
@@ -34,12 +29,12 @@ self.addEventListener("install", async (event) => {
     } catch(e) {
       console.warn("something went wrong while loading opencv.js:");
       console.error(e);
-      port.postMessage("FAILURE");
     }
   })();
 });
 self.addEventListener("activate", (event) => {
   console.info("Service Worker active");
+  clients.claim();
   load();
 });
 self.addEventListener("message", (e) => {
@@ -47,6 +42,8 @@ self.addEventListener("message", (e) => {
   let message;
   if (e.message == "preload") {
     load();
+  } else if (e.message == "loaded") {
+    ocv_picture_class = declare_class_picture();
   } else if (e.message.cmd == "init") {
     let src = cv.matFromImageData(e.message.imgData);
     pic = new ocv_picture_class(src);

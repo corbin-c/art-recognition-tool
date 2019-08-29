@@ -227,6 +227,9 @@ return ocv_Picture = class {
     } else {
       result = false;
     }
+    bf.delete();
+    matches.delete();
+    good_m.delete();
     test.delete();
     reference.delete();
     return result;

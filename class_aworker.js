@@ -10,7 +10,8 @@
 
 let AWorker = class {
   postMessage(message) {
-    this.worker.postMessage({id:this.id,message:message});
+    navigator.serviceWorker.controller
+      .postMessage({id:this.id,message:message});
     this.id++;
     return (new Promise((resolve,reject) => {
       this.messagePromises.push(resolve);
@@ -24,37 +25,29 @@ let AWorker = class {
   }
   async messageResolve(msgData) {
     if (msgData == "LOADED") { //This is triggered when OpenCV ready
-      this.allowInput();
+      await this.postMessage("loaded");
+      this.status[0](true);
+      console.info("OpenCV ready");
     } else if (msgData == "FAILURE") {
       //NoOp
     } else {
-      this.messagePromises[msgData.id](msgData);
+      try {
+        this.messagePromises[msgData.id](msgData);
+      } catch {
+        console.warn("couldn't resolve message");
+      }
     }
   }
-  async allowInput() {
-    this.status = "running";
-    console.info("OpenCV Worker is loaded");
-    try {
-      document.querySelector("#user_input")
-        .removeAttribute("disabled");
-      document.querySelector(".inputLabel")
-        .classList.remove("disabled");
-    } catch(e) {
-      console.info("couldn't allow input");
-    }
-  }
-  onerror(e) {
-    console.error("Worker Error",e);
-  }
-  get state() { return this.status; };
   constructor(workerPath) {
     this.id = 0;
     this.messagePromises = [];
+    this.status = [];
     this.onMessage(this.messageResolve);
     navigator.serviceWorker.register(workerPath, { scope: "/" });
-    this.worker = navigator.serviceWorker.controller;
-    this.status = "unavailable";
-    if (this.worker !== null) {
+    this.status.push((new Promise((resolve,reject) => {
+      this.status.push(resolve);
+    })));
+    if (navigator.serviceWorker.controller !== null) {
       this.postMessage("preload");
     }
   }
