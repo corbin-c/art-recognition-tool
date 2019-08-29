@@ -26,7 +26,7 @@ let AWorker = class {
   async messageResolve(msgData) {
     if (msgData == "LOADED") { //This is triggered when OpenCV ready
       await this.postMessage("loaded");
-      this.status.status(true);
+      this.status.resolve(true);
       console.info("OpenCV ready");
     } else if (msgData == "FAILURE") {
       //NoOp
