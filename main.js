@@ -132,9 +132,10 @@ async function addFileInputHandler() {
   inputLabel.classList.add("disabled");
   document.querySelector(PARENT).append(inputLabel);
   document.querySelector(PARENT).append(inputElement);
-  await OCV.status[1];
-  inputElement.removeAttribute("disabled");
-  inputLabel.classList.remove("disabled");
+  OCV.status.ready.then(() => {
+    inputElement.removeAttribute("disabled");
+    inputLabel.classList.remove("disabled");
+  });
   return new Promise(function(resolve,reject) {
     inputElement.addEventListener("change", (e) => {
         let files = e.target.files;

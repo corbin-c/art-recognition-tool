@@ -26,7 +26,7 @@ let AWorker = class {
   async messageResolve(msgData) {
     if (msgData == "LOADED") { //This is triggered when OpenCV ready
       await this.postMessage("loaded");
-      this.status[0](true);
+      this.status.status(true);
       console.info("OpenCV ready");
     } else if (msgData == "FAILURE") {
       //NoOp
@@ -41,12 +41,12 @@ let AWorker = class {
   constructor(workerPath) {
     this.id = 0;
     this.messagePromises = [];
-    this.status = [];
+    this.status = {};
     this.onMessage(this.messageResolve);
     navigator.serviceWorker.register(workerPath, { scope: "/" });
-    this.status.push((new Promise((resolve,reject) => {
-      this.status.push(resolve);
-    })));
+    this.status.ready = (new Promise((resolve,reject) => {
+      this.status.resolve(resolve);
+    }));
     if (navigator.serviceWorker.controller !== null) {
       this.postMessage("preload");
     }
