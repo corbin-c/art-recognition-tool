@@ -7,8 +7,8 @@ let Video = class {
     try {
       this.video.srcObject = await navigator.mediaDevices.getUserMedia({
           audio: false,
-          video: true
-          });
+          video: { facingMode: { exact: "environment" } }
+      });
     } catch(e) {
       throw new Error("Permission failure:",e);
     }

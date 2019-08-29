@@ -153,4 +153,4 @@ async function addCameraInput() {
   video = await video.getCamera(OCV);
   return video;
 }
-main(true);
+main();
