@@ -61,24 +61,15 @@ self.addEventListener("message", (e) => {
   e.message = message;
   postMessage(e);
 });
-/*this.addEventListener("fetch", function(event) {
+self.addEventListener("fetch", function(event) {
   event.respondWith(caches.match(event.request)
     .then(function(response) {
     if (typeof response !== "undefined") {
       return response;
     } else {
       return fetch(event.request).then(function (response) {
-        let r = response.clone();
-        if (response.status == 200) {
-          caches.open("art").then(function (cache) {
-            cache.put(event.request, r);
-          });
-          return response;
-        } else {
-          return caches.match("blank.png");
-        }
-      },function(){return caches.match("blank.png");})
+        return response; })
     }
-  },function(){return caches.match("blank.png");}));
-});*/
+  }));
+});
 // ajouter gestion versions cache
