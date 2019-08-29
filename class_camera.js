@@ -28,11 +28,13 @@ let Video = class {
     inputElement.setAttribute("id","user_input");
     inputElement.setAttribute("class","camera");
     inputElement.setAttribute("disabled", "true");
+    document.querySelector(PARENT).classList.add("inactive");
     opencv_instance.status.ready.then(() => {
       inputElement.removeAttribute("disabled");
+      document.querySelector(PARENT).classList.remove("inactive");
     });
     inputElement.innerHTML = "📷";
-    document.querySelector("section").append(inputElement);
+    document.querySelector(PARENT).append(inputElement);
     await (function () { return new Promise(function(resolve,reject) {
       inputElement.addEventListener("click", (e) => {
         e.target.remove();
