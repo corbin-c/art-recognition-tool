@@ -45,7 +45,7 @@ let AWorker = class {
     this.onMessage(this.messageResolve);
     navigator.serviceWorker.register(workerPath, { scope: "/" });
     this.status.ready = (new Promise((resolve,reject) => {
-      this.status.resolve(resolve);
+      this.status.resolve = resolve;
     }));
     if (navigator.serviceWorker.controller !== null) {
       this.postMessage("preload");
