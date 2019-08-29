@@ -19,7 +19,7 @@ function load() {
 }
 self.addEventListener("install", async (event) => {
   event.waitUntil(caches.open("art")
-    .then((e) => e.addAll(["blank.png","index.html"])));
+    .then((e) => e.addAll(["collection.json","index.html"])));
   console.info("Service Worker initialized");
   (() => {
     try {
