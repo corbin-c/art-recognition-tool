@@ -35,7 +35,7 @@ let Video = class {
       document.querySelector(this.parent_element).classList.remove("inactive");
     });
     inputElement.innerHTML = "📷";
-    document.querySelector(PARENT).append(inputElement);
+    document.querySelector(this.parent_element).append(inputElement);
     await (function () { return new Promise(function(resolve,reject) {
       inputElement.addEventListener("click", (e) => {
         e.target.remove();
